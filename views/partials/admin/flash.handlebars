@@ -1,0 +1,21 @@
+{{#if flashMessages.error}}
+<script nonce={{nonce}}>
+    $(function () {
+        toastr.error('{{ flashMessages.error }}', 'Hata!');
+    });
+</script>
+{{/if}}
+{{#if flashMessages.success}}
+<script nonce={{nonce}}>
+    $(function () {
+        toastr.success('{{ flashMessages.success }}', 'Başarılı');
+    });
+</script>
+{{/if}}
+{{#if flashMessages.warning}}
+<script nonce={{nonce}}>
+    $(function () {
+        toastr.warning('{{ flashMessages.warning }}', 'Dikkat!');
+    });
+</script>
+{{/if}}

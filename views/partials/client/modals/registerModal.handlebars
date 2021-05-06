@@ -1,0 +1,44 @@
+<!-- Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">Üye Kaydı</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form>
+                    <div class="form-floating pb-2">
+                        <input type="text" class="form-control" id="displayName" placeholder="İsim Soyisim">
+                        <label for="displayName">İsim Soyisim</label>
+                    </div>
+                    <div class="form-floating pb-2">
+                        <input type="email" class="form-control" id="email" placeholder="E-mail">
+                        <label for="email">E-mail</label>
+                    </div>
+                    <div class="form-floating pb-2">
+                        <input type="password" class="form-control" id="password" placeholder="Şifre">
+                        <label for="password">Şifre</label>
+                    </div>
+                    <div class="form-floating pb-2">
+                        <input type="text" class="form-control" id="phoneNumber" placeholder="Şifre">
+                        <label for="phoneNumber">Telefon Numarası</label>
+                    </div>
+                    <button class="w-100 btn btn-lg btn-yellow" type="submit">Üye Ol</button>
+                    <div class="row">
+                        <div class="col-12 pt-3 col-sm-6">
+                            <button class="w-100 btn btn-myred" data-bs-dismiss="modal" onclick="loginModal()">Giriş
+                                Yap</button>
+                        </div>
+                        <div class="col-12 pt-3 col-sm-6">
+                            <button class="w-100 btn btn-myred" data-bs-dismiss="modal"
+                                onclick="rePasswordModal()">Şifremi Unuttum</button>
+                        </div>
+                    </div>
+
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>

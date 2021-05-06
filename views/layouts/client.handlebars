@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="tr">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/client/plugins/fontawesome-free/css/all.min.css">
+
+    {{{_sections.style-link}}}
+
+    <link rel="stylesheet" href="/client/dist/css/stylesheets.css">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="/client/plugins/toastr/toastr.min.css">
+    {{{_sections.style}}}
+
+    <title>Hello, world!</title>
+</head>
+
+<body>
+    <header>
+        {{> client/navbar}}
+    </header>
+    <main>
+        {{{body}}}
+    </main>
+    {{> client/footer}}
+    <div id="modals"></div>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="/client/plugins/jquery/jquery.min.js"></script>
+    <script src="/client/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Toastr -->
+    <script src="/client/plugins/toastr/toastr.min.js"></script>
+    <!-- Handlebars Client -->
+    <script src="/client/plugins/handlebars/dist/handlebars.js"></script>
+    <script src="/client/dist/js/main.js"></script>
+    {{{_sections.script}}}
+    {{> client/flash }}
+    <script>
+        toastr.options = {
+            "positionClass": "toast-bottom-right"
+        }
+    </script>
+
+    <script id="loginModal-template" type="text/x-handlebars-template">
+            {{> client/modals/loginModal}}
+    </script>
+    <script id="registerModal-template" type="text/x-handlebars-template">
+            {{> client/modals/registerModal}}
+    </script>
+    <script id="rePasswordModal-template" type="text/x-handlebars-template">
+            {{> client/modals/rePasswordModal}}
+    </script>
+
+</body>
+
+</html>

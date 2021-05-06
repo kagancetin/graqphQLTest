@@ -1,0 +1,42 @@
+<!-- Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Üye Girişi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="loginPostForm" class="row border-bottom p-2" role="form" method="post"
+                    onsubmit="return loginPost(event)" action="/login">
+                    <div class="form-floating pb-2">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="E-mail">
+                        <label for="floatingInput">E-mail</label>
+                    </div>
+                    <div class="form-floating pb-2">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Şifre">
+                        <label for="floatingPassword">Şifre</label>
+                    </div>
+                    <div class="checkbox mb-3">
+                        <input type="checkbox" name="remember" id="remember">
+                        <label for="remember">
+                            Beni Hatırla
+                        </label>
+                    </div>
+                    <button class="w-100 btn btn-lg btn-yellow" type="submit">Giriş Yap</button>
+                    <div class="row">
+                        <div class="col-12 pt-3 col-sm-6">
+                            <button class="w-100 btn btn-myred" data-bs-dismiss="modal" onclick="registerModal()">Üye
+                                Ol</button>
+                        </div>
+                        <div class="col-12 pt-3 col-sm-6">
+                            <button class="w-100 btn btn-myred" data-bs-dismiss="modal"
+                                onclick="rePasswordModal()">Şifremi Unuttum</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
