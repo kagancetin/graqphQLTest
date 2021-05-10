@@ -38,6 +38,9 @@ const CostumerType = new GraphQLObjectType({
     email: { type: GraphQLString },
     displayName: { type: GraphQLString },
     phoneNumber: { type: GraphQLString },
+    createdAt: { type: GraphQLString },
+    updatedAt: { type: GraphQLString },
+    deleted: { type: GraphQLBoolean },
     address: {
       type: new GraphQLList(CostumerAdressType),
       async resolve(parent, args) {
@@ -74,7 +77,7 @@ const GroupType = new GraphQLObjectType({
     products: {
       type: new GraphQLList(ProductType),
       resolve(parent, args) {
-        return Product.find({ groupId: parent._id });
+        return Product.find({ groupId: parent._id }).sort("order");
       },
     },
     deleted: { type: GraphQLBoolean },
@@ -89,6 +92,9 @@ const ProductType = new GraphQLObjectType({
     productName: { type: GraphQLString },
     productDescription: { type: GraphQLString },
     price: { type: GraphQLFloat },
+    order: { type: GraphQLInt },
+    createdAt: { type: GraphQLString },
+    updatedAt: { type: GraphQLString },
     group: {
       type: GroupType,
       resolve(parent) {
@@ -136,50 +142,6 @@ const OptionType = new GraphQLObjectType({
   }),
 });
 
-/*
-const PostType = new GraphQLObjectType({
-  name: "Post",
-  description: "Post type",
-  fields: () => ({
-    id: { type: GraphQLID },
-    title: { type: GraphQLString },
-    body: { type: GraphQLString },
-    author: {
-      type: UserType,
-      resolve(parent, args) {
-        return User.findById(parent.authorId)
-      },
-    },
-    comments: {
-      type: GraphQLList(CommentType),
-      resolve(parent, args) {
-        return Comment.find({ postId: parent.id })
-      },
-    },
-  }),
-})
-
-const CommentType = new GraphQLObjectType({
-  name: "Comment",
-  description: "Comment type",
-  fields: () => ({
-    id: { type: GraphQLID },
-    comment: { type: GraphQLString },
-    user: {
-      type: UserType,
-      resolve(parent, args) {
-        return User.findById(parent.userId)
-      },
-    },
-    post: {
-      type: PostType,
-      resolve(parent, args) {
-        return Post.findById(parent.postId)
-      },
-    },
-  }),
-})
-*/
 module.exports = {
   UserType,
   CostumerType,

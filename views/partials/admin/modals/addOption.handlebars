@@ -1,0 +1,46 @@
+<div class="modal fade show" id="addOptionModal" aria-modal="true" role="dialog"
+    style="padding-right: 16px; display: block;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Yeni Seçenek Ekle</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="optionName">Seçenek Adı</label>
+                        <input type="text" id="optionName" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="optionDisplayName">Görünen Açıklama</label>
+                        <input type="text" id="optionDisplayName" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="optionDetailType">Grup</label>
+                        <select id="optionDetailType" class="form-control custom-select">
+                            <option value="1">Seç</option>
+                            <option value="2">Çıkar</option>
+                        </select>
+                    </div>
+
+                    <div id="optionDetailContent">
+                        <label for="optionDetailType">Seçenek Elemanları</label>
+                    </div>
+                    <button type="button" class="btn btn-default" onclick="addOptionDetailName()">
+                        Seçenek Elemanı Ekle
+                    </button>
+
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Ekle</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

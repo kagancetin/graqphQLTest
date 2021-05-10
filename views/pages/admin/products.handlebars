@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Fixed Layout</h1>
+                <h1>Ürünler</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -18,34 +18,355 @@
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <!-- Default box -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Title</h3>
+        <!-- card -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">ÜRÜNLER</h3>
 
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
+                <div class="card-tools">
+
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                {{#if groups}}
+                {{#each groups}}
+                <div class="card card-success">
+                    <div class="card-header ">
+                        <h3 class="card-title">{{groupName}}</h3>
                     </div>
-                    <div class="card-body">
-                        Start creating your amazing application!
+                    <div class="card-body p-0">
+                        {{#if products}}
+                        <table class="table table-striped projects">
+                            <thead>
+                                <tr>
+                                    <th style="width: 15%;">
+                                        Ürün Adı
+                                    </th>
+                                    <th style="width: 25%;">
+                                        Ürün Açıklaması
+                                    </th>
+                                    <th style="width: 10%;">
+                                        Fiyatı
+                                    </th>
+                                    <th style="width: 10%;">
+                                        Sıra
+                                    </th>
+                                    <th style="width: 20%;">
+                                        Seçenekler
+                                    </th>
+                                    <th style="width: 20%;">
+
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {{#each products}}
+                                <tr>
+                                    <td>
+                                        {{productName}}
+                                    </td>
+                                    <td>
+                                        {{productDescription}}
+                                    </td>
+                                    <td>
+                                        {{price}}
+                                    </td>
+                                    <td>
+                                        {{order}}
+                                    </td>
+                                    <td class="project-state text-left">
+                                        {{#each options}}
+                                        <span class="badge badge-success">{{optionName}}</span>
+                                        {{/each}}
+                                    </td>
+                                    <td class="project-actions text-right">
+                                        <a class="btn btn-primary btn-sm" href="#">
+                                            <i class="fas fa-folder">
+                                            </i>
+                                            View
+                                        </a>
+                                        <a class="btn btn-info btn-sm" href="#">
+                                            <i class="fas fa-pencil-alt">
+                                            </i>
+                                            Edit
+                                        </a>
+                                        <a class="btn btn-danger btn-sm" href="#">
+                                            <i class="fas fa-trash">
+                                            </i>
+                                            Delete
+                                        </a>
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                        {{else}}Ürün bulunmamaktadır{{/if}}
                     </div>
                     <!-- /.card-body -->
-                    <div class="card-footer">
-                        Footer
-                    </div>
-                    <!-- /.card-footer-->
                 </div>
-                <!-- /.card -->
+                {{/each}}
+                {{else}}
+                Ürün Bulunmamaktadır.
+                {{/if}}
             </div>
+            <!-- /.card-body -->
         </div>
+        <!-- /.card -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">ÜRÜN EKLE</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="maximize"><i class="fas fa-expand"></i>
+                    </button>
+                </div>
+                <!-- /.card-tools -->
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <form action="" method="post">
+                    <div class="form-group">
+                        <label for="productName">Ürün Adı</label>
+                        <input type="text" id="productName" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="productDescription">Ürün Açıklaması</label>
+                        <textarea id="productDescription" class="form-control" rows="4"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label for="groupId">Grup</label>
+                            <select id="groupId" class="form-control custom-select">
+                            </select>
+                        </div>
+                        <div class="col-6 d-flex align-items-center justify-content-end">
+                            <input type="button" value="Yeni Grup Ekle" class="btn btn-success"
+                                onclick="addGroupModal()">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-12 col-sm-6">
+                            <label for="price">Fiyatı</label>
+                            <input type="number" id="price" class="form-control">
+                        </div>
+                        <div class="form-group col-12 col-sm-6">
+                            <label for="order">Sıra</label>
+                            <input type="number" id="order" value="1" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Seçenekler</label>
+                        <div class="row">
+                            <div class="col-9">
+                                <div id="optionList" class="row m-0 pl-2">
+
+                                </div>
+                            </div>
+                            <div class="col-3 d-flex align-items-center justify-content-end">
+                                <input type="button" value="Yeni Seçenek Ekle" class="btn btn-success"
+                                    onclick="addOptionModal()">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="submit" value="Ürünü Ekle" class="btn btn-success">
+                    </div>
+                </form>
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+        <!-- /.card -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">SEÇENEKLERİ YÖNET</h3>
+                <div class="card-tools">
+                    <input type="button" value="Yeni Seçenek Ekle" class="btn btn-success" onclick="addOptionModal()">
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped projects">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%">
+                                Seçenek Adı
+                            </th>
+                            <th style="width: 20%">
+                                Görünen Açıklama
+                            </th>
+                            <th style="width: 30%">
+                                Seçenek Tipi
+                            </th>
+                            <th style="width: 15%">
+                                Seçenek Elemanları
+                            </th>
+                            <th style="width: 20%">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="optionsTableList">
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
     </div>
 </section>
 <!-- /.content -->
+
+<div id="groupModalDiv"></div>
+<div id="optionModalDiv"></div>
+
+{{#section "link"}}
+
+{{/section}}
+
+{{#section "script"}}
+
+<script id="addGroup-template" type="text/x-handlebars-template">
+            {{> admin/modals/addGroup}}
+</script>
+<script id="addOption-template" type="text/x-handlebars-template">
+            {{> admin/modals/addOption}}
+</script>
+
+
+
+<script>
+
+    let getGroups = function () {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/admin/getGroups", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = async function (event) {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                let response = JSON.parse(this.response);
+                let groupsElement = document.getElementById("groupId");
+                console.log(response);
+                if (response.err) {
+                    groupsElement.innerHTML = response.err;
+                }
+                else {
+                    groupsElement.innerHTML = "";
+                    response.data.forEach(function (p) {
+                        groupsElement.innerHTML += `<option value="` + p._id + `">` + p.groupName + `</option>`
+                    })
+                }
+            }
+        };
+        xhr.send();
+    }
+    let getOptions = function () {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/admin/getOptions", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = async function (event) {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                let response = JSON.parse(this.response);
+                let optionsElement = document.getElementById("optionList");
+                let optionsTableList = document.getElementById("optionsTableList");
+                console.log(response);
+                if (response.err) {
+                    optionsElement.innerHTML = response.err;
+                    optionsTableList.innerHTML = response.err;
+                }
+                else {
+                    optionsElement.innerHTML = "";
+                    optionsTableList.innerHTML = "";
+                    response.data.forEach(function (p) {
+                        let optionDetailString = "<div class='text-left'><p>Görünen Açıklama: " + p.optionDisplayName + "</p>";
+                        let optionTableString = "<tr>";
+                        optionTableString += "<td>" + p.optionName + "</td>"
+                        optionTableString += "<td>" + p.optionDisplayName + "</td>"
+                        if (p.optionDetail.optionDetailType == 1) {
+                            optionDetailString += "<p>Seçenek Tipi: Seç</p>"
+                            optionTableString += "<td>Seç</td>"
+
+                        }
+                        else {
+                            optionDetailString += "<p>Seçenek Tipi:Çıkar</p>"
+                            optionTableString += "<td>Çıkar</td>"
+                        }
+                        optionDetailString += "<p>Seçenek Elemanları:</p><ul>"
+                        optionTableString += "<td><ul>"
+                        p.optionDetail.optionDetailContent.forEach(function (k) {
+                            optionDetailString += "<li>" + k.optionDetailName + "</li>";
+                            optionTableString += "<li>" + k.optionDetailName + "</li>";
+                        })
+
+                        optionDetailString += "</ul></div>"
+                        optionTableString += "</ul></td>"
+
+                        optionTableString += `
+                            <td class="project-actions text-right">
+                                <a class="btn btn-info btn-sm" href="#">
+                                    <i class="fas fa-pencil-alt">
+                                    </i>
+                                    Edit
+                                </a>
+                                <a class="btn btn-danger btn-sm" href="#">
+                                    <i class="fas fa-trash">
+                                    </i>
+                                    Delete
+                                </a>
+                            </td>`
+                        optionTableString += "</tr>";
+
+                        optionsElement.innerHTML += `
+                                    <div class="form-check col-sm-6 col-md-3">
+                                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-html="true"
+                                        title="`+ optionDetailString + `">
+                                            <input id="`+ p._id + `" value="` + p._id + `" class="form-check-input" type="checkbox">
+                                            <label for="` + p._id + `" class="form-check-label"> ` + p.optionName + `</label>
+                                        </span>
+                                    </div>`
+                        optionsTableList.innerHTML += optionTableString;
+
+                    })
+                    $('[data-toggle="tooltip"]').tooltip();
+                }
+            }
+        };
+        xhr.send();
+    }
+    window.addEventListener('load', (event) => {
+        getGroups();
+        getOptions();
+    });
+
+    let addGroupModal = async function () {
+        var source = document.getElementById("addGroup-template").innerHTML;
+        var template = await Handlebars.compile(source);
+        var html = await template();
+        document.getElementById("groupModalDiv").innerHTML = html;
+        $("#addGroupModal").modal("show");
+    };
+    let addOptionModal = async function () {
+        var source = document.getElementById("addOption-template").innerHTML;
+        var template = await Handlebars.compile(source);
+        var html = await template();
+        document.getElementById("optionModalDiv").innerHTML = html;
+        $("#addOptionModal").modal("show");
+    };
+
+    let addOptionDetailName = function () {
+        let optionDetailContent = document.getElementById("optionDetailContent");
+        var div = document.createElement("DIV");
+        div.classList.add("d-flex", "py-2");
+        optionDetailContent.appendChild(div);
+        div.innerHTML += `
+                            <input type="text" class="form-control">
+                            <button type="button" class="close pl-5" onclick="this.parentNode.remove()">
+                                <i class="fas fa-trash"></i>
+                            </button>
+        `
+    }
+
+</script>
+{{/section}}

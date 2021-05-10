@@ -41,7 +41,6 @@ module.exports = {
   },
   convertDateDay: function (value) {
     let date = new Date(parseInt(value));
-    console.log(date);
     let year = date.getFullYear();
     let month = date.getMonth() + 1;
     month = (month < 10 ? "0" : "") + month;
