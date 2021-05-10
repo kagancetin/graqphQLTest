@@ -2,7 +2,7 @@
   "emptyTable": "Tabloda herhangi bir veri mevcut değil",
   "info": "_TOTAL_ kayıttan _START_ - _END_ arasındaki kayıtlar gösteriliyor",
   "infoEmpty": "Kayıt yok",
-  "infoFiltered": "(_MAX_ kayıt içerisinden bulunan)",
+  "infoFiltered": "",
   "infoThousands": ".",
   "lengthMenu": "Sayfada _MENU_ kayıt göster",
   "loadingRecords": "Yükleniyor...",
@@ -66,7 +66,7 @@
     "copy": "Kopyala",
     "copyKeys": "Tablodaki veriyi kopyalamak için CTRL veya u2318 + C tuşlarına basınız. İptal etmek için bu mesaja tıklayın veya escape tuşuna basın."
   },
-  "infoPostFix": "-",
+  "infoPostFix": "",
   "searchBuilder": {
     "add": "Koşul Ekle",
     "button": {
