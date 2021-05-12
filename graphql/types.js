@@ -111,23 +111,6 @@ const ProductType = new GraphQLObjectType({
   }),
 });
 
-const OptionDetailContentType = new GraphQLObjectType({
-  name: "ProductOptionDetailContent",
-  fields: {
-    optionDetailName: { type: GraphQLString },
-  },
-});
-
-const OptionDetailType = new GraphQLObjectType({
-  name: "ProductOptionDetail",
-  fields: {
-    optionDetailType: { type: GraphQLInt },
-    optionDetailContent: {
-      type: new GraphQLList(OptionDetailContentType),
-    },
-  },
-});
-
 const OptionType = new GraphQLObjectType({
   name: "ProductOption",
   description: "Product Option type",
@@ -135,8 +118,9 @@ const OptionType = new GraphQLObjectType({
     _id: { type: GraphQLID },
     optionName: { type: GraphQLString },
     optionDisplayName: { type: GraphQLString },
-    optionDetail: {
-      type: OptionDetailType,
+    optionDetailType: { type: GraphQLInt },
+    optionDetailContent: {
+      type: new GraphQLList(GraphQLString),
     },
     deleted: { type: GraphQLBoolean },
   }),

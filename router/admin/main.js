@@ -22,6 +22,11 @@ router.route("/settings").get(AdminController.getSettingsPage);
 
 router.route("/getGroups").post(ProductPostsController.getGroups);
 router.route("/getOptions").post(ProductPostsController.getOptions);
+
+router.route("/addOption").post(ProductPostsController.addOption);
+router.route("/editOption").post(ProductPostsController.editOption);
+router.route("/removeOption").post(ProductPostsController.removeOption);
+
 router.use(
   "/graphql",
   graphqlHTTP({

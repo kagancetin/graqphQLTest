@@ -10,14 +10,11 @@ const optionSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    optionDetail: {
-      optionDetailType: Number,
-      optionDetailContent: [
-        {
-          optionDetailName: String,
-        },
-      ],
+    optionDetailType: {
+      type: Number,
+      required: true,
     },
+    optionDetailContent: [String],
     deleted: {
       type: Boolean,
       default: false,

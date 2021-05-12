@@ -15,21 +15,6 @@ const {
 } = require("graphql");
 
 /* INPUT TYPES*/
-const OptionDetailContentInput = new GraphQLInputObjectType({
-  name: "ProductOptionDetailContentInput",
-  fields: () => ({
-    optionDetailName: { type: GraphQLString },
-  }),
-});
-const OptionDetailInput = new GraphQLInputObjectType({
-  name: "ProductOptionDetailInput",
-  fields: () => ({
-    optionDetailType: { type: GraphQLInt },
-    optionDetailContent: {
-      type: new GraphQLList(OptionDetailContentInput),
-    },
-  }),
-});
 
 /* INPUT TYPES*/
 
@@ -105,14 +90,8 @@ let editProduct = {
     options: { type: new GraphQLList(GraphQLString) },
   },
   async resolve(parent, args) {
-    const {
-      _id,
-      productName,
-      productDescription,
-      price,
-      groupId,
-      options,
-    } = args;
+    const { _id, productName, productDescription, price, groupId, options } =
+      args;
     const product = {
       productName,
       productDescription,
@@ -133,16 +112,23 @@ let addOption = {
   args: {
     optionName: { type: GraphQLString },
     optionDisplayName: { type: GraphQLString },
-    optionDetail: {
-      type: OptionDetailInput,
+    optionDetailType: { type: GraphQLInt },
+    optionDetailContent: {
+      type: new GraphQLList(GraphQLString),
     },
   },
   async resolve(parent, args) {
-    const { optionName, optionDisplayName, optionDetail } = args;
+    const {
+      optionName,
+      optionDisplayName,
+      optionDetailType,
+      optionDetailContent,
+    } = args;
     const option = new Option({
       optionName,
       optionDisplayName,
-      optionDetail,
+      optionDetailType,
+      optionDetailContent,
     });
     await option.save((err, doc) => {
       if (err) throw new Error("Bir hata oluştu");
@@ -153,26 +139,59 @@ let addOption = {
 
 let editOption = {
   type: GraphQLString,
-  description: "Add item to Product Option",
+  description: "Edit item to Product Option",
   args: {
     _id: { type: GraphQLID },
     optionName: { type: GraphQLString },
     optionDisplayName: { type: GraphQLString },
-    optionDetail: {
-      type: OptionDetailInput,
+    optionDetailType: { type: GraphQLInt },
+    optionDetailContent: {
+      type: new GraphQLList(GraphQLString),
     },
   },
   async resolve(parent, args) {
-    const { _id, optionName, optionDisplayName, optionDetail } = args;
+    const {
+      _id,
+      optionName,
+      optionDisplayName,
+      optionDetailType,
+      optionDetailContent,
+    } = args;
     const option = {
       optionName,
       optionDisplayName,
-      optionDetail,
+      optionDetailType,
+      optionDetailContent,
     };
     await Option.findByIdAndUpdate(_id, option, (err, doc) => {
       if (err) throw new Error("Bir hata oluştu");
     });
     return "Seçenek güncellendi.";
+  },
+};
+
+removeAndRestoreOption = {
+  type: GraphQLString,
+  description: "Add item to Product Option",
+  args: {
+    _id: { type: GraphQLID },
+  },
+  async resolve(parent, args) {
+    const { _id } = args;
+    let option = await Option.findById(_id);
+    let redata = !option.deleted;
+    await Option.updateOne(
+      { _id: option._id },
+      {
+        $set: {
+          deleted: redata,
+        },
+      },
+      (err, doc) => {
+        if (err) throw new Error("Bir hata oluştu");
+      }
+    );
+    return "İşlem başarılı.";
   },
 };
 
@@ -183,4 +202,5 @@ module.exports = {
   editProduct,
   addProduct,
   editOption,
+  removeAndRestoreOption,
 };
