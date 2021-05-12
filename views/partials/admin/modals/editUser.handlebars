@@ -1,9 +1,9 @@
-<div class="modal fade show" id="addGroupModal" aria-modal="true" role="dialog"
+<div class="modal fade show" id="editUserModal" aria-modal="true" role="dialog"
     style="padding-right: 16px; display: block;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Yeni Grup Ekle</h4>
+                <h4 class="modal-title">Kullanıcı Düzenle</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -11,13 +11,17 @@
             <form>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="groupName">Grup Adı</label>
-                        <input type="text" id="groupName" class="form-control">
+                        <label for="email">E-mail</label>
+                        <input type="text" id="email" name="email" class="form-control" value="">
+                    </div>
+                    <div class="form-group">
+                        <label for="displayName">Ad Soyad</label>
+                        <input type="text" id="email" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Vazgeç</button>
-                    <button type="button" class="btn btn-primary">Ekle</button>
+                    <button type="button" class="btn btn-primary">Düzenle</button>
                 </div>
             </form>
         </div>

@@ -103,6 +103,12 @@ module.exports = {
       }
     });
   },
+  getProductEditPage: async (req, res, next) => {
+    res.render("pages/admin/productEdit", { layout: "admin.handlebars" });
+  },
+  getCostumerDetailPage: async (req, res, next) => {
+    res.render("pages/admin/costumerDetail", { layout: "admin.handlebars" });
+  },
   getSettingsPage: async (req, res, next) => {
     res.render("pages/admin/settings", { layout: "admin.handlebars" });
   },

@@ -15,7 +15,9 @@ router.route("/").get(AdminController.getDashboardPage);
 router.route("/orders").get(AdminController.getOrdersPage);
 router.route("/users").get(AdminController.getUsersPage);
 router.route("/costumers").get(AdminController.getCostumersPage);
+router.route("/costumer/:id").get(AdminController.getCostumerDetailPage);
 router.route("/products").get(AdminController.getProductsPage);
+router.route("/product/:id").get(AdminController.getProductEditPage);
 router.route("/settings").get(AdminController.getSettingsPage);
 
 router.route("/getGroups").post(ProductPostsController.getGroups);

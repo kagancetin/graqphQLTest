@@ -23,7 +23,7 @@
                 <!-- card -->
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Kullanıcılar</h3>
+                        <h3 class="card-title">KULLANICILAR</h3>
                         <div id="table-buttons" class="text-right">
                             <button class="btn btn-secondary" tabindex="0" type="button" id="showDeleted">
                                 <span>Silinenleri Göster</span>
@@ -53,7 +53,31 @@
                                         createdAt}}{{/convertDateHour}}</td>
                                     <td>{{#convertDateDay updatedAt}}{{/convertDateDay}} - {{#convertDateHour
                                         updatedAt}}{{/convertDateHour}}</td>
-                                    <td>İşlemler</td>
+                                    <td>
+                                        {{#if deleted}}
+                                        <button onclick="restoreUserModal()" class="btn btn-warning btn-sm">
+                                            <i class="fas fa-trash-restore">
+                                            </i>
+                                            Geri Yükle
+                                        </button>
+                                        {{else}}
+                                        <button onclick="rePasswordUserModal()" class="btn btn-warning btn-sm">
+                                            <i class="fas fa-key">
+                                            </i>
+                                            Şifre Sıfırla
+                                        </button>
+                                        <button onclick="editUserModal()" class="btn btn-info btn-sm">
+                                            <i class="fas fa-pencil-alt">
+                                            </i>
+                                            Düzenle
+                                        </button>
+                                        <button onclick="removeUserModal()" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash">
+                                            </i>
+                                            Sil
+                                        </button>
+                                        {{/if}}
+                                    </td>
                                 </tr>
                                 {{/each}}
                             </tbody>
@@ -76,11 +100,39 @@
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">KULLANICI EKLE</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <form>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="email">E-mail</label>
+                                    <input type="text" id="email" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="displayName">Ad Soyad</label>
+                                    <input type="text" id="email" class="form-control">
+                                </div>
+                                <div class="form-group"><small>Şifre mail adresine gönderilecektir.</small></div>
+                                <div class="form-group"><button type="button" class="btn btn-primary">Ekle</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
             </div>
         </div>
     </div>
 </section>
 <!-- /.content -->
+
+<div id="userModalDiv"></div>
+
 
 {{#section "link"}}
 <!-- DataTables -->
@@ -91,7 +143,28 @@
 
 {{/section}}
 
+{{#section "style"}}
+<style>
+
+</style>
+{{/section}}
+
 {{#section "script"}}
+
+<script id="editUser-template" type="text/x-handlebars-template">
+            {{> admin/modals/editUser}}
+</script>
+<script id="removeUser-template" type="text/x-handlebars-template">
+            {{> admin/modals/removeUser}}
+</script>
+<script id="rePasswordUser-template" type="text/x-handlebars-template">
+            {{> admin/modals/rePasswordUser}}
+</script>
+<script id="restoreUser-template" type="text/x-handlebars-template">
+            {{> admin/modals/restoreUser}}
+</script>
+
+
 
 <!-- DataTables  & Plugins -->
 <script src="/admin/plugins/datatables/jquery.dataTables.min.js"></script>
@@ -118,7 +191,7 @@
                 "url": "/admin/plugins/datatables/Turkish.json"
             },
             "columnDefs": [
-                { "visible": false, "type": "date-eu", "targets": [2, 3] }
+                { "visible": false, "searchable": false, "type": "date-eu", "targets": [2, 3] }
             ],
             "responsive": true, "autoWidth": false,
             initComplete: function () {
@@ -132,6 +205,39 @@
             },
         })
     });
+
+    let editUserModal = async function () {
+
+        var source = document.getElementById("editUser-template").innerHTML;
+        var template = await Handlebars.compile(source);
+        var html = await template();
+        document.getElementById("userModalDiv").innerHTML = html;
+        $("#editUserModal").modal("show");
+    };
+
+    let removeUserModal = async function () {
+        var source = document.getElementById("removeUser-template").innerHTML;
+        var template = await Handlebars.compile(source);
+        var html = await template();
+        document.getElementById("userModalDiv").innerHTML = html;
+        $("#removeUserModal").modal("show");
+    };
+
+    let rePasswordUserModal = async function () {
+        var source = document.getElementById("rePasswordUser-template").innerHTML;
+        var template = await Handlebars.compile(source);
+        var html = await template();
+        document.getElementById("userModalDiv").innerHTML = html;
+        $("#rePasswordUserModal").modal("show");
+    };
+
+    let restoreUserModal = async function () {
+        var source = document.getElementById("restoreUser-template").innerHTML;
+        var template = await Handlebars.compile(source);
+        var html = await template();
+        document.getElementById("userModalDiv").innerHTML = html;
+        $("#restoreUserModal").modal("show");
+    };
 
 </script>
 {{/section}}
