@@ -149,6 +149,9 @@
 <script id="removeOption-template" type="text/x-handlebars-template">
             {{> admin/modals/removeOption}}
 </script>
+<script id="editOption-template" type="text/x-handlebars-template">
+            {{> admin/modals/editOption}}
+</script>
 
 
 <script>
@@ -201,14 +204,14 @@
 
         data.forEach(function (p) {
             let optionDetailString = `<div class='text-left'><p>Görünen Açıklama: ${p.optionDisplayName}</p>`;
-            if (p.optionDetail.optionDetailType == 1) {
+            if (p.optionDetailType == 1) {
                 optionDetailString += "<p>Seçenek Tipi: Seç</p>";
             } else {
                 optionDetailString += "<p>Seçenek Tipi:Çıkar</p>";
             }
             optionDetailString += "<p>Seçenek Elemanları:</p><ul>";
-            p.optionDetail.optionDetailContent.forEach(function (k) {
-                optionDetailString += `<li>${k.optionDetailName}</li>`;
+            p.optionDetailContent.forEach(function (k) {
+                optionDetailString += `<li>${k}</li>`;
             });
 
             optionDetailString += "</ul></div>";
@@ -232,26 +235,26 @@
             let optionTableString = "<tr>";
             optionTableString += `<td>${p.optionName}</td>`;
             optionTableString += `<td>${p.optionDisplayName}</td>`;
-            if (p.optionDetail.optionDetailType == 1) {
+            if (p.optionDetailType == 1) {
                 optionTableString += "<td>Seç</td>";
             } else {
                 optionTableString += "<td>Çıkar</td>";
             }
             optionTableString += "<td><ul>";
-            p.optionDetail.optionDetailContent.forEach(function (k) {
-                optionTableString += `<li>${k.optionDetailName}</li>`;
+            p.optionDetailContent.forEach(function (k) {
+                optionTableString += `<li>${k}</li>`;
             });
 
             optionTableString += "</ul></td>";
 
             optionTableString += `
-                        <td class="project-actions text-right">
-                            <button type="button" class="btn btn-info btn-sm" onclick="editOptionModal()" >
+                         <td class="project-actions text-right">
+                            <button type="button" class="btn btn-info btn-sm" onclick='editOptionModal(\`${JSON.stringify(p)}\`)' >
                                 <i class="fas fa-pencil-alt">
                                 </i>
                                 Edit
                             </button>
-                            <button type="button" class="btn btn-danger btn-sm"  onclick="removeOptionModal()">
+                            <button type="button" class="btn btn-danger btn-sm" onclick="removeOptionModal('${p._id}')">
                                 <i class="fas fa-trash">
                                 </i>
                                 Sil
