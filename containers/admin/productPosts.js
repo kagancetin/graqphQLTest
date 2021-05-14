@@ -27,11 +27,14 @@ module.exports = {
   getOptions: async (req, res, next) => {
     let query = `
     query{getOptions(_filter:"{\\"deleted\\":false}"){
-      _id
-      optionName
-      optionDisplayName
-      optionDetailType
-      optionDetailContent
+        _id
+        optionName
+        optionDisplayName
+        optionType
+        optionDetail {
+          optionDetailContent
+          optionPriceDifference
+        }
       }
     }
     `;
@@ -47,13 +50,18 @@ module.exports = {
   },
 
   addOption: async (req, res, next) => {
+    let optionDetailString = "[";
+    req.body.optionDetail.forEach((p) => {
+      optionDetailString += `{optionDetailContent:"${p.optionDetailContent}",optionPriceDifference:${p.optionPriceDifference}},`;
+    });
+    optionDetailString += "]";
     let query = `
     mutation{
       addOption(
         optionName:"${req.body.optionName}",
         optionDisplayName:"${req.body.optionDisplayName}"
-        optionDetailType:${req.body.optionDetailType},
-        optionDetailContent:${JSON.stringify(req.body.optionDetailContent)}
+        optionType:${req.body.optionType},
+        optionDetail:${optionDetailString}
       )
     }
     `;
@@ -69,14 +77,19 @@ module.exports = {
     });
   },
   editOption: async (req, res, next) => {
+    let optionDetailString = "[";
+    req.body.optionDetail.forEach((p) => {
+      optionDetailString += `{optionDetailContent:"${p.optionDetailContent}",optionPriceDifference:${p.optionPriceDifference}},`;
+    });
+    optionDetailString += "]";
     let query = `
     mutation{
       editOption(
         _id:"${req.body._id}",
         optionName:"${req.body.optionName}",
         optionDisplayName:"${req.body.optionDisplayName}"
-        optionDetailType:${req.body.optionDetailType},
-        optionDetailContent:${JSON.stringify(req.body.optionDetailContent)}
+        optionType:${req.body.optionType},
+        optionDetail:${optionDetailString}
       )
     }
     `;
@@ -111,9 +124,64 @@ module.exports = {
             err: "Bir hata oluştu. Sayfayı yenileyin yine hata alırsanız, lütfen hatayı bildiriniz!",
           });
         } else {
-          res.send({ err: null, data: result.data.editOption });
+          res.send({ err: null, data: result.data.removeAndRestoreOption });
         }
       });
     }
+  },
+  addGroup: async (req, res, next) => {
+    let query = `
+    mutation{
+      addGroup(groupName:"${req.body.groupName}",order:${req.body.order})
+    }
+    `;
+    graphql(schema, query).then((result) => {
+      if (result.errors) {
+        console.log(result.errors);
+        res.send({
+          err: "Bir hata oluştu. Sayfayı yenileyin yine hata alırsanız, lütfen hatayı bildiriniz!",
+        });
+      } else {
+        res.send({ err: null, data: result.data.addGroup });
+      }
+    });
+  },
+  editGroup: async (req, res, next) => {
+    console.log(req.body.order);
+    let query = `
+    mutation{
+      editGroup(_id:"${req.body.id}",groupName:"${req.body.groupName}",order:${req.body.order})
+    } 
+    `;
+    graphql(schema, query).then((result) => {
+      if (result.errors) {
+        console.log(result.errors);
+        res.send({
+          err: "Bir hata oluştu. Sayfayı yenileyin yine hata alırsanız, lütfen hatayı bildiriniz!",
+        });
+      } else {
+        req.flash("success", "Grup başarıyla güncellendi.");
+        res.send({ err: null });
+      }
+    });
+  },
+  removeGroup: async (req, res, next) => {
+    console.log(req.body);
+    let query = `
+    mutation{
+      removeAndRestoreGroup(_id:"${req.body.id}")
+    }
+    `;
+    graphql(schema, query).then((result) => {
+      if (result.errors) {
+        console.log(result.errors);
+        res.send({
+          err: "Bir hata oluştu. Sayfayı yenileyin yine hata alırsanız, lütfen hatayı bildiriniz!",
+        });
+      } else {
+        req.flash("success", result.data.removeAndRestoreGroup);
+        res.send({ err: null });
+      }
+    });
   },
 };

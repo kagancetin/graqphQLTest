@@ -10,11 +10,23 @@ const optionSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    optionDetailType: {
+    optionType: {
       type: Number,
       required: true,
     },
-    optionDetailContent: [String],
+    optionDetail: [
+      {
+        optionDetailContent: String,
+        optionPriceDifference: {
+          type: Number,
+          default: 0,
+          get: (e) => {
+            return parseFloat(e).toFixed(2);
+          },
+        },
+      },
+    ],
+
     deleted: {
       type: Boolean,
       default: false,

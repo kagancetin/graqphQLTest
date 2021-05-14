@@ -1,5 +1,4 @@
 function validateForm(e) {
-  console.log(e);
   let requiredInputs = e.querySelectorAll("[data-valid=required]");
   let requiredError = [];
   requiredInputs.forEach((item) => {

@@ -6,6 +6,10 @@ const groupSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    order: {
+      type: Number,
+      default: 1,
+    },
     deleted: {
       type: Boolean,
       default: false,

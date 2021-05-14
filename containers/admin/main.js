@@ -18,10 +18,11 @@ module.exports = {
     `;
     graphql(schema, query).then((result) => {
       if (result.errors) {
-        console.log(errors);
-        req.flash("error", "Bir hata oluştu lütfen hatayı bildiriniz!");
         res.render("pages/admin/users", {
           layout: "admin.handlebars",
+          flashMessages: {
+            error: "Bir hata oluştu lütfen hatayı bildiriniz!",
+          },
         });
       } else {
         res.render("pages/admin/users", {
@@ -48,10 +49,11 @@ module.exports = {
     `;
     graphql(schema, query).then((result) => {
       if (result.errors) {
-        console.log(errors);
-        req.flash("error", "Bir hata oluştu lütfen hatayı bildiriniz!");
         res.render("pages/admin/costumers", {
           layout: "admin.handlebars",
+          flashMessages: {
+            error: "Bir hata oluştu lütfen hatayı bildiriniz!",
+          },
         });
       } else {
         res.render("pages/admin/costumers", {
@@ -63,9 +65,10 @@ module.exports = {
   },
   getProductsPage: async (req, res, next) => {
     let query = `
-    query{getGroups {
+    query{getGroups(_filter:"{\\\"deleted\\\":false}") {
       _id
       groupName
+      order
       deleted
       products {
         _id
@@ -78,7 +81,6 @@ module.exports = {
         options {
           _id
           optionName
-          optionDisplayName
           deleted
         }
         deleted
@@ -87,15 +89,14 @@ module.exports = {
     
     `;
     graphql(schema, query).then((result) => {
-      console.log(result);
       if (result.errors) {
-        console.log(errors);
-        req.flash("error", "Bir hata oluştu lütfen hatayı bildiriniz!");
         res.render("pages/admin/products", {
           layout: "admin.handlebars",
+          flashMessages: {
+            error: "Bir hata oluştu lütfen hatayı bildiriniz!",
+          },
         });
       } else {
-        console.log(result.data.getGroups[0]);
         res.render("pages/admin/products", {
           layout: "admin.handlebars",
           groups: result.data.getGroups,

@@ -84,7 +84,7 @@ app.use(async (req, res, next) => {
   };
 
   if (req.user) {
-    console.log(req.user);
+    console.log("auth user", req.user);
     if (req.user.admin) {
       res.locals.admin = req.user;
     } else {
@@ -95,6 +95,7 @@ app.use(async (req, res, next) => {
 });
 
 //Routes
+
 app.use("/login", login);
 app.use("/admin", admin);
 app.use("/", client);

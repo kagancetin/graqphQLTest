@@ -13,12 +13,11 @@ const getGroups = {
   description: "Retrieves list of groups",
   args: { _filter: { type: GraphQLString } },
   resolve(parent, args) {
-    console.log(args._filter);
     if (args._filter) {
       let _filter = JSON.parse(args._filter);
-      return Group.find(_filter);
+      return Group.find(_filter).sort("order");
     } else {
-      return Group.find();
+      return Group.find().sort("order");
     }
   },
 };
