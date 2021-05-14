@@ -1,21 +1,20 @@
-<div class="modal fade show" id="rePasswordUserModal" aria-modal="true" role="dialog"
+<div class="modal fade show" id="removeGroupModal" aria-modal="true" role="dialog"
     style="padding-right: 16px; display: block;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Şifre Sıfırla</h4>
+                <h4 class="modal-title">Seçeneği Sil</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form >
+            <form  role="form" method="post" onsubmit="removeGroupSubmit(event,'\{{groupId}}')">
                 <div class="modal-body">
-                    <p>Kullanıcının şifresini sıfırlamak istediğinizden emin misiniz?</p>
-                    <p>Mail adresine şifre sıfırlama linki gönderilmiştir.</p>
+                    Seçeneği silmek istediğinizden emin misiniz?
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Vazgeç</button>
-                    <button type="button" class="btn btn-danger">Sıfırla</button>
+                    <button type="submit" class="btn btn-danger">Sil</button>
                 </div>
             </form>
         </div>

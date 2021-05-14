@@ -19,6 +19,7 @@ const { addCostumerAddress } = require("./CostumerAdress/mutations");
 const {
   addGroup,
   editGroup,
+  removeAndRestoreGroup,
   addProduct,
   editProduct,
   addOption,
@@ -56,6 +57,7 @@ const MutationType = new GraphQLObjectType({
     addCostumerAddress,
     addGroup,
     editGroup,
+    removeAndRestoreGroup,
     addProduct,
     editProduct,
     addOption,

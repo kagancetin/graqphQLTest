@@ -74,6 +74,7 @@ const GroupType = new GraphQLObjectType({
   fields: () => ({
     _id: { type: GraphQLID },
     groupName: { type: GraphQLString },
+    order: { type: GraphQLInt },
     products: {
       type: new GraphQLList(ProductType),
       resolve(parent, args) {
@@ -111,6 +112,15 @@ const ProductType = new GraphQLObjectType({
   }),
 });
 
+const OptionDetail = new GraphQLObjectType({
+  name: "ProductOptionDetail",
+  description: "Product Option Detail type",
+  fields: () => ({
+    optionDetailContent: { type: GraphQLString },
+    optionPriceDifference: { type: GraphQLInt },
+  }),
+});
+
 const OptionType = new GraphQLObjectType({
   name: "ProductOption",
   description: "Product Option type",
@@ -118,9 +128,9 @@ const OptionType = new GraphQLObjectType({
     _id: { type: GraphQLID },
     optionName: { type: GraphQLString },
     optionDisplayName: { type: GraphQLString },
-    optionDetailType: { type: GraphQLInt },
-    optionDetailContent: {
-      type: new GraphQLList(GraphQLString),
+    optionType: { type: GraphQLInt },
+    optionDetail: {
+      type: new GraphQLList(OptionDetail),
     },
     deleted: { type: GraphQLBoolean },
   }),

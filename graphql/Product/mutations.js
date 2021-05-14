@@ -1,9 +1,4 @@
-const {
-  GroupType,
-  OptionType,
-  OptionDetail,
-  OptionDetailContent,
-} = require("../types");
+const { GroupType, OptionType, OptionDetail } = require("../types");
 const { Group, Product, Option } = require("../../models");
 const {
   GraphQLString,
@@ -15,6 +10,14 @@ const {
 } = require("graphql");
 
 /* INPUT TYPES*/
+const OptionDetailInput = new GraphQLInputObjectType({
+  name: "ProductOptionDetailInput",
+  description: "Product Option Detail Input type",
+  fields: () => ({
+    optionDetailContent: { type: GraphQLString },
+    optionPriceDifference: { type: GraphQLInt },
+  }),
+});
 
 /* INPUT TYPES*/
 
@@ -23,11 +26,13 @@ let addGroup = {
   description: "Add item to Product Group",
   args: {
     groupName: { type: GraphQLString },
+    order: { type: GraphQLInt },
   },
   async resolve(parent, args) {
-    const { groupName } = args;
+    const { groupName, order } = args;
     const group = new Group({
       groupName,
+      order,
     });
     await group.save((err, doc) => {
       if (err) throw new Error("Bir hata oluştu");
@@ -42,13 +47,39 @@ let editGroup = {
   args: {
     _id: { type: GraphQLID },
     groupName: { type: GraphQLString },
+    order: { type: GraphQLInt },
   },
   async resolve(parent, args) {
-    const { _id, groupName } = args;
-    await Group.findByIdAndUpdate(_id, { groupName }, (err, doc) => {
+    const { _id, groupName, order } = args;
+    await Group.findByIdAndUpdate(_id, { groupName, order }, (err, doc) => {
       if (err) throw new Error("Bir hata oluştu");
     });
     return "Grup güncellendi.";
+  },
+};
+
+removeAndRestoreGroup = {
+  type: GraphQLString,
+  description: "Remove or restore item to Product Group",
+  args: {
+    _id: { type: GraphQLID },
+  },
+  async resolve(parent, args) {
+    const { _id } = args;
+    let group = await Group.findById(_id);
+    let redata = !group.deleted;
+    await Group.updateOne(
+      { _id: group._id },
+      {
+        $set: {
+          deleted: redata,
+        },
+      },
+      (err, doc) => {
+        if (err) throw new Error("Bir hata oluştu");
+      }
+    );
+    return "İşlem başarılı.";
   },
 };
 
@@ -112,23 +143,18 @@ let addOption = {
   args: {
     optionName: { type: GraphQLString },
     optionDisplayName: { type: GraphQLString },
-    optionDetailType: { type: GraphQLInt },
-    optionDetailContent: {
-      type: new GraphQLList(GraphQLString),
+    optionType: { type: GraphQLInt },
+    optionDetail: {
+      type: new GraphQLList(OptionDetailInput),
     },
   },
   async resolve(parent, args) {
-    const {
-      optionName,
-      optionDisplayName,
-      optionDetailType,
-      optionDetailContent,
-    } = args;
+    const { optionName, optionDisplayName, optionType, optionDetail } = args;
     const option = new Option({
       optionName,
       optionDisplayName,
-      optionDetailType,
-      optionDetailContent,
+      optionType,
+      optionDetail,
     });
     await option.save((err, doc) => {
       if (err) throw new Error("Bir hata oluştu");
@@ -144,24 +170,19 @@ let editOption = {
     _id: { type: GraphQLID },
     optionName: { type: GraphQLString },
     optionDisplayName: { type: GraphQLString },
-    optionDetailType: { type: GraphQLInt },
-    optionDetailContent: {
-      type: new GraphQLList(GraphQLString),
+    optionType: { type: GraphQLInt },
+    optionDetail: {
+      type: new GraphQLList(OptionDetailInput),
     },
   },
   async resolve(parent, args) {
-    const {
-      _id,
-      optionName,
-      optionDisplayName,
-      optionDetailType,
-      optionDetailContent,
-    } = args;
+    const { _id, optionName, optionDisplayName, optionType, optionDetail } =
+      args;
     const option = {
       optionName,
       optionDisplayName,
-      optionDetailType,
-      optionDetailContent,
+      optionType,
+      optionDetail,
     };
     await Option.findByIdAndUpdate(_id, option, (err, doc) => {
       if (err) throw new Error("Bir hata oluştu");
@@ -198,6 +219,7 @@ removeAndRestoreOption = {
 module.exports = {
   addGroup,
   editGroup,
+  removeAndRestoreGroup,
   addOption,
   editProduct,
   addProduct,

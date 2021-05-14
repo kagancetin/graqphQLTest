@@ -27,6 +27,10 @@ router.route("/addOption").post(ProductPostsController.addOption);
 router.route("/editOption").post(ProductPostsController.editOption);
 router.route("/removeOption").post(ProductPostsController.removeOption);
 
+router.route("/addGroup").post(ProductPostsController.addGroup);
+router.route("/editGroup").post(ProductPostsController.editGroup);
+router.route("/removeGroup").post(ProductPostsController.removeGroup);
+
 router.use(
   "/graphql",
   graphqlHTTP({
