@@ -35,19 +35,19 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <form action="" method="post">
+                        <form role="form" method="post" onsubmit="editProductSubmit(event,'{{product._id}}')">
                             <div class="form-group">
                                 <label for="productName">Ürün Adı</label>
-                                <input type="text" id="productName" class="form-control">
+                                <input data-valid="required" type="text" id="productName" class="form-control" value="{{product.productName}}">
                             </div>
                             <div class="form-group">
                                 <label for="productDescription">Ürün Açıklaması</label>
-                                <textarea id="productDescription" class="form-control" rows="4"></textarea>
+                                <textarea data-valid="required" id="productDescription" class="form-control" rows="4">{{product.productDescription}}</textarea>
                             </div>
                             <div class="row">
                                 <div class="form-group col-6">
                                     <label for="groupId">Grup</label>
-                                    <select id="groupId" class="form-control custom-select">
+                                    <select id="groupId" data-default="{{product.group._id}}" class="form-control custom-select">
                                     </select>
                                 </div>
                                 <div class="col-6 d-flex align-items-center justify-content-end">
@@ -58,18 +58,19 @@
                             <div class="row">
                                 <div class="form-group col-12 col-sm-6">
                                     <label for="price">Fiyatı</label>
-                                    <input type="number" id="price" class="form-control">
+                                    <input data-valid="required" type="number" id="price" class="form-control" value="{{product.price}}">
                                 </div>
                                 <div class="form-group col-12 col-sm-6">
                                     <label for="order">Sıra</label>
-                                    <input type="number" id="order" value="1" class="form-control">
+                                    <input data-valid="required" type="number" id="order" value="{{product.order}}" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Seçenekler</label>
                                 <div class="row">
                                     <div class="col-9">
-                                        <div id="optionCheckboxList" class="row m-0 pl-2">
+                                        <div id="optionCheckboxList" data-default='{{#json product.options}}{{/json}}' 
+                                        class="row m-0 pl-2">
 
                                         </div>
                                     </div>
@@ -171,6 +172,7 @@
                     response.data.forEach(function (p) {
                         groupsElement.innerHTML += `<option value="${p._id}">${p.groupName}</option>`;
                     });
+                    $("#groupId").val(groupsElement.dataset.default);
                 }
             }
         };
@@ -204,18 +206,16 @@
 
         data.forEach(function (p) {
             let optionDetailString = `<div class='text-left'><p>Görünen Açıklama: ${p.optionDisplayName}</p>`;
-            if (p.optionDetailType == 1) {
-                optionDetailString += "<p>Seçenek Tipi: Seç</p>";
+            if (p.optionType == 1) {
+                optionDetailString += "<p>Seçenek Tipi:Seç</p>";
             } else {
                 optionDetailString += "<p>Seçenek Tipi:Çıkar</p>";
             }
             optionDetailString += "<p>Seçenek Elemanları:</p><ul>";
-            p.optionDetailContent.forEach(function (k) {
-                optionDetailString += `<li>${k}</li>`;
+            p.optionDetail.forEach(function (k) {
+                optionDetailString += `<li><strong>${k.optionDetailContent}</strong>, : ${k.optionPriceDifference} TL</li>`;
             });
-
             optionDetailString += "</ul></div>";
-
             optionsCheckbox.innerHTML += `
             <div class="form-check col-sm-6 col-md-3">
                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip" data-html="true"
@@ -226,6 +226,11 @@
             </div>`;
         });
         $('[data-toggle="tooltip"]').tooltip();
+        let defaultDatas = JSON.parse(optionsCheckbox.dataset.default);
+        defaultDatas.forEach(function(p){
+            document.getElementById(p._id).checked = true;
+        })
+
     }
     let optionTableListLoad = function (data) {
         let optionsTableList = document.getElementById("optionsTableList");
@@ -235,24 +240,24 @@
             let optionTableString = "<tr>";
             optionTableString += `<td>${p.optionName}</td>`;
             optionTableString += `<td>${p.optionDisplayName}</td>`;
-            if (p.optionDetailType == 1) {
+            if (p.optionType == 1) {
                 optionTableString += "<td>Seç</td>";
             } else {
                 optionTableString += "<td>Çıkar</td>";
             }
             optionTableString += "<td><ul>";
-            p.optionDetailContent.forEach(function (k) {
-                optionTableString += `<li>${k}</li>`;
+            p.optionDetail.forEach(function (k) {
+                optionTableString += `<li><strong>${k.optionDetailContent}</strong> : ${k.optionPriceDifference} TL</li>`;
             });
 
             optionTableString += "</ul></td>";
 
             optionTableString += `
-                         <td class="project-actions text-right">
+                        <td class="project-actions text-right">
                             <button type="button" class="btn btn-info btn-sm" onclick='editOptionModal(\`${JSON.stringify(p)}\`)' >
                                 <i class="fas fa-pencil-alt">
                                 </i>
-                                Edit
+                                Düzenle
                             </button>
                             <button type="button" class="btn btn-danger btn-sm" onclick="removeOptionModal('${p._id}')">
                                 <i class="fas fa-trash">
@@ -265,8 +270,6 @@
             optionsTableList.innerHTML += optionTableString;
         });
     }
-
-
     window.addEventListener("load", (event) => {
         getGroups();
         getOptions();

@@ -105,7 +105,41 @@ module.exports = {
     });
   },
   getProductEditPage: async (req, res, next) => {
-    res.render("pages/admin/productEdit", { layout: "admin.handlebars" });
+    let query = `
+    query{
+      getProduct(_id:"${req.params.id}") {
+        _id
+        productName
+        productDescription
+        price
+        order
+        createdAt
+        updatedAt
+        group {
+          _id
+        }
+        options {
+          _id
+        }
+      }
+    }
+    `;
+    graphql(schema, query).then((result) => {
+      if (result.errors) {
+        res.render("pages/admin/products", {
+          layout: "admin.handlebars",
+          flashMessages: {
+            error:
+              "Bir hata oluştu lütfen tekrar deneyin olmaz ise; hatayı bildiriniz!",
+          },
+        });
+      } else {
+        res.render("pages/admin/productEdit", {
+          layout: "admin.handlebars",
+          product: result.data.getProduct,
+        });
+      }
+    });
   },
   getCostumerDetailPage: async (req, res, next) => {
     res.render("pages/admin/costumerDetail", { layout: "admin.handlebars" });

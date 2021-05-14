@@ -78,7 +78,9 @@ const GroupType = new GraphQLObjectType({
     products: {
       type: new GraphQLList(ProductType),
       resolve(parent, args) {
-        return Product.find({ groupId: parent._id }).sort("order");
+        return Product.find({ groupId: parent._id, deleted: false }).sort(
+          "order"
+        );
       },
     },
     deleted: { type: GraphQLBoolean },
