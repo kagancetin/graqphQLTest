@@ -90,15 +90,18 @@ let addProduct = {
     productName: { type: GraphQLString },
     productDescription: { type: GraphQLString },
     price: { type: GraphQLFloat },
+    order: { type: GraphQLInt },
     groupId: { type: GraphQLString },
     options: { type: new GraphQLList(GraphQLString) },
   },
   async resolve(parent, args) {
-    const { productName, productDescription, price, groupId, options } = args;
+    const { productName, productDescription, price, order, groupId, options } =
+      args;
     const product = new Product({
       productName,
       productDescription,
       price,
+      order,
       groupId,
       options,
     });
@@ -117,16 +120,25 @@ let editProduct = {
     productName: { type: GraphQLString },
     productDescription: { type: GraphQLString },
     price: { type: GraphQLFloat },
+    order: { type: GraphQLInt },
     groupId: { type: GraphQLString },
     options: { type: new GraphQLList(GraphQLString) },
   },
   async resolve(parent, args) {
-    const { _id, productName, productDescription, price, groupId, options } =
-      args;
+    const {
+      _id,
+      productName,
+      productDescription,
+      price,
+      order,
+      groupId,
+      options,
+    } = args;
     const product = {
       productName,
       productDescription,
       price,
+      order,
       groupId,
       options,
     };
@@ -134,6 +146,29 @@ let editProduct = {
       if (err) throw new Error(err);
     });
     return "Ürün güncellendi.";
+  },
+};
+
+removeProduct = {
+  type: GraphQLString,
+  description: "Add item to Product",
+  args: {
+    _id: { type: GraphQLID },
+  },
+  async resolve(parent, args) {
+    const { _id } = args;
+    await Product.findByIdAndUpdate(
+      _id,
+      {
+        $set: {
+          deleted: true,
+        },
+      },
+      (err, doc) => {
+        if (err) throw new Error("Bir hata oluştu");
+      }
+    );
+    return "İşlem başarılı.";
   },
 };
 
@@ -222,6 +257,7 @@ module.exports = {
   removeAndRestoreGroup,
   addOption,
   editProduct,
+  removeProduct,
   addProduct,
   editOption,
   removeAndRestoreOption,

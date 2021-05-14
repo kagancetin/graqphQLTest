@@ -30,10 +30,10 @@ let addOptionModal = async function () {
   $("#addOptionModal").modal("show");
 };
 
-let removeProductModal = async function () {
+let removeProductModal = async function (_id) {
   var source = document.getElementById("removeProduct-template").innerHTML;
   var template = await Handlebars.compile(source);
-  var html = await template();
+  var html = await template({ _id });
   document.getElementById("modalDiv").innerHTML = html;
   $("#removeProductModal").modal("show");
 };
@@ -223,6 +223,98 @@ let removeGroupSubmit = function (event, id) {
       let response = JSON.parse(this.response);
       if (response.err) {
         $("#removeGroupModal").modal("hide");
+        toastr.error(response.err, "Hata!");
+      } else {
+        window.location.reload();
+      }
+    }
+  };
+  xhr.send(JSON.stringify({ id }));
+};
+
+let productDataConverter = function () {
+  let productName = document.getElementById("productName").value;
+  let productDescription = document.getElementById("productDescription").value;
+  let price = document.getElementById("price").value;
+  let order = document.getElementById("order").value;
+  let groupId = document.getElementById("groupId").value;
+
+  let optionCheckboxes = document.getElementById("optionCheckboxList");
+  let options = [].slice.call(optionCheckboxes.children).map(function (p) {
+    let optionCheckbox = p.querySelector("input[type=checkbox]");
+    if (optionCheckbox.checked) {
+      console.log("optionCheckbox", optionCheckbox.value);
+      return optionCheckbox.value;
+    }
+  });
+
+  options = options.filter(function (element) {
+    return element !== undefined;
+  });
+
+  return {
+    productName,
+    productDescription,
+    price,
+    order,
+    groupId,
+    options,
+  };
+};
+
+let addProductSubmit = function (event) {
+  event.preventDefault();
+  console.log(productDataConverter());
+  if (validateForm(event.target)) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/admin/addProduct", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = async function (event) {
+      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+        let response = JSON.parse(this.response);
+        if (response.err) {
+          $("#removeGroupModal").modal("hide");
+          toastr.error(response.err, "Hata!");
+        } else {
+          window.location.reload();
+        }
+      }
+    };
+    xhr.send(JSON.stringify(productDataConverter()));
+  }
+};
+
+let editProductSubmit = function (event, _id) {
+  event.preventDefault();
+  console.log(productDataConverter());
+  if (validateForm(event.target)) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/admin/editProduct", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = async function (event) {
+      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+        let response = JSON.parse(this.response);
+        if (response.err) {
+          toastr.error(response.err, "Hata!");
+        } else {
+          window.location.reload();
+        }
+      }
+    };
+    xhr.send(JSON.stringify({ ...{ _id }, ...productDataConverter() }));
+  }
+};
+
+let removeProductSubmit = function (event, id) {
+  event.preventDefault();
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "/admin/removeProduct", true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.onreadystatechange = async function (event) {
+    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+      let response = JSON.parse(this.response);
+      if (response.err) {
+        $("#removeProductModal").modal("hide");
         toastr.error(response.err, "Hata!");
       } else {
         window.location.reload();

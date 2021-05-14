@@ -25,11 +25,17 @@ router.route("/getOptions").post(ProductPostsController.getOptions);
 
 router.route("/addOption").post(ProductPostsController.addOption);
 router.route("/editOption").post(ProductPostsController.editOption);
-router.route("/removeOption").post(ProductPostsController.removeOption);
+router
+  .route("/removeOption")
+  .post(ProductPostsController.removeAndRestoreOption);
 
 router.route("/addGroup").post(ProductPostsController.addGroup);
 router.route("/editGroup").post(ProductPostsController.editGroup);
-router.route("/removeGroup").post(ProductPostsController.removeGroup);
+router.route("/removeGroup").post(ProductPostsController.removeAndRestoreGroup);
+
+router.route("/addProduct").post(ProductPostsController.addProduct);
+router.route("/editProduct").post(ProductPostsController.editProduct);
+router.route("/removeProduct").post(ProductPostsController.removeProduct);
 
 router.use(
   "/graphql",

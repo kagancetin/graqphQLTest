@@ -104,7 +104,7 @@ module.exports = {
       }
     });
   },
-  removeOption: async (req, res, next) => {
+  removeAndRestoreOption: async (req, res, next) => {
     let optionId = req.body.optionId;
     let products = await Product.find({
       options: optionId,
@@ -165,8 +165,7 @@ module.exports = {
       }
     });
   },
-  removeGroup: async (req, res, next) => {
-    console.log(req.body);
+  removeAndRestoreGroup: async (req, res, next) => {
     let query = `
     mutation{
       removeAndRestoreGroup(_id:"${req.body.id}")
@@ -180,6 +179,77 @@ module.exports = {
         });
       } else {
         req.flash("success", result.data.removeAndRestoreGroup);
+        res.send({ err: null });
+      }
+    });
+  },
+
+  addProduct: async (req, res, next) => {
+    let query = `
+    mutation{
+      addProduct(
+        productName: "${req.body.productName}",
+        productDescription:"${req.body.productDescription}"
+        price: ${req.body.price}
+        order: ${req.body.order}
+        groupId: "${req.body.groupId}"
+        options: ${JSON.stringify(req.body.options)}
+        )
+    }
+    `;
+    graphql(schema, query).then((result) => {
+      if (result.errors) {
+        console.log(result.errors);
+        res.send({
+          err: "Bir hata oluştu. Sayfayı yenileyin yine hata alırsanız, lütfen hatayı bildiriniz!",
+        });
+      } else {
+        req.flash("success", result.data.addProduct);
+        res.send({ err: null });
+      }
+    });
+  },
+  editProduct: async (req, res, next) => {
+    let query = `
+    mutation{
+      editProduct(
+        _id:"${req.body._id}",
+        productName: "${req.body.productName}",
+        productDescription:"${req.body.productDescription}"
+        price: ${req.body.price}
+        order: ${req.body.order}
+        groupId: "${req.body.groupId}"
+        options: ${JSON.stringify(req.body.options)}
+        )
+    }
+    `;
+    graphql(schema, query).then((result) => {
+      if (result.errors) {
+        console.log(result.errors);
+        res.send({
+          err: "Bir hata oluştu. Sayfayı yenileyin yine hata alırsanız, lütfen hatayı bildiriniz!",
+        });
+      } else {
+        req.flash("success", result.data.editProduct);
+        res.send({ err: null });
+      }
+    });
+  },
+
+  removeProduct: async (req, res, next) => {
+    let query = `
+    mutation{
+      removeProduct(_id:"${req.body.id}")
+    }
+    `;
+    graphql(schema, query).then((result) => {
+      if (result.errors) {
+        console.log(result.errors);
+        res.send({
+          err: "Bir hata oluştu. Sayfayı yenileyin yine hata alırsanız, lütfen hatayı bildiriniz!",
+        });
+      } else {
+        req.flash("success", result.data.removeProduct);
         res.send({ err: null });
       }
     });

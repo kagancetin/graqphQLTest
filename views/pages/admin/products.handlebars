@@ -80,13 +80,13 @@
                                 {{#each products}}
                                 <tr>
                                     <td>
-                                        {{productName}}
+                                        <strong>{{productName}}</strong>
                                     </td>
                                     <td>
                                         {{productDescription}}
                                     </td>
                                     <td>
-                                        {{price}}
+                                        {{price}} TL
                                     </td>
                                     <td>
                                         {{order}}
@@ -102,7 +102,7 @@
                                             </i>
                                             Edit
                                         </a>
-                                        <button class="btn btn-danger btn-sm" onclick="removeProductModal()">
+                                        <button class="btn btn-danger btn-sm" onclick="removeProductModal('{{_id}}')">
                                             <i class="fas fa-trash">
                                             </i>
                                             Sil
@@ -136,14 +136,14 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <form role="form" method="post" onsubmit="lan(event)">
+                <form role="form" method="post" onsubmit="addProductSubmit(event)">
                     <div class="form-group">
                         <label for="productName">Ürün Adı</label>
-                        <input type="text" id="productName" class="form-control">
+                        <input data-valid="required" type="text" id="productName" class="form-control">
                     </div>
                     <div class="form-group">
                         <label for="productDescription">Ürün Açıklaması</label>
-                        <textarea id="productDescription" class="form-control" rows="4"></textarea>
+                        <textarea data-valid="required" id="productDescription" class="form-control" rows="4"></textarea>
                     </div>
                     <div class="row">
                         <div class="form-group col-6">
@@ -159,11 +159,11 @@
                     <div class="row">
                         <div class="form-group col-12 col-sm-6">
                             <label for="price">Fiyatı</label>
-                            <input type="number" id="price" class="form-control">
+                            <input data-valid="required" type="number" id="price" class="form-control">
                         </div>
                         <div class="form-group col-12 col-sm-6">
                             <label for="order">Sıra</label>
-                            <input type="number" id="order" value="1" class="form-control">
+                            <input data-valid="required" type="number" id="order" value="1" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
