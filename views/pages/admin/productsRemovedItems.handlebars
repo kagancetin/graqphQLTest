@@ -1,0 +1,360 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Silinen Ürünler</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/admin">Anasayfa</a></li>
+                    <li class="breadcrumb-item"><a href="/admin/products">Ürünler</a></li>
+                    <li class="breadcrumb-item active">Silinen Ürünler</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+            <!-- Default box -->
+        {{#if data.getGroups}}
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Silinen Gruplar</h3>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped projects">
+                    <thead>
+                        <tr>
+                            <th style="width: 80%">Grup Adı</th>
+                            <th style="width: 20%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each data.getGroups}}
+                        <tr>
+                            <td>{{groupName}}</td>
+                            <td>
+                                <button onclick="restoreGroupModal('{{_id}}')" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-trash-restore"></i>
+                                    Geri Yükle
+                                </button>
+                                <button onclick="removeFullGroupModal('{{_id}}')" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i>
+                                    Kalıcı Sil
+                                </button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+        {{/if}}
+        {{#if data.getProducts}}
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Silinen Ürünler</h3>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped projects">
+                    <thead>
+                        <tr>
+                            <th style="width: 30%">Ürün Adı</th>
+                            <th style="width: 30%">Ürün Açıklaması</th>
+                            <th style="width: 20%">Fyatı</th>
+                            <th style="width: 20%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each data.getProducts}}
+                        <tr>
+                            <td>{{productName}}</td>
+                            <td>{{productDescription}}</td>
+                            <td>{{price}}</td>
+                            <td>
+                                <button onclick="restoreProductModal('{{_id}}')" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-trash-restore"></i>
+                                    Geri Yükle
+                                </button>
+                                <button onclick="removeFullProductModal('{{_id}}')" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i>
+                                    Kalıcı Sil
+                                </button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+        {{/if}}
+        {{#if data.getOptions}}
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Silinen Gruplar</h3>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped projects">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%">Seçenek Adı</th>
+                            <th style="width: 30%">Görünen Açıklama</th>
+                            <th style="width: 10%">Seçenek Tipi</th>
+                            <th style="width: 20%">Seçenek Elemanları</th>
+                            <th style="width: 20%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each data.getOptions}}
+                        <tr>
+                            <td>{{optionName}}</td>
+                            <td>{{optionDisplayName}}</td>
+                            <td>{{#ifCond optionType "==" 1}}Seç{{else}}Çıkar{{/ifCond}}</td>
+                            <td>
+                                <ul>
+                                {{#each optionDetail}}
+                                    <li><strong>{{optionDetailContent}}</strong>, : {{optionPriceDifference}} TL</li>
+                                {{/each}}
+                                </ul>
+                            </td>
+                            <td>
+                                <button onclick="restoreOptionModal('{{_id}}')" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-trash-restore"></i>
+                                    Geri Yükle
+                                </button>
+                                <button onclick="removeFullOptionModal('{{_id}}')" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i>
+                                    Kalıcı Sil
+                                </button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+        {{/if}}
+    </div>
+</section>
+<!-- /.content -->
+
+<div id="modalDiv"></div>
+
+
+{{#section "script"}}
+
+<script id="removeFullGroup-template" type="text/x-handlebars-template">
+            {{> admin/modals/removeFullGroup}}
+</script>
+<script id="restoreGroup-template" type="text/x-handlebars-template">
+            {{> admin/modals/restoreGroup}}
+</script>
+<script id="removeFullProduct-template" type="text/x-handlebars-template">
+            {{> admin/modals/removeFullProduct}}
+</script>
+<script id="restoreProduct-template" type="text/x-handlebars-template">
+            {{> admin/modals/restoreProduct}}
+</script>
+<script id="removeFullOption-template" type="text/x-handlebars-template">
+            {{> admin/modals/removeFullOption}}
+</script>
+<script id="restoreOption-template" type="text/x-handlebars-template">
+            {{> admin/modals/restoreOption}}
+</script>
+
+
+<script>
+    let restoreGroupModal = async function (groupId) {
+        var source = document.getElementById("restoreGroup-template").innerHTML;
+        var template = await Handlebars.compile(source);
+        var html = await template({ groupId });
+        document.getElementById("modalDiv").innerHTML = html;
+        $("#restoreGroupModal").modal("show");
+    };
+    let removeFullGroupModal = async function (groupId) {
+        var source = document.getElementById("removeFullGroup-template").innerHTML;
+        var template = await Handlebars.compile(source);
+        var html = await template({ groupId });
+        document.getElementById("modalDiv").innerHTML = html;
+        $("#removeFullGroupModal").modal("show");
+    };
+    let restoreProductModal = async function (productId) {
+        var source = document.getElementById("restoreProduct-template").innerHTML;
+        var template = await Handlebars.compile(source);
+        var html = await template({ productId });
+        document.getElementById("modalDiv").innerHTML = html;
+        $("#restoreProductModal").modal("show");
+        getGroups();
+    };
+    let removeFullProductModal = async function (productId) {
+        var source = document.getElementById("removeFullProduct-template").innerHTML;
+        var template = await Handlebars.compile(source);
+        var html = await template({ productId });
+        document.getElementById("modalDiv").innerHTML = html;
+        $("#removeFullProductModal").modal("show");
+    };
+    let restoreOptionModal = async function (optionId) {
+        var source = document.getElementById("restoreOption-template").innerHTML;
+        var template = await Handlebars.compile(source);
+        var html = await template({ optionId });
+        document.getElementById("modalDiv").innerHTML = html;
+        $("#restoreOptionModal").modal("show");
+    };
+    let removeFullOptionModal = async function (optionId) {
+        var source = document.getElementById("removeFullOption-template").innerHTML;
+        var template = await Handlebars.compile(source);
+        var html = await template({ optionId });
+        document.getElementById("modalDiv").innerHTML = html;
+        $("#removeFullOptionModal").modal("show");
+    };
+
+    let removeFullGroupSubmit = function (event, id) {
+        event.preventDefault();
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/admin/removeFullGroup", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = async function (event) {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            let response = JSON.parse(this.response);
+            if (response.err) {
+                $("#removeFullGroupModal").modal("hide");
+                toastr.error(response.err, "Hata!");
+            } else {
+                window.location.reload();
+            }
+            }
+        };
+    xhr.send(JSON.stringify({ id }));
+    };
+    let removeFullOptionSubmit = function (event, id) {
+        event.preventDefault();
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/admin/removeFullOption", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = async function (event) {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            let response = JSON.parse(this.response);
+            if (response.err) {
+                $("#removeFullOptionModal").modal("hide");
+                toastr.error(response.err, "Hata!");
+            } else {
+                window.location.reload();
+            }
+            }
+        };
+        xhr.send(JSON.stringify({ id }));
+    };
+
+    let removeFullProductSubmit = function (event, id) {
+        event.preventDefault();
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/admin/removeFullProduct", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = async function (event) {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            let response = JSON.parse(this.response);
+            if (response.err) {
+                $("#removeFullProductModal").modal("hide");
+                toastr.error(response.err, "Hata!");
+            } else {
+                window.location.reload();
+            }
+            }
+        };
+        xhr.send(JSON.stringify({ id }));
+    };
+
+    let restoreOptionSubmit = function (event, optionId) {
+        event.preventDefault();
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/admin/removeAndRestoreOption", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = async function (event) {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            let response = JSON.parse(this.response);
+            if (response.err) {
+                $("#restoreOptionModal").modal("hide");
+                toastr.error(response.err, "Hata!");
+            } else {
+                window.location.reload();
+            }
+            }
+        };
+        xhr.send(JSON.stringify({ optionId }));
+    };
+
+    let restoreGroupSubmit = function (event, id) {
+        event.preventDefault();
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/admin/removeAndRestoreGroup", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = async function (event) {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            let response = JSON.parse(this.response);
+            if (response.err) {
+                $("#restoreGroupModal").modal("hide");
+                toastr.error(response.err, "Hata!");
+            } else {
+                window.location.reload();
+            }
+            }
+        };
+        xhr.send(JSON.stringify({ id }));
+    };
+
+    let restoreProductSubmit = function (event, id) {
+        event.preventDefault();
+        let groupId = event.target.querySelector("#groupId").value;
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/admin/restoreProduct", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = async function (event) {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            let response = JSON.parse(this.response);
+            if (response.err) {
+                $("#restoreProductModal").modal("hide");
+                toastr.error(response.err, "Hata!");
+            } else {
+                window.location.reload();
+            }
+            }
+        };
+        xhr.send(JSON.stringify({ id,groupId }));
+    };
+
+
+    let getGroups = function () {
+        console.log("Girdi");
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/admin/getGroups", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = async function (event) {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                let response = JSON.parse(this.response);
+                let groupsElement = document.getElementById("groupId");
+                if (response.err) {
+                    groupsElement.innerHTML = response.err;
+                } else {
+                    groupsElement.innerHTML = "";
+                    response.data.forEach(function (p) {
+                        groupsElement.innerHTML += `<option value="${p._id}">${p.groupName}</option>`;
+                    });
+                }
+            }
+        };
+        xhr.send();
+    };
+    
+</script>
+
+{{/section}}

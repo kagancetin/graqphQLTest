@@ -1,20 +1,20 @@
-<div class="modal fade show" id="removeGroupModal" aria-modal="true" role="dialog"
+<div class="modal fade show" id="removeFullOptionModal" aria-modal="true" role="dialog"
     style="padding-right: 16px; display: block;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Grubu Sil</h4>
+                <h4 class="modal-title">Seçeneği Kalıcı Olarak Sil</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form  role="form" method="post" onsubmit="removeGroupSubmit(event,'\{{groupId}}')">
+            <form  role="form" method="post" onsubmit="removeFullOptionSubmit(event,'\{{optionId}}')">
                 <div class="modal-body">
-                    Grubu silmek istediğinizden emin misiniz?
+                    Seçeneği kalıcı olarak silmek istediğinizden emin misiniz?
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Vazgeç</button>
-                    <button type="submit" class="btn btn-danger">Sil</button>
+                    <button type="submit" class="btn btn-danger">Kalıcı Olarak Sil</button>
                 </div>
             </form>
         </div>

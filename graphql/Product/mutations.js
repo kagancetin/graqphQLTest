@@ -172,6 +172,32 @@ removeProduct = {
   },
 };
 
+restoreProduct = {
+  type: GraphQLString,
+  description: "Restore item to Product",
+  args: {
+    _id: { type: GraphQLID },
+    groupId: { type: GraphQLString },
+  },
+  async resolve(parent, args) {
+    const { _id, groupId } = args;
+    await Product.findByIdAndUpdate(
+      _id,
+      {
+        $set: {
+          groupId,
+          options: [],
+          deleted: false,
+        },
+      },
+      (err, doc) => {
+        if (err) throw new Error("Bir hata oluştu");
+      }
+    );
+    return "İşlem başarılı.";
+  },
+};
+
 let addOption = {
   type: GraphQLString,
   description: "Add item to Product Option",
@@ -251,6 +277,51 @@ removeAndRestoreOption = {
   },
 };
 
+removeFullOption = {
+  type: GraphQLString,
+  description: "Remove Full item to Product Option",
+  args: {
+    _id: { type: GraphQLID },
+  },
+  async resolve(parent, args) {
+    const { _id } = args;
+    await Option.findByIdAndRemove(_id, (err, doc) => {
+      if (err) throw new Error("Bir hata oluştu");
+    });
+    return "İşlem başarılı.";
+  },
+};
+
+removeFullProduct = {
+  type: GraphQLString,
+  description: "Remove Full item to Product",
+  args: {
+    _id: { type: GraphQLID },
+  },
+  async resolve(parent, args) {
+    const { _id } = args;
+    await Product.findByIdAndRemove(_id, (err, doc) => {
+      if (err) throw new Error("Bir hata oluştu");
+    });
+    return "İşlem başarılı.";
+  },
+};
+
+removeFullGroup = {
+  type: GraphQLString,
+  description: "Remove Full item to Product Group",
+  args: {
+    _id: { type: GraphQLID },
+  },
+  async resolve(parent, args) {
+    const { _id } = args;
+    await Group.findByIdAndRemove(_id, (err, doc) => {
+      if (err) throw new Error("Bir hata oluştu");
+    });
+    return "İşlem başarılı.";
+  },
+};
+
 module.exports = {
   addGroup,
   editGroup,
@@ -258,7 +329,11 @@ module.exports = {
   addOption,
   editProduct,
   removeProduct,
+  restoreProduct,
   addProduct,
   editOption,
   removeAndRestoreOption,
+  removeFullOption,
+  removeFullGroup,
+  removeFullProduct,
 };

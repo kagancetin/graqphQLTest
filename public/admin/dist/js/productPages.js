@@ -148,7 +148,7 @@ let editOptionSubmit = function (event, _id) {
 let removeOptionSubmit = function (event, optionId) {
   event.preventDefault();
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", "/admin/removeOption", true);
+  xhr.open("POST", "/admin/removeAndRestoreOption", true);
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.onreadystatechange = async function (event) {
     if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
@@ -216,7 +216,7 @@ let editGroupSubmit = function (event, id) {
 let removeGroupSubmit = function (event, id) {
   event.preventDefault();
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", "/admin/removeGroup", true);
+  xhr.open("POST", "/admin/removeAndRestoreGroup", true);
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.onreadystatechange = async function (event) {
     if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
@@ -317,7 +317,7 @@ let removeProductSubmit = function (event, id) {
         $("#removeProductModal").modal("hide");
         toastr.error(response.err, "Hata!");
       } else {
-        window.location.reload();
+        window.location.href = "/admin/products";
       }
     }
   };

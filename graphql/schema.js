@@ -23,9 +23,13 @@ const {
   addProduct,
   editProduct,
   removeProduct,
+  restoreProduct,
   addOption,
   editOption,
   removeAndRestoreOption,
+  removeFullOption,
+  removeFullGroup,
+  removeFullProduct,
 } = require("./Product/mutations");
 
 // Define QueryType
@@ -62,9 +66,13 @@ const MutationType = new GraphQLObjectType({
     addProduct,
     editProduct,
     removeProduct,
+    restoreProduct,
     addOption,
     editOption,
     removeAndRestoreOption,
+    removeFullOption,
+    removeFullGroup,
+    removeFullProduct,
   },
 });
 
