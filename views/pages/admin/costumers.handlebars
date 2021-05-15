@@ -73,7 +73,7 @@
                                             </i>
                                             Müşteriyi Görüntüle
                                         </a>
-                                        <button onclick="rePasswordCostumerModal()" class="btn btn-warning btn-sm">
+                                        <button onclick="rePasswordCostumerModal('{{_id}}')" class="btn btn-warning btn-sm">
                                             <i class="fas fa-key">
                                             </i>
                                             Şifre Sıfırla
@@ -183,10 +183,10 @@
         $("#removeCostumerModal").modal("show");
     };
 
-    let rePasswordCostumerModal = async function () {
+    let rePasswordCostumerModal = async function (_id) {
         var source = document.getElementById("rePasswordCostumer-template").innerHTML;
         var template = await Handlebars.compile(source);
-        var html = await template();
+        var html = await template({_id});
         document.getElementById("costumerModalDiv").innerHTML = html;
         $("#rePasswordCostumerModal").modal("show");
     };

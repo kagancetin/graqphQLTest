@@ -5,4 +5,6 @@ module.exports = {
   Product: require("./Product"),
   Group: require("./Group"),
   Option: require("./Option"),
-};
+  Token: require("./Token"),
+  MailSettings: require("./MailSettings")
+}

@@ -15,6 +15,7 @@ const {
   Product,
   Group,
   Option,
+  MailSettings
 } = require("../models");
 
 const UserType = new GraphQLObjectType({
@@ -138,6 +139,19 @@ const OptionType = new GraphQLObjectType({
   }),
 });
 
+const MailSettingsType = new GraphQLObjectType({
+  name: "MailSettings",
+  description: "Mail Settings type",
+  fields: () => ({
+    _id: { type: GraphQLID },
+    email: { type: GraphQLString },
+    password: { type: GraphQLString },
+    host: { type: GraphQLString },
+    port: { type: GraphQLInt },
+    createdAt: { type: GraphQLString },
+    updatedAt: { type: GraphQLString }
+  }),
+});
 module.exports = {
   UserType,
   CostumerType,
@@ -145,4 +159,5 @@ module.exports = {
   GroupType,
   ProductType,
   OptionType,
+  MailSettingsType
 };
