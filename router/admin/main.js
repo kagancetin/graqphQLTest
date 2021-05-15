@@ -17,6 +17,9 @@ router.route("/users").get(AdminController.getUsersPage);
 router.route("/costumers").get(AdminController.getCostumersPage);
 router.route("/costumer/:id").get(AdminController.getCostumerDetailPage);
 router.route("/products").get(AdminController.getProductsPage);
+router
+  .route("/products/removedItems")
+  .get(AdminController.getProductRemovedItemPage);
 router.route("/product/:id").get(AdminController.getProductEditPage);
 router.route("/settings").get(AdminController.getSettingsPage);
 
@@ -26,16 +29,24 @@ router.route("/getOptions").post(ProductPostsController.getOptions);
 router.route("/addOption").post(ProductPostsController.addOption);
 router.route("/editOption").post(ProductPostsController.editOption);
 router
-  .route("/removeOption")
+  .route("/removeAndRestoreOption")
   .post(ProductPostsController.removeAndRestoreOption);
+router.route("/removeFullOption").post(ProductPostsController.removeFullOption);
 
 router.route("/addGroup").post(ProductPostsController.addGroup);
 router.route("/editGroup").post(ProductPostsController.editGroup);
-router.route("/removeGroup").post(ProductPostsController.removeAndRestoreGroup);
+router
+  .route("/removeAndRestoreGroup")
+  .post(ProductPostsController.removeAndRestoreGroup);
+router.route("/removeFullGroup").post(ProductPostsController.removeFullGroup);
 
 router.route("/addProduct").post(ProductPostsController.addProduct);
 router.route("/editProduct").post(ProductPostsController.editProduct);
 router.route("/removeProduct").post(ProductPostsController.removeProduct);
+router.route("/restoreProduct").post(ProductPostsController.restoreProduct);
+router
+  .route("/removeFullProduct")
+  .post(ProductPostsController.removeFullProduct);
 
 router.use(
   "/graphql",

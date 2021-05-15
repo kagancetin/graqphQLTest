@@ -141,6 +141,48 @@ module.exports = {
       }
     });
   },
+  getProductRemovedItemPage: async (req, res, next) => {
+    let query = `
+    query{
+      getGroups(_filter:"{\\"deleted\\":true}") {
+        _id
+        groupName
+      }
+      getOptions(_filter:"{\\"deleted\\":true}") {
+        _id
+        optionName
+        optionDisplayName
+        optionType
+        optionDetail {
+          optionDetailContent
+          optionPriceDifference
+        }
+      }
+      getProducts(_filter:"{\\"deleted\\":true}") {
+        _id
+        productName
+        productDescription
+        price
+      }
+    }
+    `;
+    graphql(schema, query).then((result) => {
+      if (result.errors) {
+        res.render("pages/admin/products", {
+          layout: "admin.handlebars",
+          flashMessages: {
+            error:
+              "Bir hata oluştu lütfen tekrar deneyin olmaz ise; hatayı bildiriniz!",
+          },
+        });
+      } else {
+        res.render("pages/admin/productsRemovedItems", {
+          layout: "admin.handlebars",
+          data: result.data,
+        });
+      }
+    });
+  },
   getCostumerDetailPage: async (req, res, next) => {
     res.render("pages/admin/costumerDetail", { layout: "admin.handlebars" });
   },

@@ -254,4 +254,81 @@ module.exports = {
       }
     });
   },
+
+  restoreProduct: async (req, res, next) => {
+    let query = `
+    mutation{
+      restoreProduct(
+        _id:"${req.body.id}",
+        groupId:"${req.body.groupId}",
+      )
+    }
+    `;
+    graphql(schema, query).then((result) => {
+      if (result.errors) {
+        console.log(result.errors);
+        res.send({
+          err: "Bir hata oluştu. Sayfayı yenileyin yine hata alırsanız, lütfen hatayı bildiriniz!",
+        });
+      } else {
+        req.flash("success", result.data.restoreProduct);
+        res.send({ err: null });
+      }
+    });
+  },
+
+  removeFullGroup: async (req, res, next) => {
+    let query = `
+    mutation{
+      removeFullGroup(_id:"${req.body.id}")
+    }
+    `;
+    graphql(schema, query).then((result) => {
+      if (result.errors) {
+        console.log(result.errors);
+        res.send({
+          err: "Bir hata oluştu. Sayfayı yenileyin yine hata alırsanız, lütfen hatayı bildiriniz!",
+        });
+      } else {
+        req.flash("success", result.data.removeFullGroup);
+        res.send({ err: null });
+      }
+    });
+  },
+  removeFullProduct: async (req, res, next) => {
+    let query = `
+    mutation{
+      removeFullProduct(_id:"${req.body.id}")
+    }
+    `;
+    graphql(schema, query).then((result) => {
+      if (result.errors) {
+        console.log(result.errors);
+        res.send({
+          err: "Bir hata oluştu. Sayfayı yenileyin yine hata alırsanız, lütfen hatayı bildiriniz!",
+        });
+      } else {
+        req.flash("success", result.data.removeFullProduct);
+        res.send({ err: null });
+      }
+    });
+  },
+  removeFullOption: async (req, res, next) => {
+    let query = `
+    mutation{
+      removeFullOption(_id:"${req.body.id}")
+    }
+    `;
+    graphql(schema, query).then((result) => {
+      if (result.errors) {
+        console.log(result.errors);
+        res.send({
+          err: "Bir hata oluştu. Sayfayı yenileyin yine hata alırsanız, lütfen hatayı bildiriniz!",
+        });
+      } else {
+        req.flash("success", result.data.removeFullOption);
+        res.send({ err: null });
+      }
+    });
+  },
 };
