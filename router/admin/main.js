@@ -8,8 +8,12 @@ const { graphql } = require("graphql");
 const AdminController = require("../../containers/admin/main");
 const ProductPostsController = require("../../containers/admin/productPosts");
 const { authAdminCheck } = require("../../helpers/passport/authCheck");
-
+const {resetPassword} = require("../../helpers/passport/resetPassword")
+const SettingPostController = require("../../containers/admin/settingPosts");
 //router.use(authAdminCheck);
+
+
+
 
 router.route("/").get(AdminController.getDashboardPage);
 router.route("/orders").get(AdminController.getOrdersPage);
@@ -27,6 +31,8 @@ router.route("/addOption").post(ProductPostsController.addOption);
 router.route("/editOption").post(ProductPostsController.editOption);
 router.route("/removeOption").post(ProductPostsController.removeOption);
 
+router.route("/resetPassword/:id").post(resetPassword)
+router.route("/mailUpdate").post(SettingPostController.updateMail)
 router.use(
   "/graphql",
   graphqlHTTP({

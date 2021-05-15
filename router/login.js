@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-
+const {rePasswordPage} = require("../helpers/passport/resetPassword")
 router.route("/").post(async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -38,4 +38,5 @@ router.route("/logout").get(async (req, res, next) => {
   res.redirect("/");
 });
 
+router.route("/resetPassword/:token").get(rePasswordPage)
 module.exports = router;

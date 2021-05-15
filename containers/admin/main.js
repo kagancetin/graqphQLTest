@@ -1,9 +1,9 @@
-const { graphql } = require("graphql");
+const {graphql} = require("graphql");
 const schema = require("../../graphql/schema");
 
 module.exports = {
   getDashboardPage: async (req, res, next) => {
-    res.render("pages/admin/dashboard", { layout: "admin.handlebars" });
+    res.render("pages/admin/dashboard", {layout: "admin.handlebars"});
   },
   getUsersPage: async (req, res, next) => {
     let query = `
@@ -32,7 +32,7 @@ module.exports = {
     });
   },
   getOrdersPage: async (req, res, next) => {
-    res.render("pages/admin/orders", { layout: "admin.handlebars" });
+    res.render("pages/admin/orders", {layout: "admin.handlebars"});
   },
   getCostumersPage: async (req, res, next) => {
     let query = `
@@ -104,12 +104,34 @@ module.exports = {
     });
   },
   getProductEditPage: async (req, res, next) => {
-    res.render("pages/admin/productEdit", { layout: "admin.handlebars" });
+    res.render("pages/admin/productEdit", {layout: "admin.handlebars"});
   },
   getCostumerDetailPage: async (req, res, next) => {
-    res.render("pages/admin/costumerDetail", { layout: "admin.handlebars" });
+    res.render("pages/admin/costumerDetail", {layout: "admin.handlebars"});
   },
   getSettingsPage: async (req, res, next) => {
-    res.render("pages/admin/settings", { layout: "admin.handlebars" });
+    let query = `
+    query{
+      mail{
+      email
+      password
+      host
+      port
+      }
+    }`;
+    graphql(schema, query).then((result) => {
+      if (result.errors) {
+        console.log(errors);
+        req.flash("error", "Bir hata oluştu lütfen hatayı bildiriniz!");
+        res.render("pages/admin/settings", {
+          layout: "admin.handlebars",
+        });
+      } else {
+        res.render("pages/admin/settings", {
+          layout: "admin.handlebars",
+          mail: result.data.mail
+        });
+      }
+    });
   },
 };
