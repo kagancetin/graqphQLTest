@@ -6,5 +6,6 @@ module.exports = {
   Group: require("./Group"),
   Option: require("./Option"),
   Token: require("./Token"),
-  MailSettings: require("./MailSettings")
+  MailSettings: require("./MailSettings"),
+  UserAuthority: require("./UserAuthority")
 }

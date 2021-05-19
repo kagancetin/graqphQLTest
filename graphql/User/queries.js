@@ -5,8 +5,8 @@ const {
   GraphQLBoolean,
   GraphQLString,
 } = require("graphql");
-const { UserType } = require("../types");
-const { User } = require("../../models");
+const { UserType, UserAuthorityType } = require("../types");
+const { User, UserAuthority } = require("../../models");
 
 const filter = new GraphQLInputObjectType({
   name: "userFilter",
@@ -35,4 +35,12 @@ const user = {
   },
 };
 
-module.exports = { users, user };
+const userAuthority = {
+  type: new GraphQLList(UserAuthorityType),
+  description: "Retrieves list of users",
+  resolve(parent, args) {
+    return UserAuthority.find();
+  },
+};
+
+module.exports = { users, user, userAuthority };

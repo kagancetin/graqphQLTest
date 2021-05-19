@@ -11,12 +11,24 @@ module.exports = {
       _id
       email
       displayName
-      deleted
       createdAt
       updatedAt
-    }}
+      deleted
+      userAuthority {
+        _id
+        typeName
+        authorities
+      }
+    }
+  userAuthority {
+    _id
+    typeName
+    authorities
+  }
+    }
     `;
     graphql(schema, query).then((result) => {
+      console.log(result)
       if (result.errors) {
         res.render("pages/admin/users", {
           layout: "admin.handlebars",
@@ -28,7 +40,28 @@ module.exports = {
         res.render("pages/admin/users", {
           layout: "admin.handlebars",
           users: result.data.users,
+          userAuthority: result.data.userAuthority
         });
+      }
+    });
+  },
+  getUserAuthorities: async (req, res, next) => {
+    let query = `
+    query{
+      userAuthority {
+        _id
+        typeName
+        authorities
+      }
+    }
+    `;
+    graphql(schema, query).then((result) => {
+      if (result.errors) {
+        res.send({
+          err: "Bir hata oluştu. Sayfayı yenileyin yine hata alırsanız, lütfen hatayı bildiriniz!",
+        });
+      } else {
+        res.send({ err: null, data: result.data.userAuthority });
       }
     });
   },

@@ -8,13 +8,13 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form>
+            <form action="/admin/removeAndRestoreUser/\{{_id}}" role="form" method="post">
                 <div class="modal-body">
                     Kullanıcıyı geri yüklemek istediğinizden emin misiniz?
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Vazgeç</button>
-                    <button type="button" class="btn btn-danger">Geri Yükle</button>
+                    <button type="submit" class="btn btn-danger">Geri Yükle</button>
                 </div>
             </form>
         </div>
