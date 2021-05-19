@@ -2,8 +2,8 @@
 const { GraphQLSchema, GraphQLObjectType } = require("graphql");
 
 // Import queries
-const { mail} = require("./Settings/queries");
-const { users, user } = require("./User/queries");
+const { mail } = require("./Settings/queries");
+const { users, user, userAuthority } = require("./User/queries");
 const { costumers, costumer } = require("./Costumer/queries");
 const { costumerAdresses } = require("./CostumerAdress/queries");
 const {
@@ -15,7 +15,7 @@ const {
 } = require("./Product/queries");
 // Import mutations
 const { updateMail} = require("./Settings/mutations");
-const { registerUser, updateUser } = require("./User/mutations");
+const { registerUser, updateUser, removeFullUser, removeAndRestoreUser, addUserAuthority, updateUserAuthority, removeUserAuthority } = require("./User/mutations");
 const { registerCostumer } = require("./Costumer/mutations");
 const { addCostumerAddress } = require("./CostumerAdress/mutations");
 const {
@@ -42,6 +42,7 @@ const QueryType = new GraphQLObjectType({
   fields: {
     users,
     user,
+    userAuthority,
     mail,
     costumers,
     costumer,
@@ -61,6 +62,11 @@ const MutationType = new GraphQLObjectType({
   fields: {
     registerUser,
     updateUser,
+    removeFullUser,
+    removeAndRestoreUser,
+    addUserAuthority,
+    updateUserAuthority,
+    removeUserAuthority,
     updateMail,
     registerCostumer,
     addCostumerAddress,

@@ -1,0 +1,69 @@
+<div class="modal fade show" id="roleSettingsModal" aria-modal="true" role="dialog"
+     style="padding-right: 16px; display: block;">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Rol Ayarları</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <table class="table table-striped projects">
+                        <thead>
+                        <tr>
+                            <th class="border-0" style="width: 50%">
+                                Rol Adı
+                            </th>
+                            <th class="border-0" style="width: 25%">
+                                Yetkiler
+                            </th>
+                            <th class="border-0" style="width: 25%"></th>
+                        </tr>
+                        </thead>
+                        <tbody id="rolesTableList">
+                        \{{#each data}}
+                        <tr id="\{{_id}}">
+                            <td><input name="typeName" type="text" value="\{{typeName}}"></td>
+                            <td>
+                                <ul class="authorizeList">
+                                    <li>
+                                        <input class="form-check-input" id="rol1-\{{_id}}" name="rol1-\{{_id}}" type="checkbox" value="1">
+                                        <label class="form-check-label" for="rol1-\{{_id}}">Kullanıcıları Yönet</label>
+                                    </li>
+                                    <li>
+                                        <input class="form-check-input" id="rol2-\{{_id}}" name="rol2-\{{_id}}"  type="checkbox" value="2">
+                                        <label class="form-check-label" for="rol2-\{{_id}}">Siparişleri Yönet</label>
+                                    </li>
+                                    <li>
+                                        <input class="form-check-input" id="rol3-\{{_id}}" name="rol3-\{{_id}}"  type="checkbox" value="3">
+                                        <label class="form-check-label" for="rol3-\{{_id}}">Ürünleri Yönet</label>
+                                    </li>
+                                    <li>
+                                        <input class="form-check-input" id="rol4-\{{_id}}" name="rol4-\{{_id}}"  type="checkbox" value="4">
+                                        <label class="form-check-label" for="rol4-\{{_id}}">Müşterileri Yönet</label>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td class="project-actions text-right">
+                                <button type="button" class="btn btn-info btn-sm" onclick="editRole('\{{_id}}')">
+                                    <i class="fas fa-pencil-alt">
+                                    </i>
+                                    Düzenle
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="removeRole('\{{_id}}')">
+                                    <i class="fas fa-trash">
+                                    </i>
+                                    Sil
+                                </button>
+                            </td>
+                        </tr>
+                        \{{/each}}
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

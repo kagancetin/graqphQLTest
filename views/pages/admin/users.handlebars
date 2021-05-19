@@ -25,7 +25,28 @@
                     <div class="card-header">
                         <h3 class="card-title">KULLANICILAR</h3>
                         <div id="table-buttons" class="text-right">
-                            <button class="btn btn-secondary" tabindex="0" type="button" id="showDeleted">
+                            <button class="btn btn-primary" tabindex="0" type="button" onclick='addUserModal(`
+                                {{#json userAuthority}}
+                            {{/json}}
+                            `)'>
+                                <i class="fas fa-user-plus">
+                                </i>
+                                <span>Kullanıcı Ekle</span>
+                            </button>
+                            <button class="btn btn-primary" tabindex="1" type="button" onclick="addRoleModal()">
+                                <i class="fas fa-user-plus">
+                                </i>
+                                <span>Rol Ekle</span>
+                            </button>
+                            <button class="btn btn-primary" tabindex="2" type="button" onclick='roleSettingsModal(`
+                                {{#json userAuthority}}
+                            {{/json}}
+                            `)'>
+                                <i class="fas fa-users-cog">
+                                </i>
+                                <span>Rol Ayarları</span>
+                            </button>
+                            <button class="btn btn-secondary" tabindex="3" type="button" id="showDeleted">
                                 <span>Silinenleri Göster</span>
                             </button>
                         </div>
@@ -33,66 +54,79 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         {{#if users}}
-                        <table id="userList" class="table table-bordered table-striped">
-                            <thead>
+                            <table id="userList" class="table table-bordered table-striped">
+                                <thead>
                                 <tr>
                                     <th>Ad Soyad</th>
                                     <th>E-mail</th>
+                                    <th>Kullanıcı Tipi</th>
                                     <th>Yaratılma Tarihi</th>
                                     <th>Değiştirilme Tarihi</th>
                                     <th>İşlemler</th>
                                 </tr>
-                            </thead>
-                            <tbody>
+                                </thead>
+                                <tbody>
                                 {{#each users}}
-                                <tr {{#if deleted}} data-deleted="true" class="deleted-row" {{else}}data-deleted="false"
+                                    <tr {{#if deleted}}
+                                    data-deleted="true" class="deleted-row" {{else}}data-deleted="false"
                                     {{/if}}>
-                                    <td>{{displayName}}</td>
-                                    <td>{{email}}</td>
-                                    <td>{{#convertDateDay createdAt}}{{/convertDateDay}} - {{#convertDateHour
-                                        createdAt}}{{/convertDateHour}}</td>
-                                    <td>{{#convertDateDay updatedAt}}{{/convertDateDay}} - {{#convertDateHour
-                                        updatedAt}}{{/convertDateHour}}</td>
-                                    <td>
-                                        {{#if deleted}}
-                                        <button onclick="restoreUserModal()" class="btn btn-warning btn-sm">
-                                            <i class="fas fa-trash-restore">
-                                            </i>
-                                            Geri Yükle
-                                        </button>
-                                        {{else}}
-                                        <button onclick="rePasswordUserModal()" class="btn btn-warning btn-sm">
-                                            <i class="fas fa-key">
-                                            </i>
-                                            Şifre Sıfırla
-                                        </button>
-                                        <button onclick="editUserModal()" class="btn btn-info btn-sm">
-                                            <i class="fas fa-pencil-alt">
-                                            </i>
-                                            Düzenle
-                                        </button>
-                                        <button onclick="removeUserModal()" class="btn btn-danger btn-sm">
-                                            <i class="fas fa-trash">
-                                            </i>
-                                            Sil
-                                        </button>
-                                        {{/if}}
-                                    </td>
-                                </tr>
+                                        <td>{{displayName}}</td>
+                                        <td>{{email}}</td>
+                                        <td>{{userAuthority.typeName}}</td>
+                                        <td>{{#convertDateDay createdAt}}{{/convertDateDay}} - {{#convertDateHour
+                                                createdAt}}{{/convertDateHour}}</td>
+                                        <td>{{#convertDateDay updatedAt}}{{/convertDateDay}} - {{#convertDateHour
+                                                updatedAt}}{{/convertDateHour}}</td>
+                                        <td>
+                                            {{#if deleted}}
+                                                <button onclick="restoreUserModal('{{_id}}')"
+                                                        class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-trash-restore">
+                                                    </i>
+                                                    Geri Yükle
+                                                </button>
+                                                <button onclick="removeFullUserModal('{{_id}}')"
+                                                        class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-trash"></i>
+                                                    Kalıcı Sil
+                                                </button>
+                                            {{else}}
+                                                <button onclick="rePasswordUserModal()" class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-key">
+                                                    </i>
+                                                    Şifre Sıfırla
+                                                </button>
+                                                <button data-all-user-authority='{{#json ../userAuthority}}{{/json}}'
+                                                        onclick="editUserModal('{{_id}}', '{{email}}', '{{displayName}}', '{{userAuthority._id}}', this)"
+                                                        class="btn btn-info btn-sm">
+                                                    <i class="fas fa-pencil-alt">
+                                                    </i>
+                                                    Düzenle
+                                                </button>
+                                                <button onclick="removeUserModal('{{_id}}')"
+                                                        class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-trash">
+                                                    </i>
+                                                    Sil
+                                                </button>
+                                            {{/if}}
+                                        </td>
+                                    </tr>
                                 {{/each}}
-                            </tbody>
-                            <tfoot>
+                                </tbody>
+                                <tfoot>
                                 <tr>
                                     <th>Ad Soyad</th>
                                     <th>E-mail</th>
+                                    <th>Kullanıcı Tipi</th>
                                     <th>Yaratılma Tarihi</th>
                                     <th>Değiştirilme Tarihi</th>
                                     <th>İşlemler</th>
                                 </tr>
-                            </tfoot>
-                        </table>
+                                </tfoot>
+                            </table>
                         {{else}}
-                        <h5>Kullanıcı bulunamadı!</h5>
+                            <h5>Kullanıcı bulunamadı!</h5>
                         {{/if}}
 
                     </div>
@@ -101,143 +135,229 @@
                 </div>
                 <!-- /.card -->
 
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">KULLANICI EKLE</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <form>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="email">E-mail</label>
-                                    <input type="text" id="email" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="displayName">Ad Soyad</label>
-                                    <input type="text" id="email" class="form-control">
-                                </div>
-                                <div class="form-group"><small>Şifre mail adresine gönderilecektir.</small></div>
-                                <div class="form-group"><button type="button" class="btn btn-primary">Ekle</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- /.card-body -->
-                </div>
             </div>
         </div>
     </div>
 </section>
-<!-- /.content -->
 
 <div id="userModalDiv"></div>
 
 
 {{#section "link"}}
-<!-- DataTables -->
-<link rel="stylesheet" href="/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-<link rel="stylesheet" href="/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
 
 {{/section}}
 
 {{#section "style"}}
-<style>
+    <style>
 
-</style>
+    </style>
 {{/section}}
 
 {{#section "script"}}
 
-<script id="editUser-template" type="text/x-handlebars-template">
+    <script id="editUser-template" type="text/x-handlebars-template">
             {{> admin/modals/editUser}}
-</script>
-<script id="removeUser-template" type="text/x-handlebars-template">
+
+    </script>
+    <script id="addUser-template" type="text/x-handlebars-template">
+            {{> admin/modals/addUser}}
+
+    </script>
+    <script id="removeUser-template" type="text/x-handlebars-template">
             {{> admin/modals/removeUser}}
-</script>
-<script id="rePasswordUser-template" type="text/x-handlebars-template">
+
+    </script>
+    <script id="removeFullUser-template" type="text/x-handlebars-template">
+            {{> admin/modals/removeFullUser}}
+
+    </script>
+    <script id="rePasswordUser-template" type="text/x-handlebars-template">
             {{> admin/modals/rePasswordUser}}
-</script>
-<script id="restoreUser-template" type="text/x-handlebars-template">
+
+    </script>
+    <script id="restoreUser-template" type="text/x-handlebars-template">
             {{> admin/modals/restoreUser}}
-</script>
+
+    </script>
+
+    <script id="roleSettings-template" type="text/x-handlebars-template">
+            {{> admin/modals/roleSettings}}
+
+    </script>
+
+    <script id="addRole-template" type="text/x-handlebars-template">
+            {{> admin/modals/addRole}}
+
+    </script>
 
 
+    <!-- DataTables  & Plugins -->
+    <script src="/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 
-<!-- DataTables  & Plugins -->
-<script src="/admin/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="/admin/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="/admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="/admin/plugins/datatables/date-eu.js"></script>
 
-<script src="/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="/admin/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="/admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-<script src="/admin/plugins/datatables/date-eu.js"></script>
-
-<script src="/admin/dist/js/datatableDeleted.js"></script>
-
+    <script src="/admin/dist/js/datatableDeleted.js"></script>
 
 
-<script>
-    var table;
-    $(function () {
-        table = $("#userList").DataTable({
-            "language": {
-                "url": "/admin/plugins/datatables/Turkish.json"
-            },
-            "columnDefs": [
-                { "visible": false, "searchable": false, "type": "date-eu", "targets": [2, 3] }
-            ],
-            "responsive": true, "autoWidth": false,
-            initComplete: function () {
-                var api = this.api();
-                new $.fn.dataTable.Buttons(api, {
-                    buttons: [
-                        "colvis",
-                    ]
-                });
-                api.buttons().container().appendTo('#table-buttons');
-            },
-        })
-    });
+    <script>
+        var table;
+        $(function () {
+            table = $("#userList").DataTable({
+                "language": {
+                    "url": "/admin/plugins/datatables/Turkish.json"
+                },
+                "columnDefs": [
+                    {"visible": false, "searchable": false, "type": "date-eu", "targets": [3, 4]}
+                ],
+                "responsive": true, "autoWidth": false,
+                initComplete: function () {
+                    var api = this.api();
+                    new $.fn.dataTable.Buttons(api, {
+                        buttons: [
+                            "colvis",
+                        ]
+                    });
+                    api.buttons().container().appendTo('#table-buttons');
+                },
+            })
+        });
+        let roleSettingsModal = async function (data) {
 
-    let editUserModal = async function () {
+            let userAuthority = JSON.parse(data);
 
-        var source = document.getElementById("editUser-template").innerHTML;
-        var template = await Handlebars.compile(source);
-        var html = await template();
-        document.getElementById("userModalDiv").innerHTML = html;
-        $("#editUserModal").modal("show");
-    };
+            var source = document.getElementById("roleSettings-template").innerHTML;
+            var template = await Handlebars.compile(source);
+            var html = await template({data: userAuthority});
+            document.getElementById("userModalDiv").innerHTML = html;
+            var authorizeLists = document.querySelectorAll(".authorizeList")
+            userAuthority.forEach(function (p, i) {
+                var authorizeList = authorizeLists[i];
+                p.authorities.forEach(function (k) {
+                    authorizeList.querySelector("input[value='" + k + "']").checked = true
+                })
+            })
+            $("#roleSettingsModal").modal("show");
 
-    let removeUserModal = async function () {
-        var source = document.getElementById("removeUser-template").innerHTML;
-        var template = await Handlebars.compile(source);
-        var html = await template();
-        document.getElementById("userModalDiv").innerHTML = html;
-        $("#removeUserModal").modal("show");
-    };
+        }
+        let editRole = function (_id) {
+            let element = document.getElementById(_id)
+            let checkbox = element.querySelectorAll("[type='checkbox']");
+            let authorize = [];
+            checkbox.forEach(function (p) {
+                if (p.checked) {
+                    authorize.push(parseInt(p.value))
+                }
+            })
+            let data = {typeName: element.querySelector("[name='typeName']").value, authorize: authorize }
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/admin/editRole/" + _id, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = async function (event) {
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                    let response = JSON.parse(this.response)
+                    if (response.err){
+                        toastr.error(response.err, 'Hata!');
+                    }
+                    else{
+                      window.location.reload()
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(data));
+        }
 
-    let rePasswordUserModal = async function () {
-        var source = document.getElementById("rePasswordUser-template").innerHTML;
-        var template = await Handlebars.compile(source);
-        var html = await template();
-        document.getElementById("userModalDiv").innerHTML = html;
-        $("#rePasswordUserModal").modal("show");
-    };
+        let removeRole = function (_id) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/admin/removeRole/" + _id, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = async function (event) {
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                    let response = JSON.parse(this.response)
+                    if (response.err){
+                        toastr.error(response.err, 'Hata!');
+                    }
+                    else{
+                        window.location.reload()
+                    }
+                }
+            };
+            xhr.send();
+        }
 
-    let restoreUserModal = async function () {
-        var source = document.getElementById("restoreUser-template").innerHTML;
-        var template = await Handlebars.compile(source);
-        var html = await template();
-        document.getElementById("userModalDiv").innerHTML = html;
-        $("#restoreUserModal").modal("show");
-    };
 
-</script>
+        let addUserModal = async function (data) {
+
+            var source = document.getElementById("addUser-template").innerHTML;
+            var template = await Handlebars.compile(source);
+            var html = await template({userAuthority: JSON.parse(data)});
+            document.getElementById("userModalDiv").innerHTML = html;
+            $("#addUserModal").modal("show");
+        };
+
+        let editUserModal = async function (_id, email, displayName, userAuthority, button) {
+            console.log(button)
+            console.log(button.dataset.allUserAuthority)
+            var data = {_id, email, displayName, userAuthority, allUserAuthorities: JSON.parse(button.dataset.allUserAuthority)}
+            console.log(data)
+            var source = document.getElementById("editUser-template").innerHTML;
+            var template = await Handlebars.compile(source);
+            var html = await template(data);
+            document.getElementById("userModalDiv").innerHTML = html;
+            $("#editRoleId").val(userAuthority);
+            $("#editUserModal").modal("show");
+        };
+
+        let removeUserModal = async function (_id) {
+            var source = document.getElementById("removeUser-template").innerHTML;
+            var template = await Handlebars.compile(source);
+            var html = await template({_id});
+            document.getElementById("userModalDiv").innerHTML = html;
+            $("#removeUserModal").modal("show");
+        };
+
+        let rePasswordUserModal = async function () {
+            var source = document.getElementById("rePasswordUser-template").innerHTML;
+            var template = await Handlebars.compile(source);
+            var html = await template();
+            document.getElementById("userModalDiv").innerHTML = html;
+            $("#rePasswordUserModal").modal("show");
+        };
+
+        let restoreUserModal = async function (_id) {
+            var source = document.getElementById("restoreUser-template").innerHTML;
+            var template = await Handlebars.compile(source);
+            var html = await template({_id});
+            document.getElementById("userModalDiv").innerHTML = html;
+            $("#restoreUserModal").modal("show");
+        };
+        let removeFullUserModal = async function (_id) {
+            var source = document.getElementById("removeFullUser-template").innerHTML;
+            var template = await Handlebars.compile(source);
+            var html = await template({_id});
+            document.getElementById("userModalDiv").innerHTML = html;
+            $("#removeFullUserModal").modal("show");
+        };
+
+        let addRoleModal = async function () {
+            var source = document.getElementById("addRole-template").innerHTML;
+            var template = await Handlebars.compile(source);
+            var html = await template();
+            document.getElementById("userModalDiv").innerHTML = html;
+            $("#addRoleModal").modal("show");
+        };
+
+    </script>
 {{/section}}

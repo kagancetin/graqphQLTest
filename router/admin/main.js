@@ -10,6 +10,7 @@ const ProductPostsController = require("../../containers/admin/productPosts");
 const { authAdminCheck } = require("../../helpers/passport/authCheck");
 const {resetPassword} = require("../../helpers/passport/resetPassword")
 const SettingPostController = require("../../containers/admin/settingPosts");
+const UserPostsController = require("../../containers/admin/userPosts");
 //router.use(authAdminCheck);
 
 
@@ -26,6 +27,7 @@ router
   .get(AdminController.getProductRemovedItemPage);
 router.route("/product/:id").get(AdminController.getProductEditPage);
 router.route("/settings").get(AdminController.getSettingsPage);
+router.route("/getUserAuthorities").get(AdminController.getUserAuthorities)
 
 router.route("/getGroups").post(ProductPostsController.getGroups);
 router.route("/getOptions").post(ProductPostsController.getOptions);
@@ -54,6 +56,16 @@ router
 
 router.route("/resetPassword/:id").post(resetPassword)
 router.route("/mailUpdate").post(SettingPostController.updateMail)
+
+router.route("/addUser").post(UserPostsController.addUser)
+router.route("/updateUser/:id").post(UserPostsController.updateUser)
+router.route("/removeFullUser/:id").post(UserPostsController.removeFullUser)
+router.route("/removeAndRestoreUser/:id").post(UserPostsController.removeAndRestoreUser)
+
+router.route("/addRole").post(UserPostsController.addRole)
+router.route("/editRole/:id").post(UserPostsController.editRole)
+router.route("/removeRole/:id").post(UserPostsController.removeRole)
+
 router.use(
   "/graphql",
   graphqlHTTP({

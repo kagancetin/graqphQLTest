@@ -1,5 +1,5 @@
-<div class="modal fade show" id="removeUserModal" aria-modal="true" role="dialog"
-    style="padding-right: 16px; display: block;">
+<div class="modal fade show" id="removeFullUserModal" aria-modal="true" role="dialog"
+     style="padding-right: 16px; display: block;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,9 +8,9 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form action="/admin/removeAndRestoreUser/\{{_id}}" role="form" method="post">
+            <form action="/admin/removeFullUser/\{{_id}}" role="form" method="post">
                 <div class="modal-body">
-                    Kullanıcıyı silmek istediğinizden emin misiniz?
+                    Kullanıcıyı kalıcı olarak silmek istediğinizden emin misiniz?
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Vazgeç</button>

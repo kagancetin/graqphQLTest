@@ -18,6 +18,10 @@ const userSchema = new mongoose.Schema(
         "Please enter a valid email",
       ],
     },
+    userAuthority: {
+      type: String,
+      required: true
+    },
     displayName: {
       type: String,
       required: true,

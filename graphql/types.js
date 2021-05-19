@@ -15,7 +15,8 @@ const {
   Product,
   Group,
   Option,
-  MailSettings
+  MailSettings,
+  UserAuthority
 } = require("../models");
 
 const UserType = new GraphQLObjectType({
@@ -25,12 +26,32 @@ const UserType = new GraphQLObjectType({
     _id: { type: GraphQLID },
     email: { type: GraphQLString },
     displayName: { type: GraphQLString },
+    userAuthority: {
+      type: UserAuthorityType,
+      resolve(parent, args) {
+        return UserAuthority.findById(parent.userAuthority);
+      },
+    },
     createdAt: { type: GraphQLString },
     updatedAt: { type: GraphQLString },
     deleted: { type: GraphQLBoolean },
   }),
 });
-
+const UserAuthorityType = new GraphQLObjectType({
+  name: "userAuthorityType",
+  description: "userAuthorityType",
+  fields: () => ({
+    _id: { type: GraphQLID },
+    typeName: { type: GraphQLString },
+    authorities: { type: new GraphQLList(GraphQLInt) },
+    users: {
+      type: new GraphQLList(UserType),
+      async resolve(parent, args) {
+        return User.find({ userType: parent._id });
+      },
+    },
+  }),
+});
 const CostumerType = new GraphQLObjectType({
   name: "Costumer",
   description: "Costumer type",
@@ -154,6 +175,7 @@ const MailSettingsType = new GraphQLObjectType({
 });
 module.exports = {
   UserType,
+  UserAuthorityType,
   CostumerType,
   CostumerAdressType,
   GroupType,
