@@ -1,39 +1,39 @@
-<div class="fixed-top bg-dark py-3">
+<div class="fixed-top bg-myred py-3">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-between">
-            <a href="/" class="d-flex align-items-center mb-0 me-lg-3 text-decoration-none text-yellow">
+            <a href="/" class="d-flex align-items-center mb-0 me-lg-3 text-decoration-none text-white">
                 <h4 class="m-0">MEŞE DÜRÜM</h4>
             </a>
 
             <ul class="collapse d-md-flex nav col-12 col-md-auto me-md-auto justify-content-center mt-md-0 mt-2 order-md-1 order-2"
                 id="nav-menu">
-                <li><a href="#" class="nav-link px-3 px-md-2 text-yellow">Anasayfa</a></li>
-                <li><a href="#" class="nav-link px-3 px-md-2 text-yellow">Sipariş</a></li>
-                <li><a href="#" class="nav-link px-3 px-md-2 text-yellow">İletişim</a></li>
+                <li><a href="#" class="nav-link px-3 px-md-2 text-white">Anasayfa</a></li>
+                <li><a href="#" class="nav-link px-3 px-md-2 text-white">Sipariş</a></li>
+                <li><a href="#" class="nav-link px-3 px-md-2 text-white">İletişim</a></li>
             </ul>
 
             <div class="text-lg-end text-md-center order-md-2 order-1">
                 {{#if admin}}
                 <a href="/admin" type="button"
-                    class="btn btn-sm btn-outline-yellow me-0 me-md-2 dropdown-toggle login-button">Admin Paneli</a>
+                    class="btn btn-outline-white me-0 me-md-2 dropdown-toggle login-button">Admin Paneli</a>
                 <a href="/login/logout" type="button"
-                    class="btn btn-sm btn-yellow me-0 me-md-2 dropdown-toggle login-button">Çıkış Yap</a>
+                    class="btn btn-white text-myred me-0 me-md-2 dropdown-toggle login-button">Çıkış Yap</a>
                 {{else if costumer}}
                 <a href="/{{costumer._id}}/sepet" type="button"
-                    class="btn btn-sm btn-outline-yellow me-0 me-md-2 dropdown-toggle login-button"><i
+                    class="btn btn-outline-white me-0 me-md-2 dropdown-toggle login-button"><i
                         class="fas fa-shopping-basket"></i></a>
                 <a href="/{{costumer._id}}/ayarlar" type="button"
-                    class="btn btn-sm btn-outline-yellow me-0 me-md-2 dropdown-toggle login-button">Ayarlar</a>
+                    class="btn btn-outline-white me-0 me-md-2 dropdown-toggle login-button">Ayarlar</a>
                 <a href="/login/logout" type="button"
-                    class="btn btn-sm btn-yellow me-0 me-md-2 dropdown-toggle login-button">Çıkış Yap</a>
+                    class="btn btn-white text-myred me-0 me-md-2 dropdown-toggle login-button">Çıkış Yap</a>
                 {{else}}
-                <button type="button" class="btn btn-sm btn-outline-yellow me-0 me-md-2 dropdown-toggle login-button"
+                <button type="button" class="btn btn-outline-white me-0 me-md-2 dropdown-toggle login-button"
                     onclick="loginModal()">Giriş Yap</button>
-                <button type="button" class="btn btn-sm btn-yellow me-0 me-md-2 d-none d-sm-inline-block"
+                <button type="button" class="btn btn-white text-myred me-0 me-md-2 d-none d-sm-inline-block"
                     onclick="registerModal()">Üye
                     Ol</button>
                 {{/if}}
-                <button type="button" class="btn btn-sm btn-yellow d-md-none" data-bs-toggle="collapse" href="#nav-menu"
+                <button type="button" class="btn btn-white d-md-none" data-bs-toggle="collapse" href="#nav-menu"
                     role="button" aria-expanded="false" aria-controls="nav-menu"><i class="fas fa-bars"></i></button>
             </div>
         </div>

@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
-                <form id="loginPostForm" class="row border-bottom p-2" role="form" method="post"
+                <form id="loginPostForm" role="form" method="post"
                     onsubmit="return loginPost(event)" action="/login">
                     <div class="form-floating pb-2">
                         <input type="email" class="form-control" name="email" id="email" placeholder="E-mail">
@@ -17,21 +17,26 @@
                         <input type="password" class="form-control" name="password" id="password" placeholder="Şifre">
                         <label for="floatingPassword">Şifre</label>
                     </div>
-                    <div class="checkbox mb-3">
+                    <div class="checkbox mb-3 mt-1 ps-2">
                         <input type="checkbox" name="remember" id="remember">
                         <label for="remember">
                             Beni Hatırla
                         </label>
                     </div>
-                    <button class="w-100 btn btn-lg btn-yellow" type="submit">Giriş Yap</button>
-                    <div class="row">
-                        <div class="col-12 pt-3 col-sm-6">
-                            <button class="w-100 btn btn-myred" data-bs-dismiss="modal" onclick="registerModal()">Üye
+                    <div class="form-floating">
+                        <button class="w-100 btn btn-lg btn-yellow" type="submit">Giriş Yap</button>
+                    </div>
+                    
+                    <div class="form-floating">
+                        <div class="row">
+                            <div class="col-12 pt-3 col-sm-6">
+                                <button class="w-100 btn btn-myred" data-bs-dismiss="modal" onclick="registerModal()">Üye
                                 Ol</button>
-                        </div>
-                        <div class="col-12 pt-3 col-sm-6">
-                            <button class="w-100 btn btn-myred" data-bs-dismiss="modal"
+                            </div>
+                            <div class="col-12 pt-3 col-sm-6">
+                                <button class="w-100 btn btn-myred" data-bs-dismiss="modal"
                                 onclick="rePasswordModal()">Şifremi Unuttum</button>
+                            </div>
                         </div>
                     </div>
                 </form>
