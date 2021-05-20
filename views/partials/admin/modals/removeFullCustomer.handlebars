@@ -1,5 +1,5 @@
-<div class="modal fade show" id="removeCostumerModal" aria-modal="true" role="dialog"
-    style="padding-right: 16px; display: block;">
+<div class="modal fade show" id="removeFullCustomerModal" aria-modal="true" role="dialog"
+     style="padding-right: 16px; display: block;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -8,13 +8,13 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form>
+            <form action="/admin/removeFullCustomer/\{{_id}}" role="form" method="post">
                 <div class="modal-body">
-                    Müşteriyi silmek istediğinizden emin misiniz?
+                    Müşteriyi kalıcı olarak silmek istediğinizden emin misiniz?
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Vazgeç</button>
-                    <button type="button" class="btn btn-danger">Sil</button>
+                    <button type="submit" class="btn btn-danger">Sil</button>
                 </div>
             </form>
         </div>

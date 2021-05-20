@@ -15,7 +15,6 @@ module.exports = {
     `;
     graphql(schema, query).then((result) => {
       if (result.errors) {
-        console.log(result.errors);
         req.flash("error", result.errors[0].message)
       } else {
         req.flash("success", result.data.updateMail)

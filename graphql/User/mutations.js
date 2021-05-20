@@ -4,6 +4,7 @@ const { UserType } = require("../types");
 const { User, UserAuthority } = require("../../models");
 const { GraphQLString, GraphQLID, GraphQLList, GraphQLInt } = require("graphql");
 
+
 const registerUser = {
   type: UserType,
   description: "Register new user",
@@ -114,13 +115,13 @@ removeAndRestoreUser = {
   },
   async resolve(parent, args) {
     const { _id } = args;
-    let group = await User.findById(_id);
-    let redata = !group.deleted;
+    let user = await User.findById(_id);
+    let isDeleted = !user.deleted;
     await User.updateOne(
-      { _id: group._id },
+      { _id: user._id },
       {
         $set: {
-          deleted: redata,
+          deleted: isDeleted,
         },
       },
       (err, doc) => {

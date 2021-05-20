@@ -11,6 +11,7 @@ const { authAdminCheck } = require("../../helpers/passport/authCheck");
 const {resetPassword} = require("../../helpers/passport/resetPassword")
 const SettingPostController = require("../../containers/admin/settingPosts");
 const UserPostsController = require("../../containers/admin/userPosts");
+const CustomerPostsController = require("../../containers/admin/customerPosts");
 //router.use(authAdminCheck);
 
 
@@ -65,6 +66,9 @@ router.route("/removeAndRestoreUser/:id").post(UserPostsController.removeAndRest
 router.route("/addRole").post(UserPostsController.addRole)
 router.route("/editRole/:id").post(UserPostsController.editRole)
 router.route("/removeRole/:id").post(UserPostsController.removeRole)
+
+router.route("/removeAndRestoreCustomer/:id").post(CustomerPostsController.removeAndRestoreCustomer)
+router.route("/removeFullCustomer/:id").post(CustomerPostsController.removeFullCustomer)
 
 router.use(
   "/graphql",
