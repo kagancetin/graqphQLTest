@@ -17,7 +17,7 @@ module.exports = {
     });
     let info = await transporter.sendMail({
       from: '"Meşe Dürüm 👻" <meşedürüm@kurumsal.com>',
-      to: "ismettestt@gmail.com",
+      to: "info@enginyuksel.kim",
       subject: "Meşe Dürüm Şifre Yenileme İsteği",
       html: ` 
         <a href="${url}">Şifrenizi Yenilemek için 2 saat içerisinde bu URL\'i kullanabilirsiniz!</a></br><h3>Afiyet Olsun!</h3>
