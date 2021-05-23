@@ -32,7 +32,7 @@ passport.use(
                 }
                 bcrypt.compare(password, customer.password, (err, res) => {
                   if (res) {
-                    const costumerInfo = {
+                    const customerInfo = {
                       _id: customer._id,
                       email: customer.email,
                       displayName: customer.displayName,

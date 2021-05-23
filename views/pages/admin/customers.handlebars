@@ -26,7 +26,7 @@
                         <h3 class="card-title">Müşteriler</h3>
                         <div id="table-buttons" class="text-right">
                             <button class="btn btn-secondary" tabindex="0" type="button" id="showDeleted">
-                                <span>Silinenleri Göster</span>
+                                <span>Yasaklananları Göster</span>
                             </button>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                             </thead>
                             <tbody>
                                 {{#each customers}}
-                                <tr {{#if deleted}} data-deleted="true" class="deleted-row" {{else}}data-deleted="false"
+                                <tr {{#if banned}} data-deleted="true" class="deleted-row" {{else}}data-deleted="false"
                                     {{/if}}>
                                     <td>{{displayName}}</td>
                                     <td>{{email}}</td>
@@ -56,16 +56,16 @@
                                     <td>{{#convertDateDay updatedAt}}{{/convertDateDay}} - {{#convertDateHour
                                         updatedAt}}{{/convertDateHour}}</td>
                                     <td>
-                                        {{#if deleted}}
+                                        {{#if banned}}
                                         <a href="/admin/customer/{{_id}}" class="btn btn-primary btn-sm">
                                             <i class="fas fa-folder">
                                             </i>
                                             Müşteriyi Görüntüle
                                         </a>
-                                        <button onclick="restoreCustomerModal('{{_id}}')" class="btn btn-warning btn-sm">
-                                            <i class="fas fa-trash-restore">
+                                        <button onclick="unbanCustomerModal('{{_id}}')" class="btn btn-warning btn-sm">
+                                            <i class="fas fa-user-slash">
                                             </i>
-                                            Geri Yükle
+                                            Yasağı Kaldır
                                         </button>
                                             <button onclick="removeFullCustomerModal('{{_id}}')"
                                                     class="btn btn-danger btn-sm">
@@ -83,26 +83,22 @@
                                             </i>
                                             Şifre Sıfırla
                                         </button>
-                                        <button onclick="removeCustomerModal('{{_id}}')" class="btn btn-danger btn-sm">
-                                            <i class="fas fa-trash">
+                                        <button onclick="banCustomerModal('{{_id}}')" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-user-slash">
                                             </i>
-                                            Sil
+                                            Yasakla
                                         </button>
+                                            <button onclick="removeFullCustomerModal('{{_id}}')"
+                                                    class="btn btn-danger btn-sm">
+                                                <i class="fas fa-trash"></i>
+                                                Kalıcı Sil
+                                            </button>
                                         {{/if}}
                                     </td>
                                 </tr>
                                 {{/each}}
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Ad Soyad</th>
-                                    <th>E-mail</th>
-                                    <th>Telefon Numarası</th>
-                                    <th>Yaratılma Tarihi</th>
-                                    <th>Değiştirilme Tarihi</th>
-                                    <th>İşlemler</th>
-                                </tr>
-                            </tfoot>
+
                         </table>
                         {{else}}
                         <h5>Müşteri bulunamadı!</h5>
@@ -130,14 +126,14 @@
 
 {{#section "script"}}
 
-<script id="removeCustomer-template" type="text/x-handlebars-template">
-            {{> admin/modals/removeCustomer}}
+<script id="banCustomer-template" type="text/x-handlebars-template">
+            {{> admin/modals/banCustomer}}
 </script>
 <script id="rePasswordCustomer-template" type="text/x-handlebars-template">
             {{> admin/modals/rePasswordCustomer}}
 </script>
-<script id="restoreCustomer-template" type="text/x-handlebars-template">
-            {{> admin/modals/restoreCustomer}}
+<script id="unbanCustomer-template" type="text/x-handlebars-template">
+            {{> admin/modals/unbanCustomer}}
 </script>
 <script id="removeFullCustomer-template" type="text/x-handlebars-template">
             {{> admin/modals/removeFullCustomer}}
@@ -170,7 +166,7 @@
             "columnDefs": [
                 { "visible": false, "searchable": false, "type": "date-eu", "targets": [3, 4] }
             ],
-            "responsive": true, "autoWidth": false,
+            "responsive": true, "autoWidth": false, "info": false,
             initComplete: function () {
                 var api = this.api();
                 new $.fn.dataTable.Buttons(api, {
@@ -183,12 +179,12 @@
         })
     });
 
-    let removeCustomerModal = async function (_id) {
-        var source = document.getElementById("removeCustomer-template").innerHTML;
+    let banCustomerModal = async function (_id) {
+        var source = document.getElementById("banCustomer-template").innerHTML;
         var template = await Handlebars.compile(source);
         var html = await template({_id});
         document.getElementById("customerModalDiv").innerHTML = html;
-        $("#removeCustomerModal").modal("show");
+        $("#banCustomerModal").modal("show");
     };
 
     let rePasswordCustomerModal = async function (_id) {
@@ -199,12 +195,12 @@
         $("#rePasswordCustomerModal").modal("show");
     };
 
-    let restoreCustomerModal = async function (_id) {
-        var source = document.getElementById("restoreCustomer-template").innerHTML;
+    let unbanCustomerModal = async function (_id) {
+        var source = document.getElementById("unbanCustomer-template").innerHTML;
         var template = await Handlebars.compile(source);
         var html = await template({_id});
         document.getElementById("customerModalDiv").innerHTML = html;
-        $("#restoreCustomerModal").modal("show");
+        $("#unbanCustomerModal").modal("show");
     };
 
     let removeFullCustomerModal = async function (_id) {

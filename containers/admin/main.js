@@ -78,7 +78,7 @@ module.exports = {
         phoneNumber
         createdAt
         updatedAt
-        deleted
+        banned
       }
     }
     `

@@ -24,7 +24,7 @@ const {
   updateUserRole,
   removeUserRole
 } = require("./User/mutations")
-const {registerCustomer, removeAndRestoreCustomer, removeFullCustomer} = require("./Customer/mutations")
+const {registerCustomer, banAndUnbanCustomer, removeFullCustomer} = require("./Customer/mutations")
 const {addCustomerAddress} = require("./CustomerAddress/mutations")
 const {
   addGroup,
@@ -77,7 +77,7 @@ const MutationType = new GraphQLObjectType({
     removeUserRole,
     updateMail,
     registerCustomer,
-    removeAndRestoreCustomer,
+    banAndUnbanCustomer,
     removeFullCustomer,
     addCustomerAddress,
     addGroup,

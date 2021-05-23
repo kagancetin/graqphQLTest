@@ -1,20 +1,20 @@
-<div class="modal fade show" id="restoreCustomerModal" aria-modal="true" role="dialog"
+<div class="modal fade show" id="banCustomerModal" aria-modal="true" role="dialog"
     style="padding-right: 16px; display: block;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Müşteriyi Geri Yükle</h4>
+                <h4 class="modal-title">Müşteriyi Yasakla</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form action="/admin/removeAndRestoreCustomer/\{{_id}}" role="form" method="post">
+            <form action="/admin/banAndUnbanCustomer/\{{_id}}" role="form" method="post">
                 <div class="modal-body">
-                    Müşteriyi geri yüklemek istediğinizden emin misiniz?
+                    Müşteriyi yasaklamak istediğinizden emin misiniz?
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Vazgeç</button>
-                    <button type="submit" class="btn btn-danger">Geri Yükle</button>
+                    <button type="submit" class="btn btn-danger">Yasakla</button>
                 </div>
             </form>
         </div>

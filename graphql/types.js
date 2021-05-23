@@ -62,7 +62,7 @@ const CustomerType = new GraphQLObjectType({
     phoneNumber: {type: GraphQLString},
     createdAt: {type: GraphQLString},
     updatedAt: {type: GraphQLString},
-    deleted: {type: GraphQLBoolean},
+    banned: {type: GraphQLBoolean},
     address: {
       type: new GraphQLList(CustomerAddressType),
       async resolve(parent, args) {
