@@ -32,8 +32,8 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        {{#if costumers}}
-                        <table id="costumerList" class="table table-bordered table-striped">
+                        {{#if customers}}
+                        <table id="customerList" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>Ad Soyad</th>
@@ -45,7 +45,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {{#each costumers}}
+                                {{#each customers}}
                                 <tr {{#if deleted}} data-deleted="true" class="deleted-row" {{else}}data-deleted="false"
                                     {{/if}}>
                                     <td>{{displayName}}</td>
@@ -57,7 +57,7 @@
                                         updatedAt}}{{/convertDateHour}}</td>
                                     <td>
                                         {{#if deleted}}
-                                        <a href="/admin/costumer/{{_id}}" class="btn btn-primary btn-sm">
+                                        <a href="/admin/customer/{{_id}}" class="btn btn-primary btn-sm">
                                             <i class="fas fa-folder">
                                             </i>
                                             Müşteriyi Görüntüle
@@ -73,7 +73,7 @@
                                                 Kalıcı Sil
                                             </button>
                                         {{else}}
-                                        <a href="/admin/costumer/{{_id}}" class="btn btn-primary btn-sm">
+                                        <a href="/admin/customer/{{_id}}" class="btn btn-primary btn-sm">
                                             <i class="fas fa-folder">
                                             </i>
                                             Müşteriyi Görüntüle
@@ -117,7 +117,7 @@
 </section>
 <!-- /.content -->
 
-<div id="costumerModalDiv"></div>
+<div id="customerModalDiv"></div>
 
 {{#section "link"}}
 <!-- DataTables -->
@@ -163,7 +163,7 @@
 <script>
     var table;
     $(function () {
-        table = $("#costumerList").DataTable({
+        table = $("#customerList").DataTable({
             "language": {
                 "url": "/admin/plugins/datatables/Turkish.json"
             },
@@ -187,7 +187,7 @@
         var source = document.getElementById("removeCustomer-template").innerHTML;
         var template = await Handlebars.compile(source);
         var html = await template({_id});
-        document.getElementById("costumerModalDiv").innerHTML = html;
+        document.getElementById("customerModalDiv").innerHTML = html;
         $("#removeCustomerModal").modal("show");
     };
 
@@ -195,7 +195,7 @@
         var source = document.getElementById("rePasswordCustomer-template").innerHTML;
         var template = await Handlebars.compile(source);
         var html = await template({_id});
-        document.getElementById("costumerModalDiv").innerHTML = html;
+        document.getElementById("customerModalDiv").innerHTML = html;
         $("#rePasswordCustomerModal").modal("show");
     };
 
@@ -203,7 +203,7 @@
         var source = document.getElementById("restoreCustomer-template").innerHTML;
         var template = await Handlebars.compile(source);
         var html = await template({_id});
-        document.getElementById("costumerModalDiv").innerHTML = html;
+        document.getElementById("customerModalDiv").innerHTML = html;
         $("#restoreCustomerModal").modal("show");
     };
 
@@ -211,7 +211,7 @@
         var source = document.getElementById("removeFullCustomer-template").innerHTML;
         var template = await Handlebars.compile(source);
         var html = await template({_id});
-        document.getElementById("costumerModalDiv").innerHTML = html;
+        document.getElementById("customerModalDiv").innerHTML = html;
         $("#removeFullCustomerModal").modal("show");
     };
 

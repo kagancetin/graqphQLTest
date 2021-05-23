@@ -1,5 +1,5 @@
-const { graphql } = require("graphql");
-const schema = require("../../graphql/schema");
+const { graphql } = require("graphql")
+const schema = require("../../graphql/schema")
 
 module.exports = {
   updateMail: async (req, res, next) => {
@@ -12,14 +12,14 @@ module.exports = {
         port: ${req.body.port}
       )
     }
-    `;
+    `
     graphql(schema, query).then((result) => {
       if (result.errors) {
         req.flash("error", result.errors[0].message)
       } else {
         req.flash("success", result.data.updateMail)
       }
-      res.redirect("/admin/settings");
-    });
+      res.redirect("/admin/settings")
+    })
   },
-};
+}

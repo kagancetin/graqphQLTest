@@ -1,100 +1,102 @@
-const { graphql } = require("graphql");
-const schema = require("../../graphql/schema");
+const {graphql} = require("graphql")
+const schema = require("../../graphql/schema")
 
 module.exports = {
   getDashboardPage: async (req, res, next) => {
-    res.render("pages/admin/dashboard", { layout: "admin.handlebars" });
+    res.render("pages/admin/dashboard", {layout: "admin.handlebars"})
   },
   getUsersPage: async (req, res, next) => {
     let query = `
-    query{users {
-      _id
-      email
-      displayName
-      createdAt
-      updatedAt
-      deleted
-      userAuthority {
+    query{
+      users {
+        _id
+        email
+        displayName
+        createdAt
+        updatedAt
+        deleted
+        userRole {
+          _id
+          typeName
+          authorities
+        }
+      }
+      userRole {
         _id
         typeName
         authorities
       }
     }
-  userAuthority {
-    _id
-    typeName
-    authorities
-  }
-    }
-    `;
+    `
     graphql(schema, query).then((result) => {
-      console.log(result)
       if (result.errors) {
         res.render("pages/admin/users", {
           layout: "admin.handlebars",
           flashMessages: {
-            error: "Bir hata oluştu lütfen hatayı bildiriniz!",
-          },
-        });
+            error: "Bir hata oluştu lütfen hatayı bildiriniz!"
+          }
+        })
       } else {
         res.render("pages/admin/users", {
           layout: "admin.handlebars",
           users: result.data.users,
-          userAuthority: result.data.userAuthority
-        });
+          userRole: result.data.userRole
+        })
       }
-    });
+    })
   },
-  getUserAuthorities: async (req, res, next) => {
+  getUserRoles: async (req, res, next) => {
     let query = `
     query{
-      userAuthority {
+      userRole {
         _id
         typeName
         authorities
       }
     }
-    `;
+    `
     graphql(schema, query).then((result) => {
       if (result.errors) {
         res.send({
-          err: "Bir hata oluştu. Sayfayı yenileyin yine hata alırsanız, lütfen hatayı bildiriniz!",
-        });
+          err: "Bir hata oluştu. Sayfayı yenileyin yine hata alırsanız, lütfen hatayı bildiriniz!"
+        })
       } else {
-        res.send({ err: null, data: result.data.userAuthority });
+        res.send({err: null, data: result.data.userRole})
       }
-    });
+    })
   },
   getOrdersPage: async (req, res, next) => {
-    res.render("pages/admin/orders", { layout: "admin.handlebars" });
+    res.render("pages/admin/orders", {layout: "admin.handlebars"})
   },
-  getCostumersPage: async (req, res, next) => {
+  getCustomersPage: async (req, res, next) => {
     let query = `
-    query{costumers {
-      _id
-      email
-      displayName
-      phoneNumber
-      createdAt
-      updatedAt
-      deleted
-    }}
-    `;
+    query{
+      customers {
+        _id
+        email
+        displayName
+        phoneNumber
+        createdAt
+        updatedAt
+        deleted
+      }
+    }
+    `
     graphql(schema, query).then((result) => {
       if (result.errors) {
-        res.render("pages/admin/costumers", {
+        res.render("pages/admin/customers", {
           layout: "admin.handlebars",
           flashMessages: {
-            error: "Bir hata oluştu lütfen hatayı bildiriniz!",
-          },
-        });
+            error: "Bir hata oluştu lütfen hatayı bildiriniz!"
+          }
+        })
       } else {
-        res.render("pages/admin/costumers", {
+        res.render("pages/admin/customers", {
           layout: "admin.handlebars",
-          costumers: result.data.costumers,
-        });
+          customers: result.data.customers
+        })
       }
-    });
+    })
   },
   getProductsPage: async (req, res, next) => {
     let query = `
@@ -120,22 +122,22 @@ module.exports = {
       }
     }}
     
-    `;
+    `
     graphql(schema, query).then((result) => {
       if (result.errors) {
         res.render("pages/admin/products", {
           layout: "admin.handlebars",
           flashMessages: {
-            error: "Bir hata oluştu lütfen hatayı bildiriniz!",
-          },
-        });
+            error: "Bir hata oluştu lütfen hatayı bildiriniz!"
+          }
+        })
       } else {
         res.render("pages/admin/products", {
           layout: "admin.handlebars",
-          groups: result.data.getGroups,
-        });
+          groups: result.data.getGroups
+        })
       }
-    });
+    })
   },
   getProductEditPage: async (req, res, next) => {
     let query = `
@@ -156,23 +158,23 @@ module.exports = {
         }
       }
     }
-    `;
+    `
     graphql(schema, query).then((result) => {
       if (result.errors) {
         res.render("pages/admin/products", {
           layout: "admin.handlebars",
           flashMessages: {
             error:
-              "Bir hata oluştu lütfen tekrar deneyin olmaz ise; hatayı bildiriniz!",
-          },
-        });
+              "Bir hata oluştu lütfen tekrar deneyin olmaz ise hatayı bildiriniz!"
+          }
+        })
       } else {
         res.render("pages/admin/productEdit", {
           layout: "admin.handlebars",
-          product: result.data.getProduct,
-        });
+          product: result.data.getProduct
+        })
       }
-    });
+    })
   },
   getProductRemovedItemPage: async (req, res, next) => {
     let query = `
@@ -198,26 +200,26 @@ module.exports = {
         price
       }
     }
-    `;
+    `
     graphql(schema, query).then((result) => {
       if (result.errors) {
         res.render("pages/admin/products", {
           layout: "admin.handlebars",
           flashMessages: {
             error:
-              "Bir hata oluştu lütfen tekrar deneyin olmaz ise; hatayı bildiriniz!",
-          },
-        });
+              "Bir hata oluştu lütfen tekrar deneyin olmaz ise hatayı bildiriniz!"
+          }
+        })
       } else {
         res.render("pages/admin/productsRemovedItems", {
           layout: "admin.handlebars",
-          data: result.data,
-        });
+          data: result.data
+        })
       }
-    });
+    })
   },
-  getCostumerDetailPage: async (req, res, next) => {
-    res.render("pages/admin/costumerDetail", { layout: "admin.handlebars" });
+  getCustomerDetailPage: async (req, res, next) => {
+    res.render("pages/admin/customerDetail", {layout: "admin.handlebars"})
   },
   getSettingsPage: async (req, res, next) => {
     let query = `
@@ -228,20 +230,20 @@ module.exports = {
       host
       port
       }
-    }`;
+    }`
     graphql(schema, query).then((result) => {
       if (result.errors) {
-        console.log(errors);
-        req.flash("error", "Bir hata oluştu lütfen hatayı bildiriniz!");
+        console.log(errors)
+        req.flash("error", "Bir hata oluştu lütfen hatayı bildiriniz!")
         res.render("pages/admin/settings", {
-          layout: "admin.handlebars",
-        });
+          layout: "admin.handlebars"
+        })
       } else {
         res.render("pages/admin/settings", {
           layout: "admin.handlebars",
-          mail: result.data.mail,
-        });
+          mail: result.data.mail
+        })
       }
-    });
-  },
-};
+    })
+  }
+}

@@ -11,10 +11,10 @@ module.exports = {
     graphql(schema, query).then((result) => {
       if (result.errors) {
         req.flash("error", result.errors[0].message);
-        res.redirect("/admin/costumers")
+        res.redirect("/admin/customers")
       } else {
         req.flash("success", result.data.removeAndRestoreCustomer);
-        res.redirect("/admin/costumers")
+        res.redirect("/admin/customers")
       }
     });
   },
@@ -29,10 +29,10 @@ module.exports = {
     graphql(schema, query).then((result) => {
       if (result.errors) {
         req.flash("error", result.errors);
-        res.redirect("/admin/costumers")
+        res.redirect("/admin/customers")
       } else {
         req.flash("success", result.data.removeFullCustomer);
-        res.redirect("/admin/costumers")
+        res.redirect("/admin/customers")
       }
     });
   }

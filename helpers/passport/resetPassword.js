@@ -26,7 +26,7 @@ module.exports = {
                     req.flash("error", "mail gönderme hatası")
                 else
                     req.flash("success", "Şifre Değiştirme İsteği Gönderildi.")
-                res.redirect("/admin/costumers")
+                res.redirect("/admin/customers")
             })
         })
     },

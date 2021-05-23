@@ -88,7 +88,7 @@ app.use(async (req, res, next) => {
     if (req.user.admin) {
       res.locals.admin = req.user;
     } else {
-      res.locals.costumer = req.user;
+      res.locals.customer = req.user;
     }
   }
   next();

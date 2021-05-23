@@ -1,128 +1,127 @@
-const { GroupType, OptionType, OptionDetail } = require("../types");
-const { Group, Product, Option } = require("../../models");
+const {Group, Product, Option} = require("../../models")
 const {
   GraphQLString,
   GraphQLList,
   GraphQLInt,
   GraphQLFloat,
   GraphQLInputObjectType,
-  GraphQLID,
-} = require("graphql");
+  GraphQLID
+} = require("graphql")
 
 /* INPUT TYPES*/
 const OptionDetailInput = new GraphQLInputObjectType({
   name: "ProductOptionDetailInput",
   description: "Product Option Detail Input type",
   fields: () => ({
-    optionDetailContent: { type: GraphQLString },
-    optionPriceDifference: { type: GraphQLInt },
-  }),
-});
+    optionDetailContent: {type: GraphQLString},
+    optionPriceDifference: {type: GraphQLInt}
+  })
+})
 
 /* INPUT TYPES*/
 
-let addGroup = {
+const addGroup = {
   type: GraphQLString,
-  description: "Add item to Product Group",
+  description: "Add a new Group",
   args: {
-    groupName: { type: GraphQLString },
-    order: { type: GraphQLInt },
+    groupName: {type: GraphQLString},
+    order: {type: GraphQLInt}
   },
   async resolve(parent, args) {
-    const { groupName, order } = args;
+    const {groupName, order} = args
     const group = new Group({
       groupName,
-      order,
-    });
+      order
+    })
     await group.save((err, doc) => {
-      if (err) throw new Error("Bir hata oluştu");
-    });
-    return "Grup eklendi.";
-  },
-};
+      if (err) throw new Error("Bir hata oluştu")
+    })
+    return "Grup eklendi."
+  }
+}
 
-let editGroup = {
+const editGroup = {
   type: GraphQLString,
-  description: "Add item to Product Group",
+  description: "Edit a Group",
   args: {
-    _id: { type: GraphQLID },
-    groupName: { type: GraphQLString },
-    order: { type: GraphQLInt },
+    _id: {type: GraphQLID},
+    groupName: {type: GraphQLString},
+    order: {type: GraphQLInt}
   },
   async resolve(parent, args) {
-    const { _id, groupName, order } = args;
-    await Group.findByIdAndUpdate(_id, { groupName, order }, (err, doc) => {
-      if (err) throw new Error("Bir hata oluştu");
-    });
-    return "Grup güncellendi.";
-  },
-};
+    const {_id, groupName, order} = args
+    await Group.findByIdAndUpdate(_id, {groupName, order}, (err, doc) => {
+      if (err) throw new Error("Bir hata oluştu")
+    })
+    return "Grup güncellendi."
+  }
+}
 
-removeAndRestoreGroup = {
+const removeAndRestoreGroup = {
   type: GraphQLString,
-  description: "Remove or restore item to Product Group",
+  description: "Remove or restore a Group",
   args: {
-    _id: { type: GraphQLID },
+    _id: {type: GraphQLID}
   },
   async resolve(parent, args) {
-    const { _id } = args;
-    let group = await Group.findById(_id);
-    let redata = !group.deleted;
+    const {_id} = args
+    let group = await Group.findById(_id)
+    let isDeleted = !group.deleted
     await Group.updateOne(
-      { _id: group._id },
+      {_id: group._id},
       {
         $set: {
-          deleted: redata,
-        },
+          deleted: isDeleted
+        }
       },
       (err, doc) => {
-        if (err) throw new Error("Bir hata oluştu");
+        if (err) throw new Error("Bir hata oluştu")
       }
-    );
-    return "İşlem başarılı.";
-  },
-};
+    )
+    return "İşlem başarılı."
+  }
+}
 
-let addProduct = {
+const addProduct = {
   type: GraphQLString,
-  description: "Add item to Product",
+  description: "Add a new Product",
   args: {
-    productName: { type: GraphQLString },
-    productDescription: { type: GraphQLString },
-    price: { type: GraphQLFloat },
-    order: { type: GraphQLInt },
-    groupId: { type: GraphQLString },
-    options: { type: new GraphQLList(GraphQLString) },
+    productName: {type: GraphQLString},
+    productDescription: {type: GraphQLString},
+    price: {type: GraphQLFloat},
+    order: {type: GraphQLInt},
+    groupId: {type: GraphQLString},
+    options: {type: new GraphQLList(GraphQLString)}
   },
   async resolve(parent, args) {
-    const { productName, productDescription, price, order, groupId, options } =
-      args;
+    const {productName, productDescription, price, order, groupId, options} =
+      args
     const product = new Product({
       productName,
       productDescription,
       price,
       order,
       groupId,
-      options,
-    });
+      options
+    })
     await product.save((err, doc) => {
-      if (err) throw new Error("Bir hata oluştu");
-    });
-    return "Ürün eklendi.";
-  },
-};
+      if (err) throw new Error("Bir hata oluştu")
+    })
+    return "Ürün eklendi."
+  }
+}
 
-let editProduct = {
+const editProduct = {
   type: GraphQLString,
-  description: "Add item to Product",
+  description: "Edit a Product",
   args: {
-    _id: { type: GraphQLID },
-    productName: { type: GraphQLString },
-    productDescription: { type: GraphQLString },
-    price: { type: GraphQLFloat },
-    order: { type: GraphQLInt },
-    groupId: { type: GraphQLString },
-    options: { type: new GraphQLList(GraphQLString) },
+    _id: {type: GraphQLID},
+    productName: {type: GraphQLString},
+    productDescription: {type: GraphQLString},
+    price: {type: GraphQLFloat},
+    order: {type: GraphQLInt},
+    groupId: {type: GraphQLString},
+    options: {type: new GraphQLList(GraphQLString)}
   },
   async resolve(parent, args) {
     const {
@@ -132,195 +131,195 @@ let editProduct = {
       price,
       order,
       groupId,
-      options,
-    } = args;
+      options
+    } = args
     const product = {
       productName,
       productDescription,
       price,
       order,
       groupId,
-      options,
-    };
+      options
+    }
     await Product.findByIdAndUpdate(_id, product, (err, doc) => {
-      if (err) throw new Error(err);
-    });
-    return "Ürün güncellendi.";
-  },
-};
+      if (err) throw new Error(err)
+    })
+    return "Ürün güncellendi."
+  }
+}
 
-removeProduct = {
+const removeProduct = {
   type: GraphQLString,
-  description: "Add item to Product",
+  description: "Remove a Product",
   args: {
-    _id: { type: GraphQLID },
+    _id: {type: GraphQLID}
   },
   async resolve(parent, args) {
-    const { _id } = args;
+    const {_id} = args
     await Product.findByIdAndUpdate(
       _id,
       {
         $set: {
-          deleted: true,
-        },
+          deleted: true
+        }
       },
       (err, doc) => {
-        if (err) throw new Error("Bir hata oluştu");
+        if (err) throw new Error("Bir hata oluştu")
       }
-    );
-    return "İşlem başarılı.";
-  },
-};
+    )
+    return "İşlem başarılı."
+  }
+}
 
-restoreProduct = {
+const restoreProduct = {
   type: GraphQLString,
-  description: "Restore item to Product",
+  description: "Restore a Product",
   args: {
-    _id: { type: GraphQLID },
-    groupId: { type: GraphQLString },
+    _id: {type: GraphQLID},
+    groupId: {type: GraphQLString}
   },
   async resolve(parent, args) {
-    const { _id, groupId } = args;
+    const {_id, groupId} = args
     await Product.findByIdAndUpdate(
       _id,
       {
         $set: {
           groupId,
           options: [],
-          deleted: false,
-        },
+          deleted: false
+        }
       },
       (err, doc) => {
-        if (err) throw new Error("Bir hata oluştu");
+        if (err) throw new Error("Bir hata oluştu")
       }
-    );
-    return "İşlem başarılı.";
-  },
-};
+    )
+    return "İşlem başarılı."
+  }
+}
 
-let addOption = {
+const addOption = {
   type: GraphQLString,
-  description: "Add item to Product Option",
+  description: "Add a new Option",
   args: {
-    optionName: { type: GraphQLString },
-    optionDisplayName: { type: GraphQLString },
-    optionType: { type: GraphQLInt },
+    optionName: {type: GraphQLString},
+    optionDisplayName: {type: GraphQLString},
+    optionType: {type: GraphQLInt},
     optionDetail: {
-      type: new GraphQLList(OptionDetailInput),
-    },
+      type: new GraphQLList(OptionDetailInput)
+    }
   },
   async resolve(parent, args) {
-    const { optionName, optionDisplayName, optionType, optionDetail } = args;
+    const {optionName, optionDisplayName, optionType, optionDetail} = args
     const option = new Option({
       optionName,
       optionDisplayName,
       optionType,
-      optionDetail,
-    });
+      optionDetail
+    })
     await option.save((err, doc) => {
-      if (err) throw new Error("Bir hata oluştu");
-    });
-    return "Seçenek eklendi.";
-  },
-};
+      if (err) throw new Error("Bir hata oluştu")
+    })
+    return "Seçenek eklendi."
+  }
+}
 
-let editOption = {
+const editOption = {
   type: GraphQLString,
-  description: "Edit item to Product Option",
+  description: "Edit a Option",
   args: {
-    _id: { type: GraphQLID },
-    optionName: { type: GraphQLString },
-    optionDisplayName: { type: GraphQLString },
-    optionType: { type: GraphQLInt },
+    _id: {type: GraphQLID},
+    optionName: {type: GraphQLString},
+    optionDisplayName: {type: GraphQLString},
+    optionType: {type: GraphQLInt},
     optionDetail: {
-      type: new GraphQLList(OptionDetailInput),
-    },
+      type: new GraphQLList(OptionDetailInput)
+    }
   },
   async resolve(parent, args) {
-    const { _id, optionName, optionDisplayName, optionType, optionDetail } =
-      args;
+    const {_id, optionName, optionDisplayName, optionType, optionDetail} =
+      args
     const option = {
       optionName,
       optionDisplayName,
       optionType,
-      optionDetail,
-    };
+      optionDetail
+    }
     await Option.findByIdAndUpdate(_id, option, (err, doc) => {
-      if (err) throw new Error("Bir hata oluştu");
-    });
-    return "Seçenek güncellendi.";
-  },
-};
+      if (err) throw new Error("Bir hata oluştu")
+    })
+    return "Seçenek güncellendi."
+  }
+}
 
-removeAndRestoreOption = {
+const removeAndRestoreOption = {
   type: GraphQLString,
   description: "Add item to Product Option",
   args: {
-    _id: { type: GraphQLID },
+    _id: {type: GraphQLID}
   },
   async resolve(parent, args) {
-    const { _id } = args;
-    let option = await Option.findById(_id);
-    let redata = !option.deleted;
+    const {_id} = args
+    let option = await Option.findById(_id)
+    let redata = !option.deleted
     await Option.updateOne(
-      { _id: option._id },
+      {_id: option._id},
       {
         $set: {
-          deleted: redata,
-        },
+          deleted: redata
+        }
       },
       (err, doc) => {
-        if (err) throw new Error("Bir hata oluştu");
+        if (err) throw new Error("Bir hata oluştu")
       }
-    );
-    return "İşlem başarılı.";
-  },
-};
+    )
+    return "İşlem başarılı."
+  }
+}
 
-removeFullOption = {
+const removeFullOption = {
   type: GraphQLString,
-  description: "Remove Full item to Product Option",
+  description: "Permanently removes a Option",
   args: {
-    _id: { type: GraphQLID },
+    _id: {type: GraphQLID}
   },
   async resolve(parent, args) {
-    const { _id } = args;
+    const {_id} = args
     await Option.findByIdAndRemove(_id, (err, doc) => {
-      if (err) throw new Error("Bir hata oluştu");
-    });
-    return "İşlem başarılı.";
-  },
-};
+      if (err) throw new Error("Bir hata oluştu")
+    })
+    return "İşlem başarılı."
+  }
+}
 
-removeFullProduct = {
+const removeFullProduct = {
   type: GraphQLString,
-  description: "Remove Full item to Product",
+  description: "Permanently removes a Product",
   args: {
-    _id: { type: GraphQLID },
+    _id: {type: GraphQLID}
   },
   async resolve(parent, args) {
-    const { _id } = args;
+    const {_id} = args
     await Product.findByIdAndRemove(_id, (err, doc) => {
-      if (err) throw new Error("Bir hata oluştu");
-    });
-    return "İşlem başarılı.";
-  },
-};
+      if (err) throw new Error("Bir hata oluştu")
+    })
+    return "İşlem başarılı."
+  }
+}
 
-removeFullGroup = {
+const removeFullGroup = {
   type: GraphQLString,
-  description: "Remove Full item to Product Group",
+  description: "Permanently removes a Group",
   args: {
-    _id: { type: GraphQLID },
+    _id: {type: GraphQLID}
   },
   async resolve(parent, args) {
-    const { _id } = args;
+    const {_id} = args
     await Group.findByIdAndRemove(_id, (err, doc) => {
-      if (err) throw new Error("Bir hata oluştu");
-    });
-    return "İşlem başarılı.";
-  },
-};
+      if (err) throw new Error("Bir hata oluştu")
+    })
+    return "İşlem başarılı."
+  }
+}
 
 module.exports = {
   addGroup,
@@ -335,5 +334,5 @@ module.exports = {
   removeAndRestoreOption,
   removeFullOption,
   removeFullGroup,
-  removeFullProduct,
-};
+  removeFullProduct
+}

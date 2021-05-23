@@ -1,23 +1,31 @@
 // Import required stuff from graphql
-const { GraphQLSchema, GraphQLObjectType } = require("graphql");
+const {GraphQLSchema, GraphQLObjectType} = require("graphql")
 
 // Import queries
-const { mail } = require("./Settings/queries");
-const { users, user, userAuthority } = require("./User/queries");
-const { costumers, costumer } = require("./Costumer/queries");
-const { costumerAdresses } = require("./CostumerAdress/queries");
+const {mail} = require("./Settings/queries")
+const {users, user, userRole} = require("./User/queries")
+const {customers, customer} = require("./Customer/queries")
+const {customerAddress} = require("./CustomerAddress/queries")
 const {
   getGroups,
   getGroup,
   getOptions,
   getProducts,
-  getProduct,
-} = require("./Product/queries");
+  getProduct
+} = require("./Product/queries")
 // Import mutations
-const { updateMail} = require("./Settings/mutations");
-const { registerUser, updateUser, removeFullUser, removeAndRestoreUser, addUserAuthority, updateUserAuthority, removeUserAuthority } = require("./User/mutations");
-const { registerCostumer, removeAndRestoreCustomer, removeFullCustomer } = require("./Costumer/mutations");
-const { addCostumerAddress } = require("./CostumerAdress/mutations");
+const {updateMail} = require("./Settings/mutations")
+const {
+  registerUser,
+  updateUser,
+  removeFullUser,
+  removeAndRestoreUser,
+  addUserRole,
+  updateUserRole,
+  removeUserRole
+} = require("./User/mutations")
+const {registerCustomer, removeAndRestoreCustomer, removeFullCustomer} = require("./Customer/mutations")
+const {addCustomerAddress} = require("./CustomerAddress/mutations")
 const {
   addGroup,
   editGroup,
@@ -31,8 +39,8 @@ const {
   removeAndRestoreOption,
   removeFullOption,
   removeFullGroup,
-  removeFullProduct,
-} = require("./Product/mutations");
+  removeFullProduct
+} = require("./Product/mutations")
 
 // Define QueryType
 
@@ -42,18 +50,18 @@ const QueryType = new GraphQLObjectType({
   fields: {
     users,
     user,
-    userAuthority,
+    userRole,
     mail,
-    costumers,
-    costumer,
-    costumerAdresses,
+    customers,
+    customer,
+    customerAddress,
     getGroups,
     getGroup,
     getOptions,
     getProducts,
-    getProduct,
-  },
-});
+    getProduct
+  }
+})
 
 // Define MutationType
 const MutationType = new GraphQLObjectType({
@@ -64,14 +72,14 @@ const MutationType = new GraphQLObjectType({
     updateUser,
     removeFullUser,
     removeAndRestoreUser,
-    addUserAuthority,
-    updateUserAuthority,
-    removeUserAuthority,
+    addUserRole,
+    updateUserRole,
+    removeUserRole,
     updateMail,
-    registerCostumer,
+    registerCustomer,
     removeAndRestoreCustomer,
     removeFullCustomer,
-    addCostumerAddress,
+    addCustomerAddress,
     addGroup,
     editGroup,
     removeAndRestoreGroup,
@@ -84,11 +92,11 @@ const MutationType = new GraphQLObjectType({
     removeAndRestoreOption,
     removeFullOption,
     removeFullGroup,
-    removeFullProduct,
-  },
-});
+    removeFullProduct
+  }
+})
 
 module.exports = new GraphQLSchema({
   query: QueryType,
-  mutation: MutationType,
-});
+  mutation: MutationType
+})

@@ -1,50 +1,50 @@
-const { Costumer, CostumerAdress } = require("../../models")
-const { CostumerType } = require("../types")
-const { GraphQLString, GraphQLID } = require("graphql")
+const {Customer, CustomerAddress} = require("../../models")
+const {CustomerType} = require("../types")
+const {GraphQLString, GraphQLID} = require("graphql")
 
-registerCostumer = {
-  type: CostumerType,
+const registerCustomer = {
+  type: CustomerType,
   description: "Register new Customer",
   args: {
-    email: { type: GraphQLString },
-    password: { type: GraphQLString },
-    displayName: { type: GraphQLString },
-    phoneNumber: { type: GraphQLString }
+    email: {type: GraphQLString},
+    password: {type: GraphQLString},
+    displayName: {type: GraphQLString},
+    phoneNumber: {type: GraphQLString}
   },
   async resolve(parent, args) {
-    const { phoneNumber, email, password, displayName } = args
-    let checkEmail = await Costumer.findOne({ email: email })
+    const {phoneNumber, email, password, displayName} = args
+    let checkEmail = await Customer.findOne({email: email})
     if (checkEmail) throw new Error("E-mail adresi kullanılmaktadır!")
 
     return bcrypt.genSalt(10).then((salt) => {
       return bcrypt.hash(password, salt).then(async (hash) => {
-        const costumer = new Costumer({
+        const customer = new Customer({
           email,
           password: hash,
           displayName,
           phoneNumber
         })
-        return costumer.save()
+        return customer.save()
       })
     })
   }
 }
 
-removeAndRestoreCustomer = {
+const removeAndRestoreCustomer = {
   type: GraphQLString,
   description: "Remove or restore User",
   args: {
-    _id: { type: GraphQLID },
+    _id: {type: GraphQLID}
   },
   async resolve(parent, args) {
-    const { _id } = args
-    let customer = await Costumer.findById(_id)
+    const {_id} = args
+    let customer = await Customer.findById(_id)
     let isDeleted = !customer.deleted
-    await Costumer.updateOne(
-      { _id: customer._id },
+    await Customer.updateOne(
+      {_id: customer._id},
       {
         $set: {
-          deleted: isDeleted,
+          deleted: isDeleted
         }
       },
       (err, doc) => {
@@ -55,19 +55,19 @@ removeAndRestoreCustomer = {
   }
 }
 
-removeFullCustomer = {
+const removeFullCustomer = {
   type: GraphQLString,
   description: "Permanently Removes  a Customer",
   args: {
-    _id: { type: GraphQLID },
+    _id: {type: GraphQLID}
   },
   async resolve(parent, args) {
-    const { _id } = args
+    const {_id} = args
 
-    await CostumerAdress.deleteMany({costumer_id: _id}, (err, doc) => {
+    await CustomerAddress.deleteMany({customer_id: _id}, (err, doc) => {
       if (err) throw new Error("Bir hata oluştu")
     })
-    await Costumer.findByIdAndRemove(_id, (err, doc) => {
+    await Customer.findByIdAndRemove(_id, (err, doc) => {
       if (err) throw new Error("Bir hata oluştu")
     })
     return "İşlem başarılı."
@@ -75,7 +75,7 @@ removeFullCustomer = {
 }
 
 module.exports = {
-  registerCostumer,
+  registerCustomer,
   removeFullCustomer,
   removeAndRestoreCustomer
 }
