@@ -16,7 +16,7 @@ const {
 // Import mutations
 const { updateMail} = require("./Settings/mutations");
 const { registerUser, updateUser, removeFullUser, removeAndRestoreUser, addUserAuthority, updateUserAuthority, removeUserAuthority } = require("./User/mutations");
-const { registerCostumer } = require("./Costumer/mutations");
+const { registerCostumer, removeAndRestoreCustomer, removeFullCustomer } = require("./Costumer/mutations");
 const { addCostumerAddress } = require("./CostumerAdress/mutations");
 const {
   addGroup,
@@ -69,6 +69,8 @@ const MutationType = new GraphQLObjectType({
     removeUserAuthority,
     updateMail,
     registerCostumer,
+    removeAndRestoreCustomer,
+    removeFullCustomer,
     addCostumerAddress,
     addGroup,
     editGroup,

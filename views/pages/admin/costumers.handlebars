@@ -23,7 +23,7 @@
                 <!-- card -->
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Kullanıcılar</h3>
+                        <h3 class="card-title">Müşteriler</h3>
                         <div id="table-buttons" class="text-right">
                             <button class="btn btn-secondary" tabindex="0" type="button" id="showDeleted">
                                 <span>Silinenleri Göster</span>
@@ -62,23 +62,28 @@
                                             </i>
                                             Müşteriyi Görüntüle
                                         </a>
-                                        <button onclick="restoreCostumerModal()" class="btn btn-warning btn-sm">
+                                        <button onclick="restoreCustomerModal('{{_id}}')" class="btn btn-warning btn-sm">
                                             <i class="fas fa-trash-restore">
                                             </i>
                                             Geri Yükle
                                         </button>
+                                            <button onclick="removeFullCustomerModal('{{_id}}')"
+                                                    class="btn btn-danger btn-sm">
+                                                <i class="fas fa-trash"></i>
+                                                Kalıcı Sil
+                                            </button>
                                         {{else}}
                                         <a href="/admin/costumer/{{_id}}" class="btn btn-primary btn-sm">
                                             <i class="fas fa-folder">
                                             </i>
                                             Müşteriyi Görüntüle
                                         </a>
-                                        <button onclick="rePasswordCostumerModal('{{_id}}')" class="btn btn-warning btn-sm">
+                                        <button onclick="rePasswordCustomerModal('{{_id}}')" class="btn btn-warning btn-sm">
                                             <i class="fas fa-key">
                                             </i>
                                             Şifre Sıfırla
                                         </button>
-                                        <button onclick="removeCostumerModal()" class="btn btn-danger btn-sm">
+                                        <button onclick="removeCustomerModal('{{_id}}')" class="btn btn-danger btn-sm">
                                             <i class="fas fa-trash">
                                             </i>
                                             Sil
@@ -125,14 +130,17 @@
 
 {{#section "script"}}
 
-<script id="removeCostumer-template" type="text/x-handlebars-template">
-            {{> admin/modals/removeCostumer}}
+<script id="removeCustomer-template" type="text/x-handlebars-template">
+            {{> admin/modals/removeCustomer}}
 </script>
-<script id="rePasswordCostumer-template" type="text/x-handlebars-template">
-            {{> admin/modals/rePasswordCostumer}}
+<script id="rePasswordCustomer-template" type="text/x-handlebars-template">
+            {{> admin/modals/rePasswordCustomer}}
 </script>
-<script id="restoreCostumer-template" type="text/x-handlebars-template">
-            {{> admin/modals/restoreCostumer}}
+<script id="restoreCustomer-template" type="text/x-handlebars-template">
+            {{> admin/modals/restoreCustomer}}
+</script>
+<script id="removeFullCustomer-template" type="text/x-handlebars-template">
+            {{> admin/modals/removeFullCustomer}}
 </script>
 
 <!-- DataTables  & Plugins -->
@@ -175,28 +183,36 @@
         })
     });
 
-    let removeCostumerModal = async function () {
-        var source = document.getElementById("removeCostumer-template").innerHTML;
-        var template = await Handlebars.compile(source);
-        var html = await template();
-        document.getElementById("costumerModalDiv").innerHTML = html;
-        $("#removeCostumerModal").modal("show");
-    };
-
-    let rePasswordCostumerModal = async function (_id) {
-        var source = document.getElementById("rePasswordCostumer-template").innerHTML;
+    let removeCustomerModal = async function (_id) {
+        var source = document.getElementById("removeCustomer-template").innerHTML;
         var template = await Handlebars.compile(source);
         var html = await template({_id});
         document.getElementById("costumerModalDiv").innerHTML = html;
-        $("#rePasswordCostumerModal").modal("show");
+        $("#removeCustomerModal").modal("show");
     };
 
-    let restoreCostumerModal = async function () {
-        var source = document.getElementById("restoreCostumer-template").innerHTML;
+    let rePasswordCustomerModal = async function (_id) {
+        var source = document.getElementById("rePasswordCustomer-template").innerHTML;
         var template = await Handlebars.compile(source);
-        var html = await template();
+        var html = await template({_id});
         document.getElementById("costumerModalDiv").innerHTML = html;
-        $("#restoreCostumerModal").modal("show");
+        $("#rePasswordCustomerModal").modal("show");
+    };
+
+    let restoreCustomerModal = async function (_id) {
+        var source = document.getElementById("restoreCustomer-template").innerHTML;
+        var template = await Handlebars.compile(source);
+        var html = await template({_id});
+        document.getElementById("costumerModalDiv").innerHTML = html;
+        $("#restoreCustomerModal").modal("show");
+    };
+
+    let removeFullCustomerModal = async function (_id) {
+        var source = document.getElementById("removeFullCustomer-template").innerHTML;
+        var template = await Handlebars.compile(source);
+        var html = await template({_id});
+        document.getElementById("costumerModalDiv").innerHTML = html;
+        $("#removeFullCustomerModal").modal("show");
     };
 
 </script>

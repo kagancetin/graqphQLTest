@@ -57,7 +57,6 @@ module.exports = {
     `;
     graphql(schema, query).then((result) => {
       if (result.errors) {
-        console.log(result.errors);
         req.flash("error", result.errors[0].message)
         res.redirect("/admin/users")
       } else {
@@ -74,7 +73,6 @@ module.exports = {
     `;
     graphql(schema, query).then((result) => {
       if (result.errors) {
-        console.log(result.errors);
         req.flash("error", result.errors[0].message);
         res.redirect("/admin/users")
       } else {
@@ -93,7 +91,6 @@ module.exports = {
     `
     graphql(schema, query).then((result) => {
       if (result.errors) {
-        console.log(result.errors);
         req.flash("error", result.errors);
         res.redirect("/admin/users")
       } else {
@@ -120,7 +117,6 @@ module.exports = {
       )
     }
     `
-    console.log(query)
     const results = await graphql(schema, query)
     if (!results.errors){
       req.flash("success", "Rol Eklendi")
