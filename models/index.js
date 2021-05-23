@@ -1,11 +1,11 @@
 module.exports = {
   User: require("./User"),
-  Costumer: require("./Costumer"),
-  CostumerAdress: require("./CostumerAdress"),
+  Customer: require("./Customer"),
+  CustomerAddress: require("./CustomerAddress"),
   Product: require("./Product"),
   Group: require("./Group"),
   Option: require("./Option"),
   Token: require("./Token"),
   MailSettings: require("./MailSettings"),
-  UserAuthority: require("./UserAuthority")
+  UserRole: require("./UserRole")
 }

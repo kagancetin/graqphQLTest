@@ -1,9 +1,9 @@
-const { graphql } = require("graphql");
-const schema = require("../../graphql/schema");
-const generator = require("generate-password");
+const {graphql} = require("graphql")
+const schema = require("../../graphql/schema")
+const generator = require("generate-password")
 const mailer = require("../../helpers/mailer")
 
-const generatePassword =  () => {
+const generatePassword = () => {
   return generator.generate({
     length: 10,
     numbers: true
@@ -19,7 +19,7 @@ module.exports = {
         email: "${req.body.email}"
         password: "${password}"
         displayName: "${req.body.displayName}"
-        userAuthority: "${req.body.roleId}"
+        userRole: "${req.body.roleId}"
       ){
         _id
         email
@@ -31,7 +31,7 @@ module.exports = {
     }
     `
     const results = await graphql(schema, query)
-    if (!results.errors){
+    if (!results.errors) {
       await mailer.sendUserPassword("mesaj", req.body.email, password, (err, info) => {
         if (err)
           req.flash("error", "mail gönderme hatası")
@@ -39,8 +39,7 @@ module.exports = {
           req.flash("success", "Şifre Gönderildi.")
         res.redirect("/admin/users")
       })
-    }
-    else{
+    } else {
       req.flash("error", results.errors[0].message)
       res.redirect("/admin/users")
     }
@@ -52,9 +51,11 @@ module.exports = {
         _id:"${req.params.id}",
         email:"${req.body.email}",
         displayName:"${req.body.displayName}"
+        userRole: "${req.body.editRoleId}"
+
       )
     }
-    `;
+    `
     graphql(schema, query).then((result) => {
       if (result.errors) {
         req.flash("error", result.errors[0].message)
@@ -63,23 +64,23 @@ module.exports = {
         req.flash("success", result.data.updateUser)
         res.redirect("/admin/users")
       }
-    });
+    })
   },
   removeAndRestoreUser: async (req, res, next) => {
     let query = `
     mutation{
       removeAndRestoreUser(_id:"${req.params.id}")
     }
-    `;
+    `
     graphql(schema, query).then((result) => {
       if (result.errors) {
-        req.flash("error", result.errors[0].message);
+        req.flash("error", result.errors[0].message)
         res.redirect("/admin/users")
       } else {
-        req.flash("success", result.data.removeAndRestoreUser);
+        req.flash("success", result.data.removeAndRestoreUser)
         res.redirect("/admin/users")
       }
-    });
+    })
   },
   removeFullUser: async (req, res, next) => {
     let query = `
@@ -91,13 +92,13 @@ module.exports = {
     `
     graphql(schema, query).then((result) => {
       if (result.errors) {
-        req.flash("error", result.errors);
+        req.flash("error", result.errors)
         res.redirect("/admin/users")
       } else {
-        req.flash("success", result.data.removeFullUser);
+        req.flash("success", result.data.removeFullUser)
         res.redirect("/admin/users")
       }
-    });
+    })
   },
   addRole: async (req, res, next) => {
     let authorities = []
@@ -111,18 +112,17 @@ module.exports = {
       authorities.push(4)
     let query = `
     mutation{
-      addUserAuthority(
+      addUserRole(
         typeName: "${req.body.roleName}"
         authorities: ${JSON.stringify(authorities)}
       )
     }
     `
     const results = await graphql(schema, query)
-    if (!results.errors){
+    if (!results.errors) {
       req.flash("success", "Rol Eklendi")
       res.redirect("/admin/users")
-    }
-    else{
+    } else {
       req.flash("error", results.errors[0].message)
       res.redirect("/admin/users")
     }
@@ -130,7 +130,7 @@ module.exports = {
   editRole: async (req, res, next) => {
     let query = `
     mutation{
-      updateUserAuthority(
+      updateUserRole(
         _id: "${req.params.id}"
         typeName: "${req.body.typeName}"
         authorities: ${JSON.stringify(req.body.authorize)}
@@ -138,29 +138,27 @@ module.exports = {
     }
     `
     const results = await graphql(schema, query)
-    if (!results.errors){
+    if (!results.errors) {
       req.flash("success", "Rol Düzenlendi")
       res.send({err: null})
-    }
-    else{
+    } else {
       res.send({err: "Rol Düzenlenemedi"})
     }
   },
   removeRole: async (req, res, next) => {
     let query = `
     mutation{
-      removeUserAuthority(
+      removeUserRole(
         _id: "${req.params.id}"
       )
     }
     `
     const results = await graphql(schema, query)
-    if (!results.errors){
+    if (!results.errors) {
       req.flash("success", "Rol Silindi")
       res.send({err: null})
-    }
-    else{
+    } else {
       res.send({err: "Rol Silinemedi"})
     }
   }
-};
+}

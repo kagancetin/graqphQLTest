@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 
 const userSchema = new mongoose.Schema(
   {
@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
         "Please enter a valid email",
       ],
     },
-    userAuthority: {
+    userRole: {
       type: String,
       required: true
     },
@@ -32,6 +32,6 @@ const userSchema = new mongoose.Schema(
     },
   },
   { timestamps: true }
-);
+)
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model("user", userSchema)

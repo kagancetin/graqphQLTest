@@ -5,181 +5,181 @@ const {
   GraphQLList,
   GraphQLFloat,
   GraphQLBoolean,
-  GraphQLInt,
-} = require("graphql");
+  GraphQLInt
+} = require("graphql")
 
 const {
   User,
-  Costumer,
-  CostumerAdress,
+  Customer,
+  CustomerAddress,
   Product,
   Group,
   Option,
   MailSettings,
-  UserAuthority
-} = require("../models");
+  UserRole
+} = require("../models")
 
 const UserType = new GraphQLObjectType({
   name: "User",
   description: "User type",
   fields: () => ({
-    _id: { type: GraphQLID },
-    email: { type: GraphQLString },
-    displayName: { type: GraphQLString },
-    userAuthority: {
-      type: UserAuthorityType,
+    _id: {type: GraphQLID},
+    email: {type: GraphQLString},
+    displayName: {type: GraphQLString},
+    userRole: {
+      type: UserRoleType,
       resolve(parent, args) {
-        return UserAuthority.findById(parent.userAuthority);
-      },
+        return UserRole.findById(parent.userRole)
+      }
     },
-    createdAt: { type: GraphQLString },
-    updatedAt: { type: GraphQLString },
-    deleted: { type: GraphQLBoolean },
-  }),
-});
-const UserAuthorityType = new GraphQLObjectType({
-  name: "userAuthorityType",
-  description: "userAuthorityType",
+    createdAt: {type: GraphQLString},
+    updatedAt: {type: GraphQLString},
+    deleted: {type: GraphQLBoolean}
+  })
+})
+const UserRoleType = new GraphQLObjectType({
+  name: "userRoleType",
+  description: "userRole Type",
   fields: () => ({
-    _id: { type: GraphQLID },
-    typeName: { type: GraphQLString },
-    authorities: { type: new GraphQLList(GraphQLInt) },
+    _id: {type: GraphQLID},
+    typeName: {type: GraphQLString},
+    authorities: {type: new GraphQLList(GraphQLInt)},
     users: {
       type: new GraphQLList(UserType),
       async resolve(parent, args) {
-        return User.find({ userType: parent._id });
-      },
-    },
-  }),
-});
-const CostumerType = new GraphQLObjectType({
-  name: "Costumer",
-  description: "Costumer type",
+        return User.find({userType: parent._id})
+      }
+    }
+  })
+})
+const CustomerType = new GraphQLObjectType({
+  name: "Customer",
+  description: "Customer type",
   fields: () => ({
-    _id: { type: GraphQLID },
-    email: { type: GraphQLString },
-    displayName: { type: GraphQLString },
-    phoneNumber: { type: GraphQLString },
-    createdAt: { type: GraphQLString },
-    updatedAt: { type: GraphQLString },
-    deleted: { type: GraphQLBoolean },
+    _id: {type: GraphQLID},
+    email: {type: GraphQLString},
+    displayName: {type: GraphQLString},
+    phoneNumber: {type: GraphQLString},
+    createdAt: {type: GraphQLString},
+    updatedAt: {type: GraphQLString},
+    deleted: {type: GraphQLBoolean},
     address: {
-      type: new GraphQLList(CostumerAdressType),
+      type: new GraphQLList(CustomerAddressType),
       async resolve(parent, args) {
-        return CostumerAdress.find({ costumer_id: parent._id });
-      },
-    },
-  }),
-});
+        return CustomerAddress.find({customer_id: parent._id})
+      }
+    }
+  })
+})
 
-const CostumerAdressType = new GraphQLObjectType({
-  name: "CostumerAdress",
-  description: "Costumer Adress type",
+const CustomerAddressType = new GraphQLObjectType({
+  name: "CustomerAddress",
+  description: "Customer Address type",
   fields: () => ({
-    _id: { type: GraphQLID },
-    costumer: {
-      type: CostumerType,
+    _id: {type: GraphQLID},
+    customer: {
+      type: CustomerType,
       resolve(parent, args) {
-        return Costumer.findById(parent.costumer_id);
-      },
+        return Customer.findById(parent.customer_id)
+      }
     },
-    neighborhood: { type: GraphQLString },
-    street: { type: GraphQLString },
-    other: { type: GraphQLString },
-    deleted: { type: GraphQLBoolean },
-  }),
-});
+    neighborhood: {type: GraphQLString},
+    street: {type: GraphQLString},
+    other: {type: GraphQLString},
+    deleted: {type: GraphQLBoolean}
+  })
+})
 
 const GroupType = new GraphQLObjectType({
   name: "ProductGroup",
   description: "Product Group type",
   fields: () => ({
-    _id: { type: GraphQLID },
-    groupName: { type: GraphQLString },
-    order: { type: GraphQLInt },
+    _id: {type: GraphQLID},
+    groupName: {type: GraphQLString},
+    order: {type: GraphQLInt},
     products: {
       type: new GraphQLList(ProductType),
       resolve(parent, args) {
-        return Product.find({ groupId: parent._id, deleted: false }).sort(
+        return Product.find({groupId: parent._id, deleted: false}).sort(
           "order"
-        );
-      },
+        )
+      }
     },
-    deleted: { type: GraphQLBoolean },
-  }),
-});
+    deleted: {type: GraphQLBoolean}
+  })
+})
 
 const ProductType = new GraphQLObjectType({
   name: "Product",
   description: "Product type",
   fields: () => ({
-    _id: { type: GraphQLID },
-    productName: { type: GraphQLString },
-    productDescription: { type: GraphQLString },
-    price: { type: GraphQLFloat },
-    order: { type: GraphQLInt },
-    createdAt: { type: GraphQLString },
-    updatedAt: { type: GraphQLString },
+    _id: {type: GraphQLID},
+    productName: {type: GraphQLString},
+    productDescription: {type: GraphQLString},
+    price: {type: GraphQLFloat},
+    order: {type: GraphQLInt},
+    createdAt: {type: GraphQLString},
+    updatedAt: {type: GraphQLString},
     group: {
       type: GroupType,
       resolve(parent) {
-        return Group.findById(parent.groupId);
-      },
+        return Group.findById(parent.groupId)
+      }
     },
     options: {
       type: new GraphQLList(OptionType),
       resolve(parent) {
-        return parent.options.map((p) => Option.findById(p));
-      },
+        return parent.options.map((p) => Option.findById(p))
+      }
     },
-    deleted: { type: GraphQLBoolean },
-  }),
-});
+    deleted: {type: GraphQLBoolean}
+  })
+})
 
 const OptionDetail = new GraphQLObjectType({
   name: "ProductOptionDetail",
   description: "Product Option Detail type",
   fields: () => ({
-    optionDetailContent: { type: GraphQLString },
-    optionPriceDifference: { type: GraphQLInt },
-  }),
-});
+    optionDetailContent: {type: GraphQLString},
+    optionPriceDifference: {type: GraphQLInt}
+  })
+})
 
 const OptionType = new GraphQLObjectType({
   name: "ProductOption",
   description: "Product Option type",
   fields: () => ({
-    _id: { type: GraphQLID },
-    optionName: { type: GraphQLString },
-    optionDisplayName: { type: GraphQLString },
-    optionType: { type: GraphQLInt },
+    _id: {type: GraphQLID},
+    optionName: {type: GraphQLString},
+    optionDisplayName: {type: GraphQLString},
+    optionType: {type: GraphQLInt},
     optionDetail: {
-      type: new GraphQLList(OptionDetail),
+      type: new GraphQLList(OptionDetail)
     },
-    deleted: { type: GraphQLBoolean },
-  }),
-});
+    deleted: {type: GraphQLBoolean}
+  })
+})
 
 const MailSettingsType = new GraphQLObjectType({
   name: "MailSettings",
   description: "Mail Settings type",
   fields: () => ({
-    _id: { type: GraphQLID },
-    email: { type: GraphQLString },
-    password: { type: GraphQLString },
-    host: { type: GraphQLString },
-    port: { type: GraphQLInt },
-    createdAt: { type: GraphQLString },
-    updatedAt: { type: GraphQLString }
-  }),
-});
+    _id: {type: GraphQLID},
+    email: {type: GraphQLString},
+    password: {type: GraphQLString},
+    host: {type: GraphQLString},
+    port: {type: GraphQLInt},
+    createdAt: {type: GraphQLString},
+    updatedAt: {type: GraphQLString}
+  })
+})
 module.exports = {
   UserType,
-  UserAuthorityType,
-  CostumerType,
-  CostumerAdressType,
+  UserRoleType,
+  CustomerType,
+  CustomerAddressType,
   GroupType,
   ProductType,
   OptionType,
   MailSettingsType
-};
+}

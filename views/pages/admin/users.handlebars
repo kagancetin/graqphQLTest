@@ -26,7 +26,7 @@
                         <h3 class="card-title">KULLANICILAR</h3>
                         <div id="table-buttons" class="text-right">
                             <button class="btn btn-primary" tabindex="0" type="button" onclick='addUserModal(`
-                                {{#json userAuthority}}
+                                {{#json userRole}}
                             {{/json}}
                             `)'>
                                 <i class="fas fa-user-plus">
@@ -39,7 +39,7 @@
                                 <span>Rol Ekle</span>
                             </button>
                             <button class="btn btn-primary" tabindex="2" type="button" onclick='roleSettingsModal(`
-                                {{#json userAuthority}}
+                                {{#json userRole}}
                             {{/json}}
                             `)'>
                                 <i class="fas fa-users-cog">
@@ -72,7 +72,7 @@
                                     {{/if}}>
                                         <td>{{displayName}}</td>
                                         <td>{{email}}</td>
-                                        <td>{{userAuthority.typeName}}</td>
+                                        <td>{{userRole.typeName}}</td>
                                         <td>{{#convertDateDay createdAt}}{{/convertDateDay}} - {{#convertDateHour
                                                 createdAt}}{{/convertDateHour}}</td>
                                         <td>{{#convertDateDay updatedAt}}{{/convertDateDay}} - {{#convertDateHour
@@ -96,8 +96,8 @@
                                                     </i>
                                                     Şifre Sıfırla
                                                 </button>
-                                                <button data-all-user-authority='{{#json ../userAuthority}}{{/json}}'
-                                                        onclick="editUserModal('{{_id}}', '{{email}}', '{{displayName}}', '{{userAuthority._id}}', this)"
+                                                <button data-all-user-roles='{{#json ../userRole}}{{/json}}'
+                                                        onclick="editUserModal('{{_id}}', '{{email}}', '{{displayName}}', '{{userRole._id}}', this)"
                                                         class="btn btn-info btn-sm">
                                                     <i class="fas fa-pencil-alt">
                                                     </i>
@@ -236,14 +236,14 @@
         });
         let roleSettingsModal = async function (data) {
 
-            let userAuthority = JSON.parse(data);
+            let userRole = JSON.parse(data);
 
             var source = document.getElementById("roleSettings-template").innerHTML;
             var template = await Handlebars.compile(source);
-            var html = await template({data: userAuthority});
+            var html = await template({data: userRole});
             document.getElementById("userModalDiv").innerHTML = html;
             var authorizeLists = document.querySelectorAll(".authorizeList")
-            userAuthority.forEach(function (p, i) {
+            userRole.forEach(function (p, i) {
                 var authorizeList = authorizeLists[i];
                 p.authorities.forEach(function (k) {
                     authorizeList.querySelector("input[value='" + k + "']").checked = true
@@ -302,21 +302,18 @@
 
             var source = document.getElementById("addUser-template").innerHTML;
             var template = await Handlebars.compile(source);
-            var html = await template({userAuthority: JSON.parse(data)});
+            var html = await template({userRole: JSON.parse(data)});
             document.getElementById("userModalDiv").innerHTML = html;
             $("#addUserModal").modal("show");
         };
 
-        let editUserModal = async function (_id, email, displayName, userAuthority, button) {
-            console.log(button)
-            console.log(button.dataset.allUserAuthority)
-            var data = {_id, email, displayName, userAuthority, allUserAuthorities: JSON.parse(button.dataset.allUserAuthority)}
-            console.log(data)
+        let editUserModal = async function (_id, email, displayName, userRole, button) {
+            var data = {_id, email, displayName, userRole, allUserRoles: JSON.parse(button.dataset.allUserRoles)}
             var source = document.getElementById("editUser-template").innerHTML;
             var template = await Handlebars.compile(source);
             var html = await template(data);
             document.getElementById("userModalDiv").innerHTML = html;
-            $("#editRoleId").val(userAuthority);
+            $("#editRoleId").val(userRole);
             $("#editUserModal").modal("show");
         };
 

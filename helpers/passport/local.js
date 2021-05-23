@@ -2,7 +2,7 @@ const localStrategy = require("passport-local").Strategy;
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const User = require("../../models/User");
-const Costumer = require("../../models/Costumer");
+const Customer = require("../../models/Customer");
 
 passport.use(
   new localStrategy(
@@ -20,25 +20,25 @@ passport.use(
             return done("Bir hata oluştu.", null, {});
           }
           if (!user) {
-            Costumer.findOne(
+            Customer.findOne(
               { email },
               { email: 1, password: 1, displayName: 1, phoneNumber: 1 },
-              (err, costumer) => {
+              (err, customer) => {
                 if (err) {
                   return done("Bir hata oluştu.", null, {});
                 }
-                if (!costumer) {
+                if (!customer) {
                   return done("Kullanıcı Bulunamadı.", null, {});
                 }
-                bcrypt.compare(password, costumer.password, (err, res) => {
+                bcrypt.compare(password, customer.password, (err, res) => {
                   if (res) {
                     const costumerInfo = {
-                      _id: costumer._id,
-                      email: costumer.email,
-                      displayName: costumer.displayName,
-                      phoneNumber: costumer.phoneNumber,
+                      _id: customer._id,
+                      email: customer.email,
+                      displayName: customer.displayName,
+                      phoneNumber: customer.phoneNumber,
                     };
-                    return done(null, costumerInfo, {
+                    return done(null, customerInfo, {
                       message: "Başarıyla giriş yapıldı.",
                     });
                   } else {

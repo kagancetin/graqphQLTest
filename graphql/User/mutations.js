@@ -1,157 +1,157 @@
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs")
 
-const { UserType } = require("../types");
-const { User, UserAuthority } = require("../../models");
-const { GraphQLString, GraphQLID, GraphQLList, GraphQLInt } = require("graphql");
+const {UserType} = require("../types")
+const {User, UserRole} = require("../../models")
+const {GraphQLString, GraphQLID, GraphQLList, GraphQLInt} = require("graphql")
 
 
 const registerUser = {
   type: UserType,
-  description: "Register new user",
+  description: "Register a new user",
   args: {
-    email: { type: GraphQLString },
-    password: { type: GraphQLString },
-    displayName: { type: GraphQLString },
-    userAuthority: {type: GraphQLString}
+    email: {type: GraphQLString},
+    password: {type: GraphQLString},
+    displayName: {type: GraphQLString},
+    userRole: {type: GraphQLString}
   },
   async resolve(parent, args) {
-    const { email, password, displayName, userAuthority } = args;
-    let checkEmail = await User.findOne({ email: email });
-    if (checkEmail) throw new Error("E-mail adresi kullanılmaktadır!");
-    let checkAuthority = await UserAuthority.findOne({ _id: userAuthority });
-    if (!checkAuthority) throw new Error("Böyle bir kullanıcı rolu yoktur!");
+    const {email, password, displayName, userRole} = args
+    let checkEmail = await User.findOne({email: email})
+    if (checkEmail) throw new Error("E-mail adresi kullanılmaktadır!")
+    let checkAuthority = await UserRole.findOne({_id: userRole})
+    if (!checkAuthority) throw new Error("Böyle bir kullanıcı rolu yoktur!")
     return bcrypt.genSalt(10).then((salt) => {
       return bcrypt.hash(password, salt).then(async (hash) => {
-        const user = new User({ email, password: hash, displayName, userAuthority });
-        return user.save();
-      });
-    });
-  },
-};
-const addUserAuthority = {
+        const user = new User({email, password: hash, displayName, userRole})
+        return user.save()
+      })
+    })
+  }
+}
+const addUserRole = {
   type: GraphQLString,
-  description: "Add new UserAuthority Type",
+  description: "Adds a new UserRole",
   args: {
-    typeName: { type: GraphQLString },
-    authorities: { type: new GraphQLList(GraphQLInt) }
+    typeName: {type: GraphQLString},
+    authorities: {type: new GraphQLList(GraphQLInt)}
   },
   async resolve(parent, args) {
-    const userAuthority = new UserAuthority(args);
-    await userAuthority.save((err, doc) => {
+    const userRole = new UserRole(args)
+    await userRole.save((err, doc) => {
       if (err) throw new Error("Hata")
     })
     return "Kullanıcı Tipi oluşturuldu "
-  },
-};
+  }
+}
 
-const updateUserAuthority = {
+const updateUserRole = {
   type: GraphQLString,
-  description: "Updates a Role",
+  description: "Updates a UserRole",
   args: {
-    _id: { type: GraphQLString },
-    typeName: { type: GraphQLString },
-    authorities: { type: new GraphQLList(GraphQLInt) }
+    _id: {type: GraphQLString},
+    typeName: {type: GraphQLString},
+    authorities: {type: new GraphQLList(GraphQLInt)}
   },
   async resolve(parent, args) {
-    const { _id, typeName, authorities } = args;
-    let userAuthority = await UserAuthority.findById(_id)
-    userAuthority.typeName = typeName
-    userAuthority.authorities = authorities
-    await userAuthority.save((err, doc) => {
-      if (err) throw new Error("Rol bilgileri güncellenemedi.");
+    const {_id, typeName, authorities} = args
+    let userRole = await UserRole.findById(_id)
+    userRole.typeName = typeName
+    userRole.authorities = authorities
+    await userRole.save((err, doc) => {
+      if (err) throw new Error("Rol bilgileri güncellenemedi.")
     })
     return "İşlem Başarılı"
-  },
-};
+  }
+}
 
-removeUserAuthority = {
+const removeUserRole = {
   type: GraphQLString,
-  description: "Removes  a User Role",
+  description: "Removes a User Role",
   args: {
-    _id: { type: GraphQLID },
+    _id: {type: GraphQLID}
   },
   async resolve(parent, args) {
-    const { _id } = args;
-    let isRoleUsing = await User.findOne({ userAuthority: { _id: _id} });
-    if (isRoleUsing) throw new Error("Bu rol bir kullanıcı tarafından kullanıldığı için SİLİNEMEZ!");
-    await UserAuthority.findByIdAndRemove(_id, (err, doc) => {
-      if (err) throw new Error("Bir hata oluştu");
-    });
-    return "İşlem başarılı.";
-  },
-};
+    const {_id} = args
+    let isRoleUsing = await User.findOne({userRole: {_id: _id}})
+    if (isRoleUsing) throw new Error("Bu rol bir kullanıcı tarafından kullanıldığı için SİLİNEMEZ!")
+    await UserRole.findByIdAndRemove(_id, (err, doc) => {
+      if (err) throw new Error("Bir hata oluştu")
+    })
+    return "İşlem başarılı."
+  }
+}
 
 const updateUser = {
   type: GraphQLString,
   description: "Update a User",
   args: {
-    _id: { type: GraphQLString },
-    email: { type: GraphQLString },
-    displayName: { type: GraphQLString },
-    userAuthority: {type: GraphQLString}
+    _id: {type: GraphQLString},
+    email: {type: GraphQLString},
+    displayName: {type: GraphQLString},
+    userRole: {type: GraphQLString}
   },
   async resolve(parent, args) {
-    const { _id, email, displayName, userAuthority } = args;
+    const {_id, email, displayName, userRole} = args
     let user = await User.findById(_id)
-    if (user.email != email){
-      let checkEmail = await User.findOne({ email: email });
-      if (checkEmail) throw new Error("E-mail adresi kullanılmaktadır!");
+    if (user.email != email) {
+      let checkEmail = await User.findOne({email: email})
+      if (checkEmail) throw new Error("E-mail adresi kullanılmaktadır!")
     }
     user.email = email
     user.displayName = displayName
-    user.userAuthority = userAuthority
+    user.userRole = userRole
     await user.save((err, doc) => {
-      if (err) throw new Error("Kullanıcı bilgileri güncellenemedi.");
+      if (err) throw new Error("Kullanıcı bilgileri güncellenemedi.")
     })
     return "İşlem Başarılı"
-  },
-};
+  }
+}
 
-removeAndRestoreUser = {
+const removeAndRestoreUser = {
   type: GraphQLString,
   description: "Remove or restore User",
   args: {
-    _id: { type: GraphQLID },
+    _id: {type: GraphQLID}
   },
   async resolve(parent, args) {
-    const { _id } = args;
-    let user = await User.findById(_id);
-    let isDeleted = !user.deleted;
+    const {_id} = args
+    let user = await User.findById(_id)
+    let isDeleted = !user.deleted
     await User.updateOne(
-      { _id: user._id },
+      {_id: user._id},
       {
         $set: {
-          deleted: isDeleted,
-        },
+          deleted: isDeleted
+        }
       },
       (err, doc) => {
-        if (err) throw new Error("Bir hata oluştu");
+        if (err) throw new Error("Bir hata oluştu")
       }
-    );
-    return "İşlem başarılı.";
-  },
+    )
+    return "İşlem başarılı."
+  }
 }
 
-removeFullUser = {
+const removeFullUser = {
   type: GraphQLString,
-  description: "Permanently Removes  a User",
+  description: "Permanently Removes a User",
   args: {
-    _id: { type: GraphQLID },
+    _id: {type: GraphQLID}
   },
   async resolve(parent, args) {
-    const { _id } = args;
+    const {_id} = args
     await User.findByIdAndRemove(_id, (err, doc) => {
-      if (err) throw new Error("Bir hata oluştu");
-    });
-    return "İşlem başarılı.";
-  },
-};
+      if (err) throw new Error("Bir hata oluştu")
+    })
+    return "İşlem başarılı."
+  }
+}
 module.exports = {
   registerUser,
   updateUser,
   removeFullUser,
   removeAndRestoreUser,
-  addUserAuthority,
-  updateUserAuthority,
-  removeUserAuthority
-};
+  addUserRole,
+  updateUserRole,
+  removeUserRole
+}
