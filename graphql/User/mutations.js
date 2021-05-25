@@ -90,7 +90,7 @@ const updateUser = {
     displayName: {type: GraphQLString},
     userRole: {type: GraphQLString}
   },
-  async resolve(parent, args) {
+  resolve: async function (parent, args) {
     const {_id, email, displayName, userRole} = args
     let user = await User.findById(_id)
     if (user.email != email) {
@@ -99,7 +99,7 @@ const updateUser = {
     }
     user.email = email
     user.displayName = displayName
-    user.userRole = userRole
+    user.userRole = userRole == 'undefined' ? user.userRole : userRole
     await user.save((err, doc) => {
       if (err) throw new Error("Kullanıcı bilgileri güncellenemedi.")
     })

@@ -58,6 +58,7 @@ router.route("/mailUpdate").post(SettingPostController.updateMail)
 
 router.route("/addUser").post(UserPostsController.addUser)
 router.route("/updateUser/:id").post(UserPostsController.updateUser)
+router.route("/changeUserPassword/:id").post(UserPostsController.changeUserPassword)
 router.route("/removeFullUser/:id").post(UserPostsController.removeFullUser)
 router.route("/removeAndRestoreUser/:id").post(UserPostsController.removeAndRestoreUser)
 

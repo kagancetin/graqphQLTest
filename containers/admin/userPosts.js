@@ -2,6 +2,8 @@ const {graphql} = require("graphql")
 const schema = require("../../graphql/schema")
 const generator = require("generate-password")
 const mailer = require("../../helpers/mailer")
+const {User} = require("../../models")
+const bcrypt = require("bcryptjs");
 
 const generatePassword = () => {
   return generator.generate({
@@ -51,7 +53,7 @@ module.exports = {
         _id:"${req.params.id}",
         email:"${req.body.email}",
         displayName:"${req.body.displayName}"
-        userRole: "${req.body.editRoleId}"
+        userRole: "${req.body.roleId}"
 
       )
     }
@@ -65,6 +67,40 @@ module.exports = {
         res.redirect("/admin/users")
       }
     })
+  },
+  changeUserPassword: async (req, res, next) => {
+    const user = await User.findById(req.params.id).select({password: 1})
+    console.log(user)
+    await bcrypt.compare(req.body.oldpassword, user.password, (err, response) => {
+      if (err){
+        req.flash("error", "Sistemde bir hata oluştu lütfen bildiriniz.")
+        res.redirect("/admin/settings")
+      }
+      else {
+        if (!response){
+          req.flash("error", "Eski Şifreniz uyuşmuyor")
+          res.redirect("/admin/settings")
+        }
+        else {
+          bcrypt.genSalt(10).then((salt) => {
+            bcrypt.hash(req.body.newpassword1, salt).then(async (hash) => {
+              User.findByIdAndUpdate(req.params.id, {$set: {password: hash}}, (err, doc) => {
+                if (err) {
+                  req.flash("error", "Şifre Değiştirme Hatası")
+                  res.redirect("/admin/settings")
+                } else {
+                  req.flash("success", "Şifre Değiştirildi")
+                  res.redirect("/admin/settings")
+                }
+              });
+
+            })
+          })
+        }
+      }
+
+    })
+
   },
   removeAndRestoreUser: async (req, res, next) => {
     let query = `
