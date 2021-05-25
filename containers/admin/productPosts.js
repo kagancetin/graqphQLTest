@@ -11,9 +11,7 @@ module.exports = {
       }}   
     `
     graphql(schema, query).then((result) => {
-      //console.log(result)
       if (result.errors) {
-        //console.log(result.errors)
         res.send({
           err: "Bir hata oluştu. Sayfayı yenileyin yine hata alırsanız, lütfen hatayı bildiriniz!"
         })

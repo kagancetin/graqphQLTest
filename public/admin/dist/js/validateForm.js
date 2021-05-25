@@ -24,7 +24,6 @@ function validateForm(e) {
 }
 
 function validateFormSubmit(event, e) {
-  console.log(e);
   let requiredInputs = e.querySelectorAll("[data-valid=required]");
   let requiredError = [];
   requiredInputs.forEach((item) => {
@@ -45,5 +44,13 @@ function validateFormSubmit(event, e) {
     toastr.warning("Renkli alanlar boş bırakılamaz!", "Dikkat!");
     event.preventDefault()
   }
+}
+
+function validateChangePassword(event, e) {
+  let passwords = e.querySelectorAll("[data-valid-password=password]")
+    if (passwords[0].value != passwords[1].value){
+      toastr.warning("Şifreler aynı diil", "Dikkat!");
+      event.preventDefault()
+    }
 }
 

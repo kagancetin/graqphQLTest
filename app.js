@@ -5,6 +5,7 @@ const logger = require("morgan");
 const helmet = require("helmet");
 const flash = require("connect-flash");
 const session = require("express-session");
+const FileStore = require('session-file-store')(session);
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
@@ -59,11 +60,13 @@ app.set("views", path.join(__dirname, "views"));
 app.use(cookieParser("white rabbit"));
 //Cookie Parser
 // Session
+const fileStoreOptions = {};
 app.use(
   session({
     secret: "white rabbit",
     resave: true,
     saveUninitialized: true,
+    store: new FileStore(fileStoreOptions)
   })
 );
 // Session
@@ -84,7 +87,6 @@ app.use(async (req, res, next) => {
   };
 
   if (req.user) {
-    console.log("auth user", req.user);
     if (req.user.admin) {
       res.locals.admin = req.user;
     } else {
