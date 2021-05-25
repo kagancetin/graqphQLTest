@@ -1,6 +1,7 @@
 const {Customer, CustomerAddress} = require("../../models")
 const {CustomerType} = require("../types")
 const {GraphQLString, GraphQLID} = require("graphql")
+const bcrypt = require("bcryptjs");
 
 const registerCustomer = {
   type: CustomerType,
@@ -30,21 +31,21 @@ const registerCustomer = {
   }
 }
 
-const removeAndRestoreCustomer = {
+const banAndUnbanCustomer = {
   type: GraphQLString,
-  description: "Remove or restore User",
+  description: "Ban or Unban a Customer",
   args: {
     _id: {type: GraphQLID}
   },
   async resolve(parent, args) {
     const {_id} = args
     let customer = await Customer.findById(_id)
-    let isDeleted = !customer.deleted
+    let isBanned = !customer.banned
     await Customer.updateOne(
       {_id: customer._id},
       {
         $set: {
-          deleted: isDeleted
+          banned: isBanned
         }
       },
       (err, doc) => {
@@ -77,5 +78,5 @@ const removeFullCustomer = {
 module.exports = {
   registerCustomer,
   removeFullCustomer,
-  removeAndRestoreCustomer
+  banAndUnbanCustomer
 }

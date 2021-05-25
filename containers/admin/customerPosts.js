@@ -2,10 +2,10 @@ const { graphql } = require("graphql");
 const schema = require("../../graphql/schema");
 
 module.exports = {
-  removeAndRestoreCustomer: async (req, res, next) => {
+  banAndUnbanCustomer: async (req, res, next) => {
     let query = `
     mutation{
-      removeAndRestoreCustomer(_id:"${req.params.id}")
+      banAndUnbanCustomer(_id:"${req.params.id}")
     }
     `;
     graphql(schema, query).then((result) => {
@@ -13,7 +13,7 @@ module.exports = {
         req.flash("error", result.errors[0].message);
         res.redirect("/admin/customers")
       } else {
-        req.flash("success", result.data.removeAndRestoreCustomer);
+        req.flash("success", result.data.banAndUnbanCustomer);
         res.redirect("/admin/customers")
       }
     });

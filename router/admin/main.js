@@ -65,7 +65,7 @@ router.route("/addRole").post(UserPostsController.addRole)
 router.route("/editRole/:id").post(UserPostsController.editRole)
 router.route("/removeRole/:id").post(UserPostsController.removeRole)
 
-router.route("/removeAndRestoreCustomer/:id").post(CustomerPostsController.removeAndRestoreCustomer)
+router.route("/banAndUnbanCustomer/:id").post(CustomerPostsController.banAndUnbanCustomer)
 router.route("/removeFullCustomer/:id").post(CustomerPostsController.removeFullCustomer)
 
 router.use(
