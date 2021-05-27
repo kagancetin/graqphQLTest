@@ -26,31 +26,38 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+                {{#inArray admin.userRole 2}}
                 <li class="nav-item">
                     <a href="/admin/orders" class="nav-link">
                         <i class="fas fa-motorcycle nav-icon"></i>
                         <p>Siparişler</p>
                     </a>
                 </li>
+                {{/inArray}}
+                {{#inArray admin.userRole 1}}
                 <li class="nav-item">
                     <a href="/admin/users" class="nav-link">
                         <i class="fas fa-users nav-icon"></i>
                         <p>Kullanıcılar</p>
                     </a>
                 </li>
+                {{/inArray}}
+                {{#inArray admin.userRole 4}}
                 <li class="nav-item">
                     <a href="/admin/customers" class="nav-link">
                         <i class="fas fa-address-book nav-icon"></i>
                         <p>Müşteriler</p>
                     </a>
                 </li>
+                {{/inArray}}
+                    {{#inArray admin.userRole 3}}
                 <li class="nav-item">
                     <a href="/admin/products" class="nav-link">
                         <i class="fas fa-utensils nav-icon"></i>
                         <p>Ürünler</p>
                     </a>
                 </li>
-
+                    {{/inArray}}
                 <!-- 
                 <li class="nav-item menu-open">
 

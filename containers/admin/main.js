@@ -136,7 +136,7 @@ module.exports = {
       } else {
         res.render("pages/admin/products", {
           layout: "admin.handlebars",
-          groups: result.data.getGroups
+          groups: result.data.getGroups,
         })
       }
     })

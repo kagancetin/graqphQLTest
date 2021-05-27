@@ -4,7 +4,7 @@ const productSchema = new mongoose.Schema(
   {
     productName: {
       type: String,
-      required: true,
+      required: true
     },
     productDescription: {
       type: String,
@@ -13,9 +13,7 @@ const productSchema = new mongoose.Schema(
     price: {
       type: Number,
       required: true,
-      get: (e) => {
-        return parseFloat(e).toFixed(2);
-      },
+      set: (e) => parseFloat(e).toFixed(2)
     },
     groupId: {
       type: String,

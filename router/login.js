@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const {rePasswordPage} = require("../helpers/passport/resetPassword")
+
 router.route("/").post(async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -34,7 +35,9 @@ router.route("/").post(async (req, res, next) => {
 });
 
 router.route("/logout").get(async (req, res, next) => {
-  req.logout();
+  console.log("çıkış yapıldı")
+  req.session.destroy()
+  req.logout()
   res.redirect("/");
 });
 
