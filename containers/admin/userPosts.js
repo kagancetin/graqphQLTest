@@ -137,6 +137,7 @@ module.exports = {
     })
   },
   addRole: async (req, res, next) => {
+    console.log(req.body)
     let authorities = []
     if (req.body.rol1)
       authorities.push(1)
