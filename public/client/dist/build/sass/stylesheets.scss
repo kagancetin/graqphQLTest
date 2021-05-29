@@ -7,6 +7,7 @@ $yellow: #ecaf44;
 $white: #fbfbfb;
 $dark-blue: #1a2c42;
 $myblack: #0c1115;
+$mygrey: #e4e4e4;
 $theme-colors: (
   primary: $primary,
   secondary: $secondary,
@@ -21,6 +22,7 @@ $theme-colors: (
   yellow: $yellow,
   myblack: $myblack,
   dark-blue: $dark-blue,
+  mygrey: $mygrey,
 );
 
 $font-family-sans-serif: "Roboto", sans-serif;
@@ -74,15 +76,16 @@ $font-family-base: $font-family-sans-serif;
 @import "../../../plugins/bootstrap/scss/helpers";
 // Utilities
 @import "../../../plugins/bootstrap/scss/utilities/api";
-/*
-.fixed-top {
-  a {
-    color: $yellow;
-  }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-.fixed-top.scrolled {
-  background-color: $myblack;
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 /* GLOBAL STYLES
@@ -91,7 +94,6 @@ $font-family-base: $font-family-sans-serif;
 
 body {
   padding-top: 3rem;
-  padding-bottom: 3rem;
   color: #5a5a5a;
   margin: 0;
 }
@@ -99,26 +101,14 @@ body {
 /* CUSTOMIZE THE CAROUSEL
 -------------------------------------------------- */
 
-/* Carousel base class */
-.carousel {
-  margin-bottom: 4rem;
-}
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
   bottom: 3rem;
   z-index: 10;
-}
-
-/* Declare heights because of positioning of img element */
-.carousel-item {
-  height: 32rem;
-}
-.carousel-item > img {
-  position: absolute;
-  top: 0;
+  width: 100%;
+  right: 0;
   left: 0;
-  min-width: 100%;
-  height: 32rem;
+  background-color: rgba(33, 37, 41, 0.5);
 }
 
 /* MARKETING CONTENT
@@ -154,6 +144,10 @@ body {
   letter-spacing: -0.05rem;
 }
 
+.section-header {
+  text-align: center;
+}
+
 /* RESPONSIVE CSS
 -------------------------------------------------- */
 
@@ -178,4 +172,56 @@ body {
 
 .login-button::after {
   display: none;
+}
+
+.product-group {
+  margin-top: 30px;
+  .product-group-header {
+  }
+
+  .product-group-body {
+    padding-left: 10px;
+    padding-right: 10px;
+    .product-detail {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .product-name {
+        .product-description {
+          opacity: 0.8;
+        }
+      }
+
+      .product-buttons {
+      }
+    }
+  }
+}
+
+.basket-trash {
+  cursor: pointer;
+  font-size: 20px;
+  &:hover {
+    color: $myred;
+  }
+}
+
+.costumer-sidebar {
+  nav {
+    font-size: 0.875rem;
+    ul {
+      padding-left: 0;
+      list-style: none;
+      li {
+        margin-bottom: 0.25rem;
+      }
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    a:hover {
+      text-decoration: none;
+    }
+  }
 }

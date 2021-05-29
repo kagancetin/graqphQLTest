@@ -1,0 +1,227 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-3 d-none d-md-block py-5 text-muted costumer-sidebar">
+            <nav>
+                <ul class="list-unstyled position-fixed">
+                    <li><a href="#costumer-settings" class="link-dark rounded">Kullanıcı Ayarları</a></li>
+                    <li><a href="#address-settings" class="link-dark rounded">Adres Bilgilerim</a></li>
+                    <li><a href="#old-orders" class="link-dark rounded">Eski Siparişlerim</a></li>
+                </ul>
+            </nav>
+
+        </div>
+        <div class="col-12 col-md-9">
+            <section id="costumer-settings" class="py-5">
+                <div class="card">
+                    <div class="card-header">
+                        Kullanıcı Ayarları
+                    </div>
+                    <div class="card-body">
+                        <h5>Genel Bilgiler</h5>
+                        <form class="pb-5 pt-2" action="">
+                            <div class="row mb-3">
+                                <div class="col-3 d-flex justify-content-end align-items-center"><label
+                                        for="displayName">İsim Soyisim</label></div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" id="displayName" name="displayName"
+                                        value="{{costumer.displayName}}" />
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-3 d-flex justify-content-end align-items-center"><label
+                                        for="email">Email</label></div>
+                                <div class="col-9">
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        value="{{costumer.email}}" />
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-3 d-flex justify-content-end align-items-center"><label
+                                        for="phoneNumber">Telefon Numarası</label></div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
+                                        value="{{costumer.phoneNumber}}" />
+                                </div>
+                            </div>
+                            <button class="btn btn-yellow float-end" type="submit">Bilgilerimi Güncelle</button>
+                        </form>
+                        <hr />
+                        <h5>Şifre Değiştirme</h5>
+                        <form class="pb-5 pt-2" action="">
+                            <div class="row mb-3">
+                                <div class="col-3 d-flex justify-content-end align-items-center"><label
+                                        for="oldPassword">Eski şifre</label></div>
+                                <div class="col-9">
+                                    <input type="password" class="form-control" id="oldPassword" name="oldPassword" />
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-3 d-flex justify-content-end align-items-center"><label
+                                        for="newPassword">Yeni Şifre</label></div>
+                                <div class="col-9">
+                                    <input type="password" class="form-control" id="newPassword" name="newPassword" />
+                                </div>
+
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-3 d-flex justify-content-end align-items-center"><label
+                                        for="rePassword">Yeni şifre Kontrol</label></div>
+                                <div class="col-9">
+                                    <input type="password" class="form-control" id="rePassword" name="rePassword" />
+                                </div>
+                            </div>
+                            <button class="btn btn-myred float-end" type="submit">Şifremi Güncelle</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+            <section id="address-settings" class="py-5">
+                <div class="card">
+                    <div class="card-header">
+                        Adres Bilgileri
+                    </div>
+                    <div class="card-body">
+                        <h5>Adreslerim</h5>
+                        <div class="p-3">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    Bahçelievler Mah. 1345 sokak. No:21 Daire:2
+                                    <p><small>Ev Adresim</small></p>
+                                </div>
+                                <div>
+                                    <button onclick="editAddressModal()" class="btn btn-yellow h-auto"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button onclick="removeAddressModal()" class="btn btn-myred h-auto"><i
+                                            class="fas fa-trash"></i></button>
+                                </div>
+
+                            </div>
+                            <hr />
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    Mahkeme Mah Halil sokak. No:23 Daire:5
+                                    <p><small>İş Adresim</small></p>
+                                </div>
+                                <div>
+                                    <button onclick="editAddressModal()" class="btn btn-yellow h-auto"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button onclick="removeAddressModal()" class="btn btn-myred h-auto"><i
+                                            class="fas fa-trash"></i></button>
+                                </div>
+
+                            </div>
+                            <hr />
+                        </div>
+
+                        <button onclick="addAddressModal()" class="btn btn-primary">Adres Ekle</button>
+                    </div>
+                </div>
+            </section>
+            <section id="old-orders" class="py-5">
+                <div class="card">
+                    <div class="card-header">
+                        Eski Siparişler
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                12/05/2021
+                            </div>
+                            <div>
+                                <ul>
+                                    <li>
+                                        <div>3 Adet <strong>Kaşarlı Et Döner</strong></div>
+                                        <div><small>İçecek: Fanta,Dürümden çıkar: Mayonez,Patates: Baharatlı</small>
+                                        </div>
+                                        <div><strong class="text-myred">30 TL</strong></div>
+                                    </li>
+                                    <li>
+                                        <div>3 Adet <strong>Ayran</strong></div>
+                                        <div><strong class="text-myred">15 TL</strong></div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <button class="btn btn-yellow h-auto">Tekrarla</button>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                10/05/2021
+                            </div>
+                            <div>
+                                <ul>
+                                    <li>
+                                        <div>3 Adet <strong>Kaşarlı Et Döner</strong></div>
+                                        <div><small>İçecek: Fanta,Dürümden çıkar: Mayonez,Patates: Baharatlı</small>
+                                        </div>
+                                        <div><strong class="text-myred">30 TL</strong></div>
+                                    </li>
+                                    <li>
+                                        <div>3 Adet <strong>Klasik Et Döner</strong></div>
+                                        <div><small>İçecek: Fanta,Dürümden çıkar: Mayonez,Patates: Baharatlı</small>
+                                        </div>
+                                        <div><strong class="text-myred">30 TL</strong></div>
+                                    </li>
+                                    <li>
+                                        <div>3 Adet <strong>Kaşarlı Mantarlı Et Döner</strong></div>
+                                        <div><small>İçecek: Fanta,Dürümden çıkar: Mayonez,Patates: Baharatlı</small>
+                                        </div>
+                                        <div><strong class="text-myred">30 TL</strong></div>
+                                    </li>
+                                    <li>
+                                        <div>3 Adet <strong>Ayran</strong></div>
+                                        <div><strong class="text-myred">15 TL</strong></div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <button class="btn btn-yellow h-auto">Tekrarla</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+        </div>
+        </section>
+    </div>
+</div>
+</div>
+
+{{#section "link"}}{{/section}}
+
+{{#section "style"}}
+    <style>
+    </style>
+{{/section}}
+
+{{#section "script"}}
+    <script id="editAddressModal-template" type="text/x-handlebars-template">
+    {{> client/modals/editAddressModal}}
+    </script>
+    <script id="removeAddressModal-template" type="text/x-handlebars-template">
+    {{> client/modals/removeAddressModal}}
+    </script>
+
+    <script>
+
+        let editAddressModal = async function () {
+            var source = document.getElementById("editAddressModal-template").innerHTML;
+            var template = await Handlebars.compile(source);
+            var html = await template();
+            document.getElementById("modals").innerHTML = html;
+            $("#editAddressModal").modal("show");
+        };
+
+        let removeAddressModal = async function () {
+            var source = document.getElementById("removeAddressModal-template").innerHTML;
+            var template = await Handlebars.compile(source);
+            var html = await template();
+            document.getElementById("modals").innerHTML = html;
+            $("#removeAddressModal").modal("show");
+        };
+
+    </script>
+
+{{/section}}
