@@ -56,3 +56,27 @@ let loginPost = async (e) => {
   };
   xhr.send(JSON.stringify(data));
 };
+
+let addProductToBasketModal = async function () {
+  var source = document.getElementById("addProductToBasketModal-template").innerHTML;
+  var template = await Handlebars.compile(source);
+  var html = await template();
+  document.getElementById("modals").innerHTML = html;
+  $("#addProductToBasketModal").modal("show");
+};
+
+let basketModal = async function () {
+  var source = document.getElementById("basketModal-template").innerHTML;
+  var template = await Handlebars.compile(source);
+  var html = await template();
+  document.getElementById("modals").innerHTML = html;
+  $("#basketModal").modal("show");
+};
+
+let addAddressModal = async function () {
+  var source = document.getElementById("addAddressModal-template").innerHTML;
+  var template = await Handlebars.compile(source);
+  var html = await template();
+  document.getElementById("modals").innerHTML = html;
+  $("#addAddressModal").modal("show");
+};

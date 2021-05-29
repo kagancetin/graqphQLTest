@@ -1,0 +1,63 @@
+<!-- Modal -->
+<div class="modal fade" id="editAddressModal" tabindex="-1" aria-labelledby="editAddressModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editAddressModalLabel">Adres Düzenle</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form>
+          <label class="mb-2" for="addressName">ADRESİNİZİN ADI</label>
+          <div class="pb-2">
+            <input
+              type="text"
+              class="form-control"
+              id="addressName"
+              name="addressName"
+              placeholder="Adresinizi tanımlamak için isim giriniz.(örn. Ev Adresim)"
+            />
+          </div>
+          <label class="mb-2" for="district">MAHALLE</label>
+          <div class="pb-2">
+            <select class="form-select" id="district" name="district" aria-label="Mahalle Seçiniz">
+              <option value="1">BAHÇELİEVLER MAHALLESİ</option>
+              <option value="2">CUMHURİYET MAHALLESİ</option>
+              <option value="3">İSKELE MAHALLESİ</option>
+              <option value="4">ÖREN MAHALLESİ</option>
+            </select>
+          </div>
+          <label class="mb-2" for="street">CADDE, SOKAK</label>
+          <div class="pb-2">
+            <textarea name="street" id="street" cols="30" class="form-control" rows="3" placeholder="Cadde ya da Sokak giriniz."></textarea>
+          </div>
+
+          <label class="mb-2" for="other"> BİNA ADI ve NUMARASI, KAPI NUMARASI </label>
+          <div class="pb-2">
+            <textarea
+              name="other"
+              id="other"
+              cols="30"
+              class="form-control"
+              rows="3"
+              placeholder="Bina Adı, Numarası ve kapı numarasını giriniz."
+            ></textarea>
+          </div>
+          <label class="mb-2" for="directions"> ADRES TARİFİ </label>
+          <div class="pb-2">
+            <textarea
+              name="directions"
+              id="directions"
+              cols="30"
+              class="form-control"
+              rows="3"
+              placeholder="Sizi daha rahat bulmamız için adresinizi tarif edebilirsiniz."
+            ></textarea>
+          </div>
+          <small>Sadece ilgili mahallelere hizmet verilmektedir.</small>
+          <button class="w-100 btn btn-lg btn-yellow" type="submit">Adresimi Kaydet</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
