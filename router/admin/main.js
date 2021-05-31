@@ -48,6 +48,7 @@ router.route("/removeFullProduct").post(roleCheck(Role.products), ProductPostsCo
 
 router.route("/resetPassword/:id").post(resetPassword)
 router.route("/mailUpdate").post(roleCheck(Role.users), SettingPostController.updateMail)
+router.route("/updateDistrict").post(roleCheck(Role.users), SettingPostController.updateDistrict)
 
 router.route("/addUser").post(roleCheck(Role.users), UserPostsController.addUser)
 router.route("/updateUser/:id").post(roleCheck(Role.users), UserPostsController.updateUser)

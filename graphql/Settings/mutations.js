@@ -1,6 +1,5 @@
-const { MailSettingsType } = require("../types");
-const { MailSettings } = require("../../models");
-const { GraphQLString, GraphQLInt } = require("graphql");
+const { MailSettings, District } = require("../../models");
+const { GraphQLString, GraphQLInt, GraphQLBoolean, GraphQLFloat } = require("graphql");
 
 const updateMail = {
   type: GraphQLString,
@@ -23,4 +22,23 @@ const updateMail = {
   },
 };
 
-module.exports = {updateMail};
+const updateDistrict = {
+  type: GraphQLString,
+  description: "update District",
+  args: {
+    name: {type: GraphQLString},
+    limit: {type: GraphQLFloat},
+    service: {type: GraphQLBoolean}
+  },
+  async resolve(parent, args) {
+    let {name,limit, service} = args
+    console.log("args: ", args)
+    const dnm = await District.findOneAndUpdate({name: name}, {limit: limit, service: service}, (err, doc) => {
+      if (err) throw new Error("District kaydetme hatası!");
+    })
+    console.log("return: ", dnm)
+    return "District Güncelleme İşlemi Başarılı"
+  },
+};
+
+module.exports = {updateMail, updateDistrict};

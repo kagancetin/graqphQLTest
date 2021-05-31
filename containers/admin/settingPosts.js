@@ -22,4 +22,21 @@ module.exports = {
       res.redirect("/admin/settings")
     })
   },
+  updateDistrict: async (req, res, next) => {
+    let query = `
+    mutation{updateDistrict(
+      name: "${req.body.district}"
+      limit: ${req.body.limit}
+      service: ${req.body.service}
+    )}
+    `
+    graphql(schema, query).then((result) => {
+      if (result.errors) {
+        req.flash("error", result.errors[0].message)
+      } else {
+        req.flash("success", result.data.updateDistrict)
+      }
+      res.redirect("/admin/settings")
+    })
+  }
 }

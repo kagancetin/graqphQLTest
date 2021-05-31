@@ -232,6 +232,12 @@ module.exports = {
       host
       port
       }
+      districts {
+        _id
+        name
+        limit
+        service
+      }
       user(filter:{_id:"${req.user._id}"}) {
        _id
        email
@@ -252,7 +258,8 @@ module.exports = {
         res.render("pages/admin/settings", {
           layout: "admin.handlebars",
           mail: result.data.mail,
-          user: result.data.user
+          user: result.data.user,
+          districts: result.data.districts
         })
       }
     })

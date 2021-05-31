@@ -173,6 +173,16 @@ const MailSettingsType = new GraphQLObjectType({
     updatedAt: {type: GraphQLString}
   })
 })
+const DistrictType = new GraphQLObjectType({
+  name: "District",
+  description: "District type",
+  fields: () => ({
+    _id: {type: GraphQLID},
+    name: {type: GraphQLString},
+    limit: {type: GraphQLFloat},
+    service: {type: GraphQLBoolean}
+  })
+})
 module.exports = {
   UserType,
   UserRoleType,
@@ -181,5 +191,6 @@ module.exports = {
   GroupType,
   ProductType,
   OptionType,
-  MailSettingsType
+  MailSettingsType,
+  DistrictType
 }
