@@ -7,5 +7,6 @@ module.exports = {
   Option: require("./Option"),
   Token: require("./Token"),
   MailSettings: require("./MailSettings"),
-  UserRole: require("./UserRole")
+  UserRole: require("./UserRole"),
+  District: require("./District")
 }
