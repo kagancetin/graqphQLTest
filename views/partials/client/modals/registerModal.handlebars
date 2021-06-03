@@ -7,21 +7,21 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
-                <form>
+                <form id="registerPostForm" role="form" method="post" onsubmit="validateFormSubmit(event, this)" action="/registerCustomer">
                     <div class="form-floating pb-2">
-                        <input type="text" class="form-control" id="displayName" placeholder="İsim Soyisim">
+                        <input type="text" class="form-control" name="displayName" id="displayName" placeholder="İsim Soyisim">
                         <label for="displayName">İsim Soyisim</label>
                     </div>
                     <div class="form-floating pb-2">
-                        <input type="email" class="form-control" id="email" placeholder="E-mail">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="E-mail">
                         <label for="email">E-mail</label>
                     </div>
                     <div class="form-floating pb-2">
-                        <input type="password" class="form-control" id="password" placeholder="Şifre">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Şifre">
                         <label for="password">Şifre</label>
                     </div>
                     <div class="form-floating pb-2">
-                        <input type="text" class="form-control" id="phoneNumber" placeholder="Şifre">
+                        <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" placeholder="Şifre">
                         <label for="phoneNumber">Telefon Numarası</label>
                     </div>
 

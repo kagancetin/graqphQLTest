@@ -46,11 +46,11 @@ router.route("/removeProduct").post(roleCheck(Role.products), ProductPostsContro
 router.route("/restoreProduct").post(roleCheck(Role.products), ProductPostsController.restoreProduct)
 router.route("/removeFullProduct").post(roleCheck(Role.products), ProductPostsController.removeFullProduct)
 
-router.route("/resetPassword/:id").post(resetPassword)
 router.route("/mailUpdate").post(roleCheck(Role.users), SettingPostController.updateMail)
 
 router.route("/addUser").post(roleCheck(Role.users), UserPostsController.addUser)
 router.route("/updateUser/:id").post(roleCheck(Role.users), UserPostsController.updateUser)
+router.route("/resetUserPassword/:id").post(roleCheck(Role.users), resetPassword)
 router.route("/changeUserPassword/:id").post(roleCheck(Role.users), UserPostsController.changeUserPassword)
 router.route("/removeFullUser/:id").post(roleCheck(Role.users), UserPostsController.removeFullUser)
 router.route("/removeAndRestoreUser/:id").post(roleCheck(Role.users), UserPostsController.removeAndRestoreUser)
@@ -59,6 +59,7 @@ router.route("/addRole").post(roleCheck(Role.users), UserPostsController.addRole
 router.route("/editRole/:id").post(roleCheck(Role.users), UserPostsController.editRole)
 router.route("/removeRole/:id").post(roleCheck(Role.users), UserPostsController.removeRole)
 
+router.route("/resetCustomerPassword/:id").post(roleCheck(Role.customers), resetPassword)
 router.route("/banAndUnbanCustomer/:id").post(roleCheck(Role.customers), CustomerPostsController.banAndUnbanCustomer)
 router.route("/removeFullCustomer/:id").post(roleCheck(Role.customers), CustomerPostsController.removeFullCustomer)
 

@@ -1,9 +1,9 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-3 d-none d-md-block py-5 text-muted costumer-sidebar">
+        <div class="col-md-3 d-none d-md-block py-5 text-muted customer-sidebar">
             <nav>
                 <ul class="list-unstyled position-fixed">
-                    <li><a href="#costumer-settings" class="link-dark rounded">Kullanıcı Ayarları</a></li>
+                    <li><a href="#customer-settings" class="link-dark rounded">Kullanıcı Ayarları</a></li>
                     <li><a href="#address-settings" class="link-dark rounded">Adres Bilgilerim</a></li>
                     <li><a href="#old-orders" class="link-dark rounded">Eski Siparişlerim</a></li>
                 </ul>
@@ -11,7 +11,7 @@
 
         </div>
         <div class="col-12 col-md-9">
-            <section id="costumer-settings" class="py-5">
+            <section id="customer-settings" class="py-5">
                 <div class="card">
                     <div class="card-header">
                         Kullanıcı Ayarları
@@ -24,7 +24,7 @@
                                         for="displayName">İsim Soyisim</label></div>
                                 <div class="col-9">
                                     <input type="text" class="form-control" id="displayName" name="displayName"
-                                        value="{{costumer.displayName}}" />
+                                        value="{{customer.displayName}}" />
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -32,7 +32,7 @@
                                         for="email">Email</label></div>
                                 <div class="col-9">
                                     <input type="email" class="form-control" id="email" name="email"
-                                        value="{{costumer.email}}" />
+                                        value="{{customer.email}}" />
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -40,7 +40,7 @@
                                         for="phoneNumber">Telefon Numarası</label></div>
                                 <div class="col-9">
                                     <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
-                                        value="{{costumer.phoneNumber}}" />
+                                        value="{{customer.phoneNumber}}" />
                                 </div>
                             </div>
                             <button class="btn btn-yellow float-end" type="submit">Bilgilerimi Güncelle</button>

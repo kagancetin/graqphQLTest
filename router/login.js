@@ -1,45 +1,39 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-const {rePasswordPage} = require("../helpers/passport/resetPassword")
 
 router.route("/").post(async (req, res, next) => {
-  const email = req.body.email;
-  const password = req.body.password;
-  if (email == "") {
-    res.send({ err: "Email giriniz!" });
-  } else if (password == "") {
-    res.send({ err: "Parola giriniz!" });
-  } else {
-    passport.authenticate("local", function (err, user, info) {
-      if (err) {
-        res.send({ err: err });
-      } else {
-        req.login(user, function (error) {
-          if (error) {
-            console.log(error);
-            res.send({ err: error });
+  passport.authenticate("local", function (err, user, info) {
+    if (err) {
+      req.flash("error", err);
+      res.redirect("/")
+    } else {
+      req.login(user, function (error) {
+        if (error) {
+          console.log(error);
+          req.flash("error", error);
+          res.redirect("/")
+        } else {
+          if (req.body.remember) {
+            req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000 * 2; // Cookie expires after 60 days
           } else {
-            if (req.body.remember) {
-              req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000 * 2; // Cookie expires after 60 days
-            } else {
-              req.session.cookie.expires = false; // Cookie expires at end of session
-            }
-            req.flash("success", info.message);
-            res.send({ err: null });
+            req.session.cookie.expires = false; // Cookie expires at end of session
           }
-        });
-      }
-    })(req, res, next);
-  }
+          req.flash("success", info.message);
+          res.redirect("/")
+        }
+      });
+    }
+  })(req, res, next);
+
 });
 
 router.route("/logout").get(async (req, res, next) => {
-  console.log("çıkış yapıldı")
+  console.log("çıkış yapıyorum")
   req.session.destroy()
   req.logout()
   res.redirect("/");
 });
 
-router.route("/resetPassword/:token").get(rePasswordPage)
+
 module.exports = router;
