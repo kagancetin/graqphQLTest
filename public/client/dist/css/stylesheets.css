@@ -13684,25 +13684,25 @@ body {
   color: #be2f29;
 }
 
-.costumer-sidebar nav {
+.customer-sidebar nav {
   font-size: 0.875rem;
 }
 
-.costumer-sidebar nav ul {
+.customer-sidebar nav ul {
   padding-left: 0;
   list-style: none;
 }
 
-.costumer-sidebar nav ul li {
+.customer-sidebar nav ul li {
   margin-bottom: 0.25rem;
 }
 
-.costumer-sidebar nav a {
+.customer-sidebar nav a {
   text-decoration: none;
   color: inherit;
 }
 
-.costumer-sidebar nav a:hover {
+.customer-sidebar nav a:hover {
   text-decoration: none;
 }
 /*# sourceMappingURL=stylesheets.css.map */

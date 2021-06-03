@@ -6,7 +6,7 @@ const Customer = require("../../models/Customer");
 const UserRole = require("../../models/UserRole")
 
 const localOptions = {usernameField: "email", passwordField: "password", passReqToCallback: true}
-const successMessage = {message: "Başarıyla admin girişi yapıldı."}
+const successMessage = {message: "Başarıyla giriş yapıldı."}
 const passwordFail =  "Yanlış şifre girdiniz!"
 const usernameFail = "Kullanıcı Bulunamadı!"
 

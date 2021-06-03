@@ -8,14 +8,14 @@
             </div>
             <div class="modal-body p-4">
                 <form id="loginPostForm" role="form" method="post"
-                    onsubmit="return loginPost(event)" action="/login">
+                    onsubmit="validateFormSubmit(event, this)" action="/login">
                     <div class="form-floating pb-2">
-                        <input type="email" class="form-control" name="email" id="email" placeholder="E-mail">
-                        <label for="floatingInput">E-mail</label>
+                        <input data-valid="required" type="email" class="form-control" name="email" id="email" placeholder="E-mail">
+                        <label for="email">E-mail</label>
                     </div>
                     <div class="form-floating pb-2">
-                        <input type="password" class="form-control" name="password" id="password" placeholder="Şifre">
-                        <label for="floatingPassword">Şifre</label>
+                        <input data-valid="required" type="password" class="form-control" name="password" id="password" placeholder="Şifre">
+                        <label for="password">Şifre</label>
                     </div>
                     <div class="checkbox mb-3 mt-1 ps-2">
                         <input type="checkbox" name="remember" id="remember">
