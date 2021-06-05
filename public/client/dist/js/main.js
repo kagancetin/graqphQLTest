@@ -29,10 +29,25 @@ let rePasswordModal = async function () {
   $("#rePasswordModal").modal("show");
 };
 
-let addProductToBasketModal = async function () {
+let addProductToBasketModal = async function (product) {
+  let data = JSON.parse(product);
+  data.options = data.options.map(function (p) {
+    if (p.optionType == 1) {
+      p.optionDetail = p.optionDetail.map(function (k) {
+        if (k.optionPriceDifference <= 0) {
+          k.optionPriceDifference = null;
+        }
+        return k;
+      });
+      p.choose = true;
+    }
+    if (p.optionType == 2) p.out = true;
+    return p;
+  });
+  console.log(data);
   var source = document.getElementById("addProductToBasketModal-template").innerHTML;
   var template = await Handlebars.compile(source);
-  var html = await template();
+  var html = await template(data);
   document.getElementById("modals").innerHTML = html;
   $("#addProductToBasketModal").modal("show");
 };
