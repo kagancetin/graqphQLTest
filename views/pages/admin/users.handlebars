@@ -2,10 +2,7 @@
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Kullanıcılar</h1>
-            </div>
-            <div class="col-sm-6">
+            <div class="col-sm-12">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="/admin">Anasayfa</a></li>
                     <li class="breadcrumb-item active">Kullanıcılar</li>
@@ -21,11 +18,11 @@
         <div class="row">
             <div class="col-12">
                 <!-- card -->
-                <div class="card">
+                <div class="card card-info">
                     <div class="card-header">
                         <h3 class="card-title">KULLANICILAR</h3>
                         <div id="table-buttons" class="text-right">
-                            <button class="btn btn-primary" tabindex="0" type="button" onclick='addUserModal(`
+                            <button class="btn btn-warning" tabindex="0" type="button" onclick='addUserModal(`
                                 {{#json userRole}}
                             {{/json}}
                             `)'>
@@ -33,12 +30,12 @@
                                 </i>
                                 <span>Kullanıcı Ekle</span>
                             </button>
-                            <button class="btn btn-primary" tabindex="1" type="button" onclick="addRoleModal()">
+                            <button class="btn btn-warning" tabindex="1" type="button" onclick="addRoleModal()">
                                 <i class="fas fa-user-plus">
                                 </i>
                                 <span>Rol Ekle</span>
                             </button>
-                            <button class="btn btn-primary" tabindex="2" type="button" onclick='roleSettingsModal(`
+                            <button class="btn btn-warning" tabindex="2" type="button" onclick='roleSettingsModal(`
                                 {{#json userRole}}
                             {{/json}}
                             `)'>
@@ -114,16 +111,6 @@
                                     </tr>
                                 {{/each}}
                                 </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>Ad Soyad</th>
-                                    <th>E-mail</th>
-                                    <th>Kullanıcı Tipi</th>
-                                    <th>Yaratılma Tarihi</th>
-                                    <th>Değiştirilme Tarihi</th>
-                                    <th>İşlemler</th>
-                                </tr>
-                                </tfoot>
                             </table>
                         {{else}}
                             <h5>Kullanıcı bulunamadı!</h5>
@@ -227,7 +214,10 @@
                     var api = this.api();
                     new $.fn.dataTable.Buttons(api, {
                         buttons: [
-                            "colvis",
+                            { 
+                                extend: 'colvis', 
+                                className: 'btn-warning',
+                            }
                         ]
                     });
                     api.buttons().container().appendTo('#table-buttons');

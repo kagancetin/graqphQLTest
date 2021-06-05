@@ -2,4 +2,22 @@
   background-color: #545b62;
 }
 
+.buttons-columnVisibility.dropdown-item {
+  background-color: #fff !important;
+  color: #1f2d3d !important;
+}
 
+.buttons-columnVisibility.dropdown-item:hover {
+  background-color: #f3f3f3 !important;
+  color: #1f2d3d !important;
+}
+
+.buttons-columnVisibility.dropdown-item.active {
+  background-color: #ffc107 !important;
+  color: #1f2d3d !important;
+}
+
+.buttons-columnVisibility.dropdown-item.active:hover {
+  background-color: #d39e00 !important;
+  color: #1f2d3d !important;
+}

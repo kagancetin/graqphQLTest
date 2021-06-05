@@ -2,10 +2,7 @@
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Ürünler</h1>
-            </div>
-            <div class="col-sm-6">
+            <div class="col-sm-12">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="/admin">Anasayfa</a></li>
                     <li class="breadcrumb-item active">Ürünler</li>
@@ -19,7 +16,7 @@
 <section class="content">
     <div class="container-fluid">
         <!-- card -->
-        <div class="card">
+        <div class="card card-info">
             <div class="card-header">
                 <h3 class="card-title">ÜRÜNLER</h3>
 
@@ -58,7 +55,7 @@
                                     <th style="width: 15%;">
                                         Ürün Adı
                                     </th>
-                                    <th style="width: 25%;">
+                                    <th style="width: 20%;">
                                         Ürün Açıklaması
                                     </th>
                                     <th style="width: 10%;">
@@ -67,10 +64,13 @@
                                     <th style="width: 10%;">
                                         Sıra
                                     </th>
-                                    <th style="width: 20%;">
+                                    <th style="width: 15%;">
                                         Seçenekler
                                     </th>
-                                    <th style="width: 20%;">
+                                    <th style="width: 15%;">
+                                       Aç/Kapa
+                                    </th>
+                                    <th style="width: 15%;">
 
                                     </th>
                                 </tr>
@@ -93,14 +93,32 @@
                                     </td>
                                     <td class="project-state text-left">
                                         {{#each options}}
-                                        <span class="badge badge-success">{{optionName}}</span>
+                                        <span class="badge badge-secondary">{{optionName}}</span>
                                         {{/each}}
                                     </td>
+                                    <td class="d-flex">
+                                        {{#if open}}
+                                        <div class="custom-control custom-switch custom-switch-on-success">
+                                            <input type="checkbox" class="custom-control-input" checked="true" id="openSwitch{{_id}}" onchange="openCloseProduct(this,'{{_id}}')">
+                                            <label class="custom-control-label" for="openSwitch{{_id}}"></label>
+                                        </div>
+                                        <a class="text-warning" href="/admin/closeProductDaily/{{_id}}">
+                                            Günlük Kapat
+                                        </a>
+                                        
+                                        {{else}}
+                                        <div class="custom-control custom-switch custom-switch-on-success">
+                                            <input type="checkbox" class="custom-control-input" id="openSwitch{{_id}}" onchange="openCloseProduct(this,'{{_id}}')">
+                                            <label class="custom-control-label" for="openSwitch{{_id}}"></label>
+                                        </div>
+                                        {{/if}}
+                                    </td>
                                     <td class="project-actions text-right">
+                                        
                                         <a class="btn btn-info btn-sm" href="/admin/product/{{_id}}">
                                             <i class="fas fa-pencil-alt">
                                             </i>
-                                            Edit
+                                            Düzenle
                                         </a>
                                         <button class="btn btn-danger btn-sm" onclick="removeProductModal('{{_id}}')">
                                             <i class="fas fa-trash">
@@ -124,7 +142,7 @@
             <!-- /.card-body -->
         </div>
         <!-- /.card -->
-        <div class="card">
+        <div class="card card-info">
             <div class="card-header">
                 <h3 class="card-title">ÜRÜN EKLE</h3>
 
@@ -189,7 +207,7 @@
         </div>
 
         <!-- /.card -->
-        <div class="card">
+        <div class="card card-info">
             <div class="card-header">
                 <h3 class="card-title">SEÇENEKLERİ YÖNET</h3>
                 <div class="card-tools">
@@ -262,10 +280,10 @@
 </script>
 
 <script>
-    let getGroups = function () {
+    let getGroups =async function () {
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/admin/getGroups", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
+        await xhr.open("POST", "/admin/getGroups", true);
+        await xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onreadystatechange = async function (event) {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 let response = JSON.parse(this.response);
@@ -274,20 +292,27 @@
                     groupsElement.innerHTML = response.err;
                 } else {
                     groupsElement.innerHTML = "";
+                    
+                    if(response.data.length>0){
                     response.data.forEach(function (p) {
                         groupsElement.innerHTML += `<option value="${p._id}">${p.groupName}</option>`;
                     });
+                    }
+                    else{
+                        groupsElement.innerHTML ='<option value="" disabled selected>Grup Ekleyiniz</option>';
+                    }
                 }
             }
         };
         xhr.send();
     };
-    let getOptions = function () {
+    let getOptions =async function () {
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "/admin/getOptions", true);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onreadystatechange = async function (event) {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                
                 let response = JSON.parse(this.response);
                 let optionsCheckbox = document.getElementById("optionCheckboxList");
                 let optionsTableList = document.getElementById("optionsTableList");
@@ -304,8 +329,8 @@
     };
 
     window.addEventListener("load", (event) => {
-        getGroups();
         getOptions();
+        getGroups();
     });
 
     let optionCheckboxLoad = function (data) {
@@ -372,6 +397,19 @@
 
             optionsTableList.innerHTML += optionTableString;
         });
+    }
+
+
+    var openCloseProduct = function(input,id){
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/admin/openCloseProduct/"+id, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = async function (event) {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                window.location.reload();
+            }
+        };
+        xhr.send(JSON.stringify({open:input.checked}));
     }
 </script>
 {{/section}}

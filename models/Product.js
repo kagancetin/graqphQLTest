@@ -4,7 +4,7 @@ const productSchema = new mongoose.Schema(
   {
     productName: {
       type: String,
-      required: true
+      required: true,
     },
     productDescription: {
       type: String,
@@ -13,7 +13,7 @@ const productSchema = new mongoose.Schema(
     price: {
       type: Number,
       required: true,
-      set: (e) => parseFloat(e).toFixed(2)
+      set: (e) => parseFloat(e).toFixed(2),
     },
     groupId: {
       type: String,
@@ -32,8 +32,12 @@ const productSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    open: {
+      type: Boolean,
+      default: true,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("product", productSchema);
