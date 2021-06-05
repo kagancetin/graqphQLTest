@@ -1,0 +1,48 @@
+<div class="card card-info">
+
+          <div class="card-header">
+            <h3 class="card-title">Minimum Sipariş Tutarı</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+              </button>
+            </div>
+            <!-- /.card-tools -->
+          </div>
+
+          <div class="card-body">
+            <form role="form" action="/admin/updateDistrict" method="post" onsubmit="(validateFormSubmit(event, this))">
+              <div class="form-group">
+                <label for="district">Mahalle</label>
+                <select id="district" name="district" onchange='editDistricts(`{{#json districts}} {{/json}}`)'
+                  class="form-control custom-select select2 select2-light" data-dropdown-css-class="select2-light">
+                  {{#each districts}}
+                    <option data-index="{{@index}}" data-price="{{limit}}" {{#if service}}class="service" {{/if}}
+                      value="{{name}}">{{name}} Mah.</option>
+                  {{/each}}
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="limit">Minumum Sipariş Tutarı</label>
+                <input type="number" step="0.01" data-valid="required" value="{{districts.0.limit}}" name="limit"
+                  class="form-control" id="limit" placeholder="Min. Sipariş Tutarı">
+              </div>
+              <div class="form-group">
+                <label for="service">Servis</label>
+                <select id="service" name="service" class="form-control custom-select">
+                  {{#if districts.0.service}}
+                    <option value="true" selected>AÇIK</option>
+                    <option value="false">KAPALI</option>
+                  {{else}}
+                    <option value="true">AÇIK</option>
+                    <option value="false" selected>KAPALI</option>
+                  {{/if}}
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-primary float-right">Kaydet</button>
+            </form>
+          </div>
+
+
+        </div>

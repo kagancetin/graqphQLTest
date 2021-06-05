@@ -1,0 +1,44 @@
+<div class="card card-info">
+
+  <div class="card-header">
+    <h3 class="card-title">Kullanıcı Ayarları</h3>
+
+    <div class="card-tools">
+      <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+      </button>
+    </div>
+    <!-- /.card-tools -->
+  </div>
+
+  <div class="card-body">
+    <form role="form" action="/admin/updateUser/{{user._id}}" method="post" onsubmit="validateFormSubmit(event, this)">
+      <div class="form-group">
+        <label for="inputName">İsim</label>
+        <input
+          type="text"
+          data-valid="required"
+          class="form-control"
+          value="{{user.displayName}}"
+          name="displayName"
+          id="inputName"
+          placeholder="Host"
+        />
+      </div>
+      <div class="form-group">
+        <label for="inputUserMail">E-posta Adresi</label>
+        <input
+          type="email"
+          data-valid="required"
+          value="{{user.email}}"
+          name="email"
+          class="form-control"
+          id="inputUserMail"
+          placeholder="Enter email"
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary float-right">Kaydet</button>
+    </form>
+  </div>
+
+</div>

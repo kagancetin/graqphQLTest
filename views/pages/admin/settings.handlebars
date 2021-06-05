@@ -2,7 +2,10 @@
 <section class="content-header">
   <div class="container-fluid">
     <div class="row mb-2">
-      <div class="col-sm-12">
+      <div class="col-sm-6">
+        <h1>Fixed Layout</h1>
+      </div>
+      <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item"><a href="/admin">Anasayfa</a></li>
           <li class="breadcrumb-item active">Ayarlar</li>
@@ -17,246 +20,55 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12 col-sm-6">
-        <div class="card card-info">
-
-          <div class="card-header">
-            <h3 class="card-title">Mail Ayarları</h3>
-
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-              </button>
-            </div>
-            <!-- /.card-tools -->
-          </div>
-
-          <div class="card-body">
-            <form role="form" action="/admin/mailUpdate" method="post" onsubmit="validateFormSubmit(event, this)">
-              <div class="form-group">
-                <label for="inputMail">E-posta Adresi</label>
-                <input
-                  type="email"
-                  data-valid="required"
-                  value="{{mail.email}}"
-                  name="email"
-                  class="form-control"
-                  id="inputMail"
-                  placeholder="Enter email"
-                />
-              </div>
-              <div class="form-group">
-                <label for="inputPassword">Şifre</label>
-                <input
-                  type="password"
-                  data-valid="required"
-                  value="{{mail.password}}"
-                  name="password"
-                  id="inputPassword"
-                  class="form-control"
-                  placeholder="Password"
-                />
-              </div>
-              <div class="row">
-                <div class="form-group col-12 col-sm-6">
-                  <label for="inputHost">Host</label>
-                  <input type="text" data-valid="required" class="form-control" value="{{mail.host}}" name="host" id="inputHost" placeholder="Host" />
-                </div>
-                <div class="card card-success">
-
-                    <div class="card-header">
-                        <h3 class="card-title">Minimum Sipariş Tutarı</h3>
-
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse" ><i class="fas fa-minus"></i>
-                            </button>
-                        </div>
-                        <!-- /.card-tools -->
-                    </div>
-
-                    <div class="card-body">
-                        <form role="form" action="/admin/updateDistrict" method="post" onsubmit="(validateFormSubmit(event, this))">
-                            <div class="form-group">
-                                <label for="district">Mahalle</label>
-                                <select  id="district" name="district" onchange='editDistricts(`{{#json districts}} {{/json}}`)' class="form-control custom-select select2 select2-light" data-dropdown-css-class="select2-light">
-                                    {{#each districts}}
-                                        <option data-index="{{@index}}" data-price="{{limit}}" {{#if service}}class="service"{{/if}} value="{{name}}">{{name}} Mah.</option>
-                                    {{/each}}
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="limit">Minumum Sipariş Tutarı</label>
-                                <input type="number" step="0.01" data-valid="required" value="{{districts.0.limit}}" name="limit" class="form-control"  id="limit" placeholder="Min. Sipariş Tutarı">
-                            </div>
-                            <div class="form-group">
-                                <label for="service">Servis</label>
-                                <select id="service" name="service" class="form-control custom-select">
-                                    {{#if districts.0.service}}
-                                    <option value="true" selected>AÇIK</option>
-                                    <option value="false">KAPALI</option>
-                                        {{else}}
-                                        <option value="true" >AÇIK</option>
-                                        <option value="false" selected>KAPALI</option>
-                                    {{/if}}
-                                </select>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary float-right">Kaydet</button>
-                        </form>
-                    </div>
-
-
-                </div>
-            </div>
-            <div class="col-12 col-sm-6">
-                <div class="card card-success">
-
-                    <div class="card-header">
-                        <h3 class="card-title">Kullanıcı Ayarları</h3>
-
-        </div>
-
-        <div class="card card-info">
-
-          <div class="card-header">
-            <h3 class="card-title">Kullanıcı Ayarları</h3>
-
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-              </button>
-            </div>
-            <!-- /.card-tools -->
-          </div>
-
-          <div class="card-body">
-            <form role="form" action="/admin/updateUser/{{user._id}}" method="post" onsubmit="validateFormSubmit(event, this)">
-              <div class="form-group">
-                <label for="inputName">İsim</label>
-                <input
-                  type="text"
-                  data-valid="required"
-                  class="form-control"
-                  value="{{user.displayName}}"
-                  name="displayName"
-                  id="inputName"
-                  placeholder="Host"
-                />
-              </div>
-              <div class="form-group">
-                <label for="inputUserMail">E-posta Adresi</label>
-                <input
-                  type="email"
-                  data-valid="required"
-                  value="{{user.email}}"
-                  name="email"
-                  class="form-control"
-                  id="inputUserMail"
-                  placeholder="Enter email"
-                />
-              </div>
-
-              <button type="submit" class="btn btn-primary float-right">Kaydet</button>
-            </form>
-          </div>
-
-        </div>
-
-        <div class="card card-info">
-
-          <div class="card-header">
-            <h3 class="card-title">Şifre Değiştir</h3>
-
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-              </button>
-            </div>
-            <!-- /.card-tools -->
-          </div>
-
-          <div class="card-body">
-            <form
-              role="form"
-              action="/admin/changeUserPassword/{{user._id}}"
-              method="post"
-              onsubmit="(validateChangePassword(event, this) & validateFormSubmit(event, this))"
-            >
-              <div class="form-group">
-                <label for="oldpassword">Eski Şifre</label>
-                <input type="password" data-valid="required" name="oldpassword" id="oldpassword" class="form-control" placeholder="Password" />
-              </div>
-              <div class="row">
-                <div class="form-group col-12 col-sm-6">
-                  <label for="newpassword1">Yeni Şifre</label>
-                  <input
-                    type="password"
-                    data-valid="required"
-                    data-valid-password="password"
-                    name="newpassword1"
-                    id="newpassword1"
-                    class="form-control"
-                    placeholder="Password"
-                  />
-                </div>
-                <div class="form-group col-12 col-sm-6">
-                  <label for="newpassword2">Yeni Şifre Tekrar</label>
-                  <input
-                    type="password"
-                    data-valid="required"
-                    data-valid-password="password"
-                    name="newpassword2"
-                    id="newpassword2"
-                    class="form-control"
-                    placeholder="Password"
-                  />
-                </div>
-              </div>
-
-              <button type="submit" class="btn btn-primary float-right">Kaydet</button>
-            </form>
-          </div>
-
-        </div>
+        {{> admin/settings/mailSettings}}
+        {{> admin/settings/districtSettings}}
+      </div>
+      <div class="col-12 col-sm-6">
+        {{> admin/settings/userSettings}}
+        {{> admin/settings/repasswordSettings}}
+        
       </div>
     </div>
   </div>
 </section>
 {{#section "link"}}
-    <link rel="stylesheet" href="/admin/plugins/select2/css/select2.min.css">
-    <link rel="stylesheet" href="/admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <link rel="stylesheet" href="/admin/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="/admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 {{/section}}
 {{#section "script"}}
-    <script src="/admin/plugins/select2/js/select2.full.min.js"></script>
-<script>
+  <script src="/admin/plugins/select2/js/select2.full.min.js"></script>
+  <script>
     let editDistricts = (data) => {
       let index = parseInt($('#district').find(':selected').attr('data-index'))
-        data = JSON.parse(data)
-        document.getElementById("service").value = data[index].service
-        document.getElementById("limit").value = data[index].limit
+      data = JSON.parse(data)
+      document.getElementById("service").value = data[index].service
+      document.getElementById("limit").value = data[index].limit
     }
-    function formatState (state) {
-        if (!state.id) {
-            return state.text;
-        }
-        var $state = ""
-        if (state.element.classList.contains("service")){
-            $state = $(
-                    '<span>' + state.text + '</span><span class="float-right">' + state.element.dataset.price +' <i class="fas fa-circle text-success"></i></span>'
-            );
-        }
-        else {
-            $state = $(
-                    '<span>' + state.text + '</span><span class="float-right">' + state.element.dataset.price +' <i class="fas fa-circle text-danger"></i></span>'
-            );
-        }
-        return $state;
+    function formatState(state) {
+      if (!state.id) {
+        return state.text;
+      }
+      var $state = ""
+      if (state.element.classList.contains("service")) {
+        $state = $(
+          '<span>' + state.text + '</span><span class="float-right">' + state.element.dataset.price + ' <i class="fas fa-circle text-success"></i></span>'
+        );
+      }
+      else {
+        $state = $(
+          '<span>' + state.text + '</span><span class="float-right">' + state.element.dataset.price + ' <i class="fas fa-circle text-danger"></i></span>'
+        );
+      }
+      return $state;
     };
     window.addEventListener("load", (event) => {
       $('.select2').select2({
-          minimumResultsForSearch: -1,
-          templateResult: formatState,
-          width: "100%"
+        minimumResultsForSearch: -1,
+        templateResult: formatState,
+        width: "100%"
       })
     });
-
-</script>
+  </script>
 
 
 {{/section}}

@@ -12,7 +12,6 @@ const bcrypt = require("bcryptjs");
 const { connectDB } = require("./db");
 require("./helpers/passport/local");
 
-
 //*** HANDLEBARS HELPERS ***/
 const handlebarsHelpers = require("./helpers/handlebarsHelpers");
 const helpers = require("handlebars-helpers")();
@@ -79,9 +78,6 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 // Passport
-
-
-
 
 app.use(async (req, res, next) => {
   res.locals.flashMessages = {
