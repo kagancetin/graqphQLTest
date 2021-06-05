@@ -5,7 +5,7 @@ const logger = require("morgan");
 const helmet = require("helmet");
 const flash = require("connect-flash");
 const session = require("express-session");
-const FileStore = require('session-file-store')(session);
+const FileStore = require("session-file-store")(session);
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
@@ -30,14 +30,14 @@ connectDB();
 app.use(
   helmet({
     contentSecurityPolicy: false,
-  })
+  }),
 );
 // Basic Security - Helmet
 // Bodyparser
 app.use(express.json({ limit: "50mb" })).use(
   express.urlencoded({
     extended: true,
-  })
+  }),
 );
 // Bodyparser
 // Public explanation
@@ -66,8 +66,8 @@ app.use(
     secret: "white rabbit",
     resave: true,
     saveUninitialized: true,
-    store: new FileStore(fileStoreOptions)
-  })
+    store: new FileStore(fileStoreOptions),
+  }),
 );
 // Session
 // Connect Flash
