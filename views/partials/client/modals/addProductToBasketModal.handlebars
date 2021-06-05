@@ -31,87 +31,43 @@
             </div>
           </div>
           <div class="col-12 col-md-8">
-            <h6>Kaşarlı Et Döner Menü</h6>
-            <p><small>Of mis mis</small></p>
-            <h2 class="text-myred">30 TL</h2>
+            <h6>\{{productName}}</h6>
+            <p><small>\{{productDescription}}</small></p>
+            <h2 class="text-myred">\{{price}} TL</h2>
+            \{{#if options}}
             <div>
+              \{{#each options}}
+              <hr />
               <div class="p-3">
                 <div>
-                  <h6>Lütfen içeceğinizi seçiniz.</h6>
+                  <h6>\{{optionDisplayName}}</h6>
                 </div>
                 <div>
+                  \{{#each optionDetail}}
+                  \{{#if ../choose}}
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-                    <label class="form-check-label" for="flexRadioDefault1">
-                      Kola
+                    <input class="form-check-input" type="radio" name="\{{../optionName}}" id="\{{optionDetailContent}}\{{@../index}}" />
+                    <label class="form-check-label" for="\{{optionDetailContent}}\{{@../index}}">
+                      \{{optionDetailContent}}
+                      \{{#if optionPriceDifference}}
+                      <small class="text-danger">\{{optionPriceDifference}} TL fark ile</small>
+                      \{{/if}}
                     </label>
                   </div>
+                  \{{/if}}
+                  \{{#if ../out}}
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" />
-                    <label class="form-check-label" for="flexRadioDefault2">
-                      Fanta
+                    <input class="form-check-input" type="checkbox" value="\{{../optionName}}" id="\{{optionDetailContent}}\{{@../index}}" />
+                    <label class="form-check-label" for="\{{optionDetailContent}}\{{@../index}}">
+                      \{{optionDetailContent}}
                     </label>
                   </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-                    <label class="form-check-label" for="flexRadioDefault1">
-                      Sprite
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" />
-                    <label class="form-check-label" for="flexRadioDefault1">
-                      Ayran
-                    </label>
-                  </div>
+                  \{{/if}}
+                  \{{/each}}
                 </div>
               </div>
-              <div class="p-3">
-                <div>
-                  <h6>Dürümden çıkarmak istediğiniz ürünleri seçiniz.</h6>
-                </div>
-                <div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                    <label class="form-check-label" for="flexCheckDefault">
-                      Mayonez
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2" />
-                    <label class="form-check-label" for="flexCheckDefault2">
-                      Patates
-                    </label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3" />
-                    <label class="form-check-label" for="flexCheckDefault3">
-                      Turşu
-                    </label>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-            <div class="p-3">
-              <div>
-                <h6>Baharatınızı seçiniz.</h6>
-              </div>
-              <div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault2" id="flexRadioDefault21" />
-                  <label class="form-check-label" for="flexRadioDefault21">
-                    Sade
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="flexRadioDefault2" id="flexRadioDefault22" />
-                  <label class="form-check-label" for="flexRadioDefault22">
-                    Baharatlı
-                  </label>
-                </div>
-
-              </div>
+              \{{/each}}
+              \{{/if}}
             </div>
             <button class="w-100 btn btn-lg btn-yellow" type="button">Ürünü Sepete Ekle</button>
           </div>

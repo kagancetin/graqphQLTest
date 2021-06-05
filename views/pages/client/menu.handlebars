@@ -4,234 +4,40 @@
       <h1>MENÜ</h1>
     </div>
     <!-- Group-->
+
+    {{#each groups}}
     <div class="product-group">
       <div class="product-group-header">
-        <h3>Et Dönerler</h3>
+        <h3>{{groupName}}</h3>
       </div>
       <div class="product-group-body">
-        <!-- Product Detail -->
+        {{#each products}}
         <hr />
+        <!-- Product Detail -->
         <div class="product-detail">
           <div class="product-name">
-            Klasik Et Dürüm
+            {{productName}}
             <div class="product-description">
-              <small>Oh mis mis</small>
+              <small>{{productDescription}}</small>
+              {{#unless open}}
+              <br>
+              <small class="text-success">Bu ürün şuan satışta değil.</small>
+              {{/unless}}
             </div>
           </div>
           <div class="product-button">
-            <button onclick="addProductToBasketModal()" class="btn btn-sm btn-myred rounded-0">
+            <button {{#if open}}onclick='addProductToBasketModal(`{{#json this}}{{/json}}`)' {{else}}disabled{{/if}} class="btn btn-sm btn-myred rounded-0">
               <i class="fas fa-shopping-basket"></i>
-              20 TL
+              {{price}} TL
               </button>
           </div>
         </div>
         <!-- /Product Detail -->
-        <!-- Product Detail -->
-        <hr />
-        <div class="product-detail">
-          <div class="product-name">
-            Kaşarlı Et Dürüm
-            <div class="product-description">
-              <small>Oh mis mis</small>
-            </div>
-          </div>
-          <div class="product-button">
-            <button onclick="addProductToBasketModal()" class="btn btn-sm btn-myred rounded-0"><i
-                class="fas fa-shopping-basket"
-              ></i>23 TL</button>
-          </div>
-        </div>
-        <!-- /Product Detail -->
-        <!-- Product Detail -->
-        <hr />
-        <div class="product-detail">
-          <div class="product-name">
-            Cheddarlı Et Dürüm
-            <div class="product-description">
-              <small>Oh mis mis</small>
-            </div>
-          </div>
-          <div class="product-button">
-            <button onclick="addProductToBasketModal()" class="btn btn-sm btn-myred rounded-0"><i
-                class="fas fa-shopping-basket"
-              ></i>
-              23 TL</button>
-          </div>
-        </div>
-        <!-- /Product Detail -->
-        <!-- Product Detail -->
-        <hr />
-        <div class="product-detail">
-          <div class="product-name">
-            Kaşarlı Mantarlı Et Dürüm Menü
-            <div class="product-description">
-              <small>Oh mis mis</small>
-            </div>
-          </div>
-          <div class="product-button">
-            <button onclick="addProductToBasketModal()" class="btn btn-sm btn-myred rounded-0"><i
-                class="fas fa-shopping-basket"
-              ></i>
-              25 TL</button>
-          </div>
-        </div>
-        <!-- /Product Detail -->
+        {{/each}}
       </div>
-
     </div>
     <!-- /Group-->
-    <!-- Group-->
-    <div class="product-group">
-      <div class="product-group-header">
-        <h3>Menüler</h3>
-      </div>
-      <div class="product-group-body">
-        <!-- Product Detail -->
-        <hr />
-        <div class="product-detail">
-          <div class="product-name">
-            Klasik Et Dürüm Menü
-            <div class="product-description">
-              <small>Oh mis mis</small>
-            </div>
-          </div>
-          <div class="product-button">
-            <button onclick="addProductToBasketModal()" class="btn btn-sm btn-myred rounded-0"><i
-                class="fas fa-shopping-basket"
-              ></i>
-              30 TL</button>
-          </div>
-        </div>
-        <!-- /Product Detail -->
-        <!-- Product Detail -->
-        <hr />
-        <div class="product-detail">
-          <div class="product-name">
-            Kaşarlı Et Dürüm Menü
-            <div class="product-description">
-              <small>Oh mis mis</small>
-            </div>
-          </div>
-          <div class="product-button">
-            <button onclick="addProductToBasketModal()" class="btn btn-sm btn-myred rounded-0"><i
-                class="fas fa-shopping-basket"
-              ></i>
-              16 TL</button>
-          </div>
-        </div>
-        <!-- /Product Detail -->
-        <!-- Product Detail -->
-        <hr />
-        <div class="product-detail">
-          <div class="product-name">
-            Cheddarlı Et Dürüm Menü
-            <div class="product-description">
-              <small>Oh mis mis</small>
-            </div>
-          </div>
-          <div class="product-button">
-            <button onclick="addProductToBasketModal()" class="btn btn-sm btn-myred rounded-0"><i
-                class="fas fa-shopping-basket"
-              ></i>
-              16 TL</button>
-          </div>
-        </div>
-        <!-- /Product Detail -->
-        <!-- Product Detail -->
-        <hr />
-        <div class="product-detail">
-          <div class="product-name">
-            Kaşarlı Mantarlı Et Dürüm Menü
-            <div class="product-description">
-              <small>Oh mis mis</small>
-            </div>
-          </div>
-          <div class="product-button">
-            <button onclick="addProductToBasketModal()" class="btn btn-sm btn-myred rounded-0"><i
-                class="fas fa-shopping-basket"
-              ></i>
-              16 TL</button>
-          </div>
-        </div>
-        <!-- /Product Detail -->
-      </div>
-      <!-- /Group-->
-      <!-- Group-->
-    <div class="product-group">
-      <div class="product-group-header">
-        <h3>İçecekler</h3>
-      </div>
-      <div class="product-group-body">
-        <!-- Product Detail -->
-        <hr />
-        <div class="product-detail">
-          <div class="product-name">
-            Cocacola
-            <div class="product-description">
-              <small>Oh mis mis</small>
-            </div>
-          </div>
-          <div class="product-button">
-            <button onclick="addProductToBasketModal()" class="btn btn-sm btn-myred rounded-0"><i
-                class="fas fa-shopping-basket"
-              ></i>
-              7 TL</button>
-          </div>
-        </div>
-        <!-- /Product Detail -->
-        <!-- Product Detail -->
-        <hr />
-        <div class="product-detail">
-          <div class="product-name">
-            Fanta
-            <div class="product-description">
-              <small>Oh mis mis</small>
-            </div>
-          </div>
-          <div class="product-button">
-            <button onclick="addProductToBasketModal()" class="btn btn-sm btn-myred rounded-0"><i
-                class="fas fa-shopping-basket"
-              ></i>
-              7 TL</button>
-          </div>
-        </div>
-        <!-- /Product Detail -->
-        <!-- Product Detail -->
-        <hr />
-        <div class="product-detail">
-          <div class="product-name">
-            Sprite
-            <div class="product-description">
-              <small>Oh mis mis</small>
-            </div>
-          </div>
-          <div class="product-button">
-            <button onclick="addProductToBasketModal()" class="btn btn-sm btn-myred rounded-0"><i
-                class="fas fa-shopping-basket"
-              ></i>
-              7 TL</button>
-          </div>
-        </div>
-        <!-- /Product Detail -->
-        <!-- Product Detail -->
-        <hr />
-        <div class="product-detail">
-          <div class="product-name">
-            Ayran
-            <div class="product-description">
-              <small>Oh mis mis</small>
-            </div>
-          </div>
-          <div class="product-button">
-            <button onclick="addProductToBasketModal()" class="btn btn-sm btn-myred rounded-0"><i
-                class="fas fa-shopping-basket"
-              ></i>
-              5 TL</button>
-          </div>
-        </div>
-        <!-- /Product Detail -->
-      </div>
-      <!-- /Group-->
+    {{/each}}
     </div>
   </div>
 </section>
