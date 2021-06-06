@@ -13,11 +13,7 @@ const createToken = async (userId) => {
 }
 
 const checkToken = async (token) => {
-  let date = new Date()
-  date.setHours(date.getHours() - 2)
-  let currentDate = date.toISOString()
-  const filter = {token: token, updatedAt: {$gte: currentDate}}
-  return Token.findOne(filter)
+  return Token.findOne({token})
 }
 
 const isUserExist = async (email) => {
