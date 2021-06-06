@@ -5,7 +5,7 @@ const logger = require("morgan");
 const helmet = require("helmet");
 const flash = require("connect-flash");
 const session = require("express-session");
-const FileStore = require("session-file-store")(session);
+const MongoStore = require('connect-mongo')
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
@@ -24,7 +24,7 @@ let client = require("./router/client/index");
 let login = require("./router/login");
 
 const app = express();
-connectDB();
+const clientPromise = connectDB()
 
 // Basic Security - Helmet
 app.use(
@@ -60,13 +60,12 @@ app.set("views", path.join(__dirname, "views"));
 app.use(cookieParser("white rabbit"));
 //Cookie Parser
 // Session
-const fileStoreOptions = {};
 app.use(
   session({
     secret: "white rabbit",
     resave: true,
     saveUninitialized: true,
-    store: new FileStore(fileStoreOptions),
+    store: MongoStore.create({clientPromise})
   }),
 );
 // Session

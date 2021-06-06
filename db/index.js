@@ -17,6 +17,7 @@ const connectDB = async () => {
     if (user.errors)
       console.log("default kullanıcı oluşturma hatası")
   }
+  return mongoose.connection.getClient()
 };
 const defaultUserRole = async () => {
   const userRole = new UserRole({typeName: "superAdmin", authorities: [1, 2, 3, 4]})
