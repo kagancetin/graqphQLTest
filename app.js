@@ -8,8 +8,8 @@ const session = require("express-session");
 const MongoStore = require('connect-mongo')
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
-const bcrypt = require("bcryptjs");
 const { connectDB } = require("./db");
+const dotenv = require('dotenv').config()
 require("./helpers/passport/local");
 
 //*** HANDLEBARS HELPERS ***/
@@ -57,12 +57,12 @@ app.set("view engine", "handlebars");
 app.set("views", path.join(__dirname, "views"));
 // Template Engine
 //Cookie Parser
-app.use(cookieParser("white rabbit"));
+app.use(cookieParser(process.env.COOKIE_SECRET));
 //Cookie Parser
 // Session
 app.use(
   session({
-    secret: "white rabbit",
+    secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
     store: MongoStore.create({clientPromise})
@@ -118,5 +118,6 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(3000, () => {
+  console.log(process.env)
   console.log(`App running on PORT 3000`);
 });

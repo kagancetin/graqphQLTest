@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const {graphql} = require("graphql");
 const {User, UserRole, District} = require("../models")
 const schema = require("../graphql/schema")
+const mongoURI = "mongodb://localhost:27017/mesedurum"
 const districts = [
   {name: "Bahçelievler", limit: 19.99, service: false},
   {name: "Geriş", limit: 19.99, service: false},
@@ -15,7 +16,7 @@ const districts = [
   {name: "Yunus", limit: 19.99, service: false}
 ]
 const connectDB = async () => {
-  const conn = await mongoose.connect("mongodb://localhost:27017/mesedurum", {
+  const conn = await mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
