@@ -1,7 +1,7 @@
 const express = require("express");
 const exphbs = require("express-handlebars");
 const path = require("path");
-const logger = require("morgan");
+const morgan = require("morgan");
 const helmet = require("helmet");
 const flash = require("connect-flash");
 const session = require("express-session");
@@ -11,6 +11,9 @@ const passport = require("passport");
 const { connectDB } = require("./db");
 const dotenv = require('dotenv').config()
 require("./helpers/passport/local");
+const clientPromise = connectDB()
+require("./helpers/logger")(clientPromise)
+
 
 //*** HANDLEBARS HELPERS ***/
 const handlebarsHelpers = require("./helpers/handlebarsHelpers");
@@ -24,7 +27,6 @@ let client = require("./router/client/index");
 let login = require("./router/login");
 
 const app = express();
-const clientPromise = connectDB()
 
 // Basic Security - Helmet
 app.use(
@@ -44,8 +46,11 @@ app.use(express.json({ limit: "50mb" })).use(
 app.use(express.static(path.join(__dirname, "public")));
 // Public explanation
 // Morgan explanation
-app.use(logger("dev"));
+app.use(morgan("dev"));
 // Morgan explanation
+
+//winston logger
+
 // Template Engine
 const hbs = exphbs.create({
   extname: "handlebars",
@@ -118,6 +123,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(3000, () => {
-  console.log(process.env)
   console.log(`App running on PORT 3000`);
 });
