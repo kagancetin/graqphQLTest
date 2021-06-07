@@ -1,4 +1,4 @@
-const {User, Customer, Token} = require("../models")
+const {User, Customer} = require("../models")
 const bcrypt = require("bcryptjs")
 
 const updatePassword = async (userId, hash) => {
@@ -23,7 +23,6 @@ module.exports = {
       res.redirect("/")
     }
     else {
-      await Token.findOneAndRemove({userId: req.params.id})
       req.flash("success", "Şifre Değiştirildi")
       res.redirect("/")
     }
