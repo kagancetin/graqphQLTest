@@ -1,0 +1,87 @@
+<div class="card card-info">
+
+  <div class="card-header">
+    <h3 class="card-title">Çalışma Saatleri</h3>
+
+    <div class="card-tools">
+      <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+      </button>
+    </div>
+    <!-- /.card-tools -->
+  </div>
+
+  <div class="card-body">
+    <form role="form" action="/admin/saveWorkingHours/{{workingHours._id}}" method="post">
+      <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4 text-center mb-2">Açılış</div>
+        <div class="col-4 text-center mb-2">Kapanış</div>
+        <div class="col-4 d-flex align-items-center mb-2">
+          <label class="m-0">Pazartesi</label>
+        </div>
+        <div class="col-4 mb-2">
+          <input type="time" data-valid="required" class="form-control" value="{{workingHours.pazartesiAcilis}}" name="pazartesiAcilis" />
+        </div>
+        <div class="col-4 mb-2">
+          <input type="time" data-valid="required" class="form-control" value="{{workingHours.pazartesiKapanis}}" name="pazartesiKapanis" />
+        </div>
+        <div class="col-4 d-flex align-items-center mb-2">
+          <label class="m-0">Salı</label>
+        </div>
+        <div class="col-4 mb-2">
+          <input type="time" data-valid="required" class="form-control" value="{{workingHours.saliAcilis}}" name="saliAcilis" />
+        </div>
+        <div class="col-4 mb-2">
+          <input type="time" data-valid="required" class="form-control" value="{{workingHours.saliKapanis}}" name="saliKapanis" />
+        </div>
+        <div class="col-4 d-flex align-items-center mb-2">
+          <label class="m-0">Çarşamba</label>
+        </div>
+        <div class="col-4 mb-2">
+          <input type="time" data-valid="required" class="form-control" value="{{workingHours.carsambaAcilis}}" name="carsambaAcilis" />
+        </div>
+        <div class="col-4 mb-2">
+          <input type="time" data-valid="required" class="form-control" value="{{workingHours.carsambaKapanis}}" name="carsambaKapanis" />
+        </div>
+        <div class="col-4 d-flex align-items-center mb-2">
+          <label class="m-0">Perşembe</label>
+        </div>
+        <div class="col-4 mb-2">
+          <input type="time" data-valid="required" class="form-control" value="{{workingHours.persembeAcilis}}" name="persembeAcilis" />
+        </div>
+        <div class="col-4 mb-2">
+          <input type="time" data-valid="required" class="form-control" value="{{workingHours.persembeKapanis}}" name="persembeKapanis" />
+        </div>
+        <div class="col-4 d-flex align-items-center mb-2">
+          <label class="m-0">Cuma</label>
+        </div>
+        <div class="col-4 mb-2">
+          <input type="time" data-valid="required" class="form-control" value="{{workingHours.cumaAcilis}}" name="cumaAcilis" />
+        </div>
+        <div class="col-4 mb-2">
+          <input type="time" data-valid="required" class="form-control" value="{{workingHours.cumaKapanis}}" name="cumaKapanis" />
+        </div>
+        <div class="col-4 d-flex align-items-center mb-2">
+          <label class="m-0">Cumartesi</label>
+        </div>
+        <div class="col-4 mb-2">
+          <input type="time" data-valid="required" class="form-control" value="{{workingHours.cumartesiAcilis}}" name="cumartesiAcilis" />
+        </div>
+        <div class="col-4 mb-2">
+          <input type="time" data-valid="required" class="form-control" value="{{workingHours.cumatesiKapanis}}" name="cumatesiKapanis" />
+        </div>
+        <div class="col-4 d-flex align-items-center mb-2">
+          <label class="m-0">Pazar</label>
+        </div>
+        <div class="col-4 mb-2">
+          <input type="time" data-valid="required" class="form-control" value="{{workingHours.pazarAcilis}}" name="pazarAcilis" />
+        </div>
+        <div class="col-4 mb-2">
+          <input type="time" data-valid="required" class="form-control" value="{{workingHours.pazarKapanis}}" name="pazarKapanis" />
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary float-right">Kaydet</button>
+    </form>
+  </div>
+
+</div>

@@ -1,5 +1,6 @@
-const { graphql } = require("graphql")
-const schema = require("../../graphql/schema")
+const { graphql } = require("graphql");
+const schema = require("../../graphql/schema");
+const { WorkingHours } = require("../../models");
 
 module.exports = {
   updateMail: async (req, res, next) => {
@@ -12,15 +13,15 @@ module.exports = {
         port: ${req.body.port}
       )
     }
-    `
+    `;
     graphql(schema, query).then((result) => {
       if (result.errors) {
-        req.flash("error", result.errors[0].message)
+        req.flash("error", result.errors[0].message);
       } else {
-        req.flash("success", result.data.updateMail)
+        req.flash("success", result.data.updateMail);
       }
-      res.redirect("/admin/settings")
-    })
+      res.redirect("/admin/settings");
+    });
   },
   updateDistrict: async (req, res, next) => {
     let query = `
@@ -29,14 +30,25 @@ module.exports = {
       limit: ${req.body.limit}
       service: ${req.body.service}
     )}
-    `
+    `;
     graphql(schema, query).then((result) => {
       if (result.errors) {
-        req.flash("error", result.errors[0].message)
+        req.flash("error", result.errors[0].message);
       } else {
-        req.flash("success", result.data.updateDistrict)
+        req.flash("success", result.data.updateDistrict);
       }
-      res.redirect("/admin/settings")
-    })
-  }
-}
+      res.redirect("/admin/settings");
+    });
+  },
+
+  saveWorkingHours: async (req, res, next) => {
+    WorkingHours.findByIdAndUpdate(req.params.id, req.body, (err, doc) => {
+      if (err) {
+        req.flash("error", "Bir hata oluştu lütfen bildiriniz.");
+      } else {
+        req.flash("success", "Çalışma saatleri başarıyla güncellendi.");
+      }
+      res.redirect("/admin/settings");
+    });
+  },
+};

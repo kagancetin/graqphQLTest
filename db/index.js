@@ -15,6 +15,10 @@ const districts = [
   {name: "Ören", limit: 19.99, service: false},
   {name: "Yunus", limit: 19.99, service: false}
 ]
+const { graphql } = require("graphql");
+const { User, UserRole, WorkingHours } = require("../models");
+const schema = require("../graphql/schema");
+
 const connectDB = async () => {
   const conn = await mongoose.connect(mongoURI, {
     useNewUrlParser: true,
@@ -23,11 +27,15 @@ const connectDB = async () => {
     useFindAndModify: false,
   });
   console.log(`MongoDB connected`);
-  if (await User.countDocuments() == 0){
-    const userRole = await defaultUserRole()
-    const user = await defaultUser(userRole._id)
-    if (user.errors)
-      console.log("default kullanıcı oluşturma hatası")
+  if ((await User.countDocuments()) == 0) {
+    const userRole = await defaultUserRole();
+    const user = await defaultUser(userRole._id);
+    if (user.errors) console.log("default kullanıcı oluşturma hatası");
+  }
+  if ((await WorkingHours.countDocuments()) == 0) {
+    const workingHours = await defaultWorkingHours();
+    if (workingHours.errors) console.log("default çalışma saatleri oluşturma hatası");
+    else console.log("çalışma saatleri oluşturuldu");
   }
   if (await District.countDocuments() == 0)
      addDistricts()
@@ -41,6 +49,13 @@ const defaultUserRole = async () => {
 const addDistricts = async () => {
   return District.insertMany(districts)
 }
+  const userRole = new UserRole({ typeName: "superAdmin", authorities: [1, 2, 3, 4] });
+  return await userRole.save();
+};
+const defaultWorkingHours = async () => {
+  const workingHours = new WorkingHours({});
+  return await workingHours.save();
+};
 const defaultUser = async (id) => {
   let query = `
     mutation{
@@ -58,8 +73,7 @@ const defaultUser = async (id) => {
         deleted
       }
     }
-    `
-  return await graphql(schema, query)
-
-}
+    `;
+  return await graphql(schema, query);
+};
 module.exports = { connectDB };

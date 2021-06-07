@@ -21,6 +21,9 @@ const helpers = require("handlebars-helpers")();
 const allHelpers = { ...helpers, ...handlebarsHelpers };
 //*** HANDLEBARS HELPERS ***/
 
+//*** GLOBAL VERIABLES ***/
+//*** GLOBAL VERIABLES ***/
+
 //*** ROUTERS ***/
 let admin = require("./router/admin/main");
 let client = require("./router/client/index");
@@ -106,11 +109,12 @@ app.use("/login", login);
 app.use("/admin", admin);
 app.use("/", client);
 
+/*
 //Error handler function
 app.use((err, req, res, next) => {
   const error = app.get("env") === "development" ? err : {};
   const status = err.status || 500;
-
+  console.log(err);
   //Respond to client
   res.status(status).json({
     error: {
@@ -121,6 +125,7 @@ app.use((err, req, res, next) => {
   //Respond to ourselves
   console.error(err);
 });
+*/
 
 app.listen(3000, () => {
   console.log(`App running on PORT 3000`);
