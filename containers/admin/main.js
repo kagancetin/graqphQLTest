@@ -1,5 +1,6 @@
 const { graphql } = require("graphql");
 const schema = require("../../graphql/schema");
+const { WorkingHours } = require("../../models");
 
 const excludeAuthUser = (userId, userList) => userList.filter((user) => user._id != userId);
 
@@ -224,6 +225,7 @@ module.exports = {
     res.render("pages/admin/customerDetail", { layout: "admin.handlebars" });
   },
   getSettingsPage: async (req, res, next) => {
+    let workingHours = await WorkingHours.findOne();
     let query = `
     query{
       mail{
@@ -260,6 +262,7 @@ module.exports = {
           mail: result.data.mail,
           user: result.data.user,
           districts: result.data.districts,
+          workingHours: workingHours.toJSON(),
         });
       }
     });

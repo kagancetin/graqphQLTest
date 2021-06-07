@@ -1,6 +1,8 @@
 const { graphql } = require("graphql");
 const schema = require("../../graphql/schema");
 const { Product } = require("../../models");
+const schedule = require("node-schedule");
+const Schedule = require("../../helpers/schedule");
 
 module.exports = {
   getGroups: async (req, res, next) => {
@@ -23,7 +25,7 @@ module.exports = {
 
   getOptions: async (req, res, next) => {
     let query = `
-    query{getOptions(_filter:"{\\"deleted\\":false}"){
+    query{getOptions(_filter:"{\\\"deleted\\\":false}"){
         _id
         optionName
         optionDisplayName
@@ -331,7 +333,9 @@ module.exports = {
   },
 
   openCloseProduct: async (req, res, next) => {
-    console.log(req.params);
+    if (req.body.open == true && schedule.scheduledJobs[req.params.id]) {
+      schedule.scheduledJobs[req.params.id].cancel();
+    }
     await Product.findByIdAndUpdate(req.params.id, { $set: { open: req.body.open } }, (err, doc) => {
       if (err) {
         console.log(err);
@@ -340,6 +344,20 @@ module.exports = {
       } else {
         req.flash("success", "Ürün güncellendi");
         res.send(true);
+      }
+    });
+  },
+
+  closeProductDaily: async (req, res, next) => {
+    await Product.findByIdAndUpdate(req.params.id, { $set: { open: false } }, (err, doc) => {
+      if (err) {
+        console.log(err);
+        req.flash("error", "Bir hata oluştu. Sayfayı yenileyin yine hata alırsanız, lütfen hatayı bildiriniz!");
+        res.redirect("/admin/products");
+      } else {
+        Schedule.closeProductDaily(req.params.id);
+        req.flash("success", "Ürün güncellendi");
+        res.redirect("/admin/products");
       }
     });
   },

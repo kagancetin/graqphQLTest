@@ -45,12 +45,14 @@ router.route("/removeProduct").post(roleCheck(Role.products), ProductPostsContro
 router.route("/restoreProduct").post(roleCheck(Role.products), ProductPostsController.restoreProduct);
 router.route("/removeFullProduct").post(roleCheck(Role.products), ProductPostsController.removeFullProduct);
 router.route("/openCloseProduct/:id").post(roleCheck(Role.users), ProductPostsController.openCloseProduct);
+router.route("/closeProductDaily/:id").get(roleCheck(Role.users), ProductPostsController.closeProductDaily);
 
 router.route("/resetPassword/:id").post(resetPassword);
 router.route("/mailUpdate").post(roleCheck(Role.users), SettingPostController.updateMail);
 
 router.route("/mailUpdate").post(roleCheck(Role.users), SettingPostController.updateMail);
 router.route("/updateDistrict").post(roleCheck(Role.users), SettingPostController.updateDistrict);
+router.route("/saveWorkingHours/:id").post(roleCheck(Role.users), SettingPostController.saveWorkingHours);
 
 router.route("/addUser").post(roleCheck(Role.users), UserPostsController.addUser);
 router.route("/updateUser/:id").post(roleCheck(Role.users), UserPostsController.updateUser);

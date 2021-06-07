@@ -8,5 +8,6 @@ module.exports = {
   Token: require("./Token"),
   MailSettings: require("./MailSettings"),
   UserRole: require("./UserRole"),
-  District: require("./District")
-}
+  District: require("./District"),
+  WorkingHours: require("./WorkingHours"),
+};
