@@ -92,17 +92,11 @@ const updateUser = {
   },
   resolve: async function (parent, args) {
     const {_id, email, displayName, userRole} = args
-    let user = await User.findById(_id)
-    if (user.email != email) {
-      let checkEmail = await User.findOne({email: email})
-      if (checkEmail) throw new Error("E-mail adresi kullanılmaktadır!")
-    }
-    user.email = email
-    user.displayName = displayName
-    user.userRole = userRole == 'undefined' ? user.userRole : userRole
-    await user.save((err, doc) => {
-      if (err) throw new Error("Kullanıcı bilgileri güncellenemedi.")
-    })
+    let user = await User.findById(_id, {email: 1})
+    if (user.email != email)
+      if (await User.findOne({email: email})) throw new Error("E-mail adresi kullanılmaktadır!")
+    const update = await User.findByIdAndUpdate(_id, args, {omitUndefined: true})
+    if (!update) throw new Error("Kullanıcı bilgileri güncellenemedi.")
     return "İşlem Başarılı"
   }
 }
