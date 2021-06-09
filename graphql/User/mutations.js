@@ -88,10 +88,12 @@ const updateUser = {
     _id: {type: GraphQLString},
     email: {type: GraphQLString},
     displayName: {type: GraphQLString},
-    userRole: {type: GraphQLString}
+    userRole: {type: GraphQLString},
+    options: {type: new GraphQLList(GraphQLString)}
   },
   resolve: async function (parent, args) {
-    const {_id, email, displayName, userRole} = args
+    const {_id, email} = args
+    Object.keys(args).map(k => args[k] == "undefined" ? delete args[k] : null);
     let user = await User.findById(_id, {email: 1})
     if (user.email != email)
       if (await User.findOne({email: email})) throw new Error("E-mail adresi kullanılmaktadır!")

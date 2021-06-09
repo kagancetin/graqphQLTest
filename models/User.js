@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    options: {
+      type: Array,
+      default: [],
+    },
     deleted: {
       type: Boolean,
       default: false,

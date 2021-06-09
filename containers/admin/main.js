@@ -267,4 +267,32 @@ module.exports = {
       }
     });
   },
+  getProfilePage: async (req, res, next) => {
+    let query = `
+    query{
+      user(filter:{_id:"${req.user._id}"}) {
+       _id
+       email
+       displayName
+       options
+        userRole {
+          _id
+          typeName
+         }
+      }
+    }`;
+    graphql(schema, query).then((result) => {
+      if (result.errors) {
+        req.flash("error", "Bir hata oluştu lütfen hatayı bildiriniz!");
+        res.render("pages/admin/profile", {
+          layout: "admin.handlebars",
+        });
+      } else {
+        res.render("pages/admin/profile", {
+          layout: "admin.handlebars",
+          user: result.data.user
+        });
+      }
+    });
+  }
 };

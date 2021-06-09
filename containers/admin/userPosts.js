@@ -46,6 +46,29 @@ module.exports = {
       res.redirect("/admin/users")
     }
   },
+  updateUserOptions: async (req, res) => {
+    let options = []
+    Object.keys(req.body).map(k => req.body[k] == "on" ? options.push(k) : null)
+    let query = `
+    mutation{
+      updateUser(
+        _id:"${req.params.id}",
+        options:${JSON.stringify(options)},
+      )
+    }
+    `
+    console.log(options)
+    graphql(schema, query).then((result) => {
+      if (result.errors) {
+        req.flash("error", result.errors[0].message)
+        res.redirect("/admin/profile")
+      } else {
+        res.locals.admin.options = options
+        req.flash("success", result.data.updateUser)
+        res.redirect("/admin/profile")
+      }
+    })
+  },
   updateUser: async (req, res, next) => {
     let query = `
     mutation{

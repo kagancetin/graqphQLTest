@@ -23,11 +23,14 @@
     {{{_sections.style}}}
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
-    <!-- Site wrapper -->
+<body class="hold-transition sidebar-mini layout-fixed
+{{#inArray admin.options "darkMode"}}dark-mode{{/inArray}}
+{{#inArray admin.options "fontSize"}}text-lg{{/inArray}}
+{{#inArray admin.options "sidebarMini"}}sidebar-mini sidebar-collapse{{/inArray}}
+">
+
     <div class="wrapper">
-        <!-- Navbar -->
-        {{> admin/navbar}}
+        {{> admin/navbar this}}
         <!-- /.navbar -->
 
         {{> admin/sidebar this}}
