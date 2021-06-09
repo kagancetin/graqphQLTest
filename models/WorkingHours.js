@@ -45,7 +45,7 @@ const workingHoursSchema = new mongoose.Schema({
     type: String,
     default: "08:00",
   },
-  cumatesiKapanis: {
+  cumartesiKapanis: {
     type: String,
     default: "00:00",
   },

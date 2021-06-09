@@ -10,4 +10,5 @@ module.exports = {
   UserRole: require("./UserRole"),
   District: require("./District"),
   WorkingHours: require("./WorkingHours"),
+  Restaurant: require("./Restaurant"),
 };

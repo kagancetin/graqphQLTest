@@ -4,7 +4,6 @@
       <h1>MENÜ</h1>
     </div>
     <!-- Group-->
-
     {{#each groups}}
     <div class="product-group">
       <div class="product-group-header">
@@ -19,14 +18,20 @@
             {{productName}}
             <div class="product-description">
               <small>{{productDescription}}</small>
-              {{#unless open}}
+              {{#unless ../../restaurant.open}}
               <br>
-              <small class="text-success">Bu ürün şuan satışta değil.</small>
+              <small class="text-success">Restoranımız şuan servis yapmamaktadır.</small>
+              {{else}}
+              
+                {{#unless open}}
+                <br>
+                <small class="text-success">Bu ürün şuan satışta değil.</small>
+                {{/unless}}
               {{/unless}}
             </div>
           </div>
           <div class="product-button">
-            <button {{#if open}}onclick='addProductToBasketModal(`{{#json this}}{{/json}}`)' {{else}}disabled{{/if}} class="btn btn-sm btn-myred rounded-0">
+            <button {{#unless ../../restaurant.open}} disabled {{else}}{{#if open}}onclick='addProductToBasketModal(`{{#json this}}{{/json}}`)' {{else}}disabled{{/if}}{{/unless}} class="btn btn-sm btn-myred rounded-0">
               <i class="fas fa-shopping-basket"></i>
               {{price}} TL
               </button>

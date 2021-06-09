@@ -1,48 +1,64 @@
 <!-- Content Header (Page header) -->
-<section class="content-header">
-  <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-12">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="/admin">Anasayfa</a></li>
-          <li class="breadcrumb-item active">Siparişler</li>
-        </ol>
-      </div>
-    </div>
-  </div><!-- /.container-fluid -->
-</section>
-
 <!-- Main content -->
 <section class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-12">
-        <!-- Default box -->
-        <div class="card card-info">
-          <div class="card-header">
-            <h3 class="card-title">Title</h3>
-
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                <i class="fas fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                <i class="fas fa-times"></i>
-              </button>
+  <div class="row">
+    <div class="col-12">
+      <!-- Default box -->
+      <div class="card card-info">
+        <div class="card-header">
+          <div class="mr-4 d-inline">
+            {{#if restaurant.open}}
+            <div class="custom-control custom-switch custom-switch-on-success d-inline">
+              
+                <input type="checkbox" class="custom-control-input" id="openSwitch" checked="true"
+                  onchange="openCloseRestaurant('{{restaurant._id}}')" />
+                <label class="custom-control-label" for="openSwitch">Restaruant Açık</label>
             </div>
+            {{else}}
+              <div class="custom-control custom-switch custom-switch-on-success d-inline">
+                <input type="checkbox" class="custom-control-input" id="openSwitch"
+                  onchange="openCloseRestaurant('{{restaurant._id}}')">
+                <label class="custom-control-label" for="openSwitch">Restaruant Kapalı</label>
+              </div>
+              {{/if}}
           </div>
-          <div class="card-body">
-            Start creating your amazing application!
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+              <i class="fas fa-times"></i>
+            </button>
           </div>
-          <!-- /.card-body -->
-          <div class="card-footer">
-            Footer
-          </div>
-          <!-- /.card-footer-->
+
         </div>
-        <!-- /.card -->
+        <div class="card-body">
+          Start creating your amazing application!
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+          Footer
+        </div>
+        <!-- /.card-footer-->
       </div>
+      <!-- /.card -->
     </div>
   </div>
 </section>
 <!-- /.content -->
+
+{{#section "script"}}
+  <script>
+    var openCloseRestaurant = function (id) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/admin/openCloseRestaurant/" + id, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.onreadystatechange = async function (event) {
+      if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+        window.location.reload();
+      }
+    };
+      xhr.send();
+    }
+  </script>
+{{/section}}

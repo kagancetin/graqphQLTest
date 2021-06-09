@@ -1,11 +1,13 @@
 const { graphql } = require("graphql");
 const schema = require("../../graphql/schema");
+const {Restaurant} = require("../../models");
 
 module.exports = {
   getIndexPage: async (req, res, next) => {
     res.render("pages/client/index");
   },
   getMenuPage: async (req, res, next) => {
+    let restaurant = await Restaurant.findOne();
     let query = `
     query{getGroups(_filter:"{\\"deleted\\":\\"false\\"}") {
       _id
@@ -39,6 +41,7 @@ module.exports = {
       } else {
         res.render("pages/client/menu", {
           groups: result.data.getGroups,
+          restaurant: restaurant.toJSON()
         });
       }
     });

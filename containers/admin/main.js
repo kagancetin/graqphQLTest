@@ -1,6 +1,6 @@
 const { graphql } = require("graphql");
 const schema = require("../../graphql/schema");
-const { WorkingHours } = require("../../models");
+const { WorkingHours,Restaurant } = require("../../models");
 
 const excludeAuthUser = (userId, userList) => userList.filter((user) => user._id != userId);
 
@@ -69,7 +69,11 @@ module.exports = {
     });
   },
   getOrdersPage: async (req, res, next) => {
-    res.render("pages/admin/orders", { layout: "admin.handlebars" });
+    let restaurant = await Restaurant.findOne();
+    res.render("pages/admin/orders", { 
+      layout: "admin.handlebars",
+      restaurant: restaurant.toJSON()
+    });
   },
   getCustomersPage: async (req, res, next) => {
     let query = `
