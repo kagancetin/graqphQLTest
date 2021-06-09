@@ -88,21 +88,17 @@ const updateUser = {
     _id: {type: GraphQLString},
     email: {type: GraphQLString},
     displayName: {type: GraphQLString},
-    userRole: {type: GraphQLString}
+    userRole: {type: GraphQLString},
+    options: {type: new GraphQLList(GraphQLString)}
   },
   resolve: async function (parent, args) {
-    const {_id, email, displayName, userRole} = args
-    let user = await User.findById(_id)
-    if (user.email != email) {
-      let checkEmail = await User.findOne({email: email})
-      if (checkEmail) throw new Error("E-mail adresi kullanılmaktadır!")
-    }
-    user.email = email
-    user.displayName = displayName
-    user.userRole = userRole == 'undefined' ? user.userRole : userRole
-    await user.save((err, doc) => {
-      if (err) throw new Error("Kullanıcı bilgileri güncellenemedi.")
-    })
+    const {_id, email} = args
+    Object.keys(args).map(k => args[k] == "undefined" ? delete args[k] : null);
+    let user = await User.findById(_id, {email: 1})
+    if (user.email != email)
+      if (await User.findOne({email: email})) throw new Error("E-mail adresi kullanılmaktadır!")
+    const update = await User.findByIdAndUpdate(_id, args, {omitUndefined: true})
+    if (!update) throw new Error("Kullanıcı bilgileri güncellenemedi.")
     return "İşlem Başarılı"
   }
 }

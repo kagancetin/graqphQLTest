@@ -11,7 +11,7 @@ const passwordFail =  "Yanlış şifre girdiniz!"
 const usernameFail = "Kullanıcı Bulunamadı!"
 
 const login = async (req, email, password, done) => {
-  let user = await User.findOne({ email }, {email: 1, password: 1, displayName: 1, userRole: 1 })
+  let user = await User.findOne({ email }, {email: 1, password: 1, displayName: 1, userRole: 1, options: 1 })
   if (user) {
     if (await bcrypt.compare(password, user.password)){
       let userRole = await UserRole.findById(user.userRole)
@@ -20,7 +20,8 @@ const login = async (req, email, password, done) => {
         email: user.email,
         admin: true,
         displayName: user.displayName,
-        userRole: userRole.authorities
+        userRole: userRole.authorities,
+        options: user.options
       }, successMessage)
     }
     else

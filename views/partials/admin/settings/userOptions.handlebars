@@ -1,0 +1,83 @@
+<div class="card card-info">
+
+  <div class="card-header">
+    <h3 class="card-title">Kullanıcı Seçenekleri</h3>
+
+    <div class="card-tools">
+      <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+      </button>
+    </div>
+    <!-- /.card-tools -->
+  </div>
+
+  <div class="card-body">
+    <form>
+        <div class="form-group">
+            <div class="custom-control custom-switch">
+                <input onchange="darkModeOnChange(this, '{{user._id}}')" type="checkbox" class="custom-control-input" id="darkMode" name="darkMode" {{#inArray user.options "darkMode"}}checked{{/inArray}}>
+                <label class="custom-control-label" for="darkMode">Karanlık Mod</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="custom-control custom-switch">
+                <input onchange="fontSizeOnChange(this, '{{user._id}}')" type="checkbox" class="custom-control-input" id="fontSize" name="fontSize" {{#inArray user.options "fontSize"}}checked{{/inArray}}>
+                <label class="custom-control-label" for="fontSize">Büyük Yazılar</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="custom-control custom-switch">
+                <input onchange="sidebarMiniOnChange(this, '{{user._id}}')" type="checkbox" class="custom-control-input" id="sidebarMini" name="sidebarMini" {{#inArray user.options "sidebarMini"}}checked{{/inArray}}>
+                <label class="custom-control-label" for="sidebarMini">Mini Yan Menü</label>
+            </div>
+        </div>
+    </form>
+  </div>
+
+</div>
+
+<script>
+    let darkModeOnChange = (data, id) => {
+      console.log(document.getElementsByTagName("input"))
+        if (data.checked){
+            document.body.classList.add("dark-mode")
+            document.getElementsByTagName("nav")[0].classList.remove("navbar-white")
+            document.getElementsByTagName("nav")[0].classList.add("navbar-dark")
+        }
+        else {
+            document.body.classList.remove("dark-mode")
+            document.getElementsByTagName("nav")[0].classList.add("navbar-white")
+            document.getElementsByTagName("nav")[0].classList.remove("navbar-dark")
+        }
+        sendOptions(id)
+    }
+    let fontSizeOnChange = (data, id) => {
+        if (data.checked){
+            document.body.classList.add("text-lg")
+        }
+        else {
+            document.body.classList.remove("text-lg")
+        }
+        sendOptions(id)
+    }
+    let sidebarMiniOnChange = (data, id) => {
+        if (data.checked){
+            document.body.classList.add("sidebar-collapse")
+            document.body.classList.add("sidebar-mini")
+        }
+        else {
+            document.body.classList.remove("sidebar-mini")
+            document.body.classList.remove("sidebar-collapse")
+        }
+        window.dispatchEvent(new Event('resize'))
+        sendOptions(id)
+    }
+    let sendOptions = async function (id) {
+        const darkMode = document.getElementById("darkMode").checked ? "on" : null
+        const fontSize = document.getElementById("fontSize").checked ? "on" : null
+        const sidebarMini = document.getElementById("sidebarMini").checked ? "on" : null
+        const xhr = new XMLHttpRequest();
+        await xhr.open("POST", "/admin/updateUserOptions/" + id, true);
+        await xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify({darkMode, fontSize, sidebarMini}))
+    }
+</script>

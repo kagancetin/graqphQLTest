@@ -23,7 +23,8 @@ router.route("/customer/:id").get(roleCheck(Role.customers), AdminController.get
 router.route("/products").get(roleCheck(Role.products), AdminController.getProductsPage);
 router.route("/products/removedItems").get(roleCheck(Role.products), AdminController.getProductRemovedItemPage);
 router.route("/product/:id").get(roleCheck(Role.products), AdminController.getProductEditPage);
-router.route("/settings").get(AdminController.getSettingsPage);
+router.route("/settings").get(roleCheck(Role.users), AdminController.getSettingsPage);
+router.route("/profile").get(AdminController.getProfilePage);
 router.route("/getUserRoles").get(roleCheck(Role.users), AdminController.getUserRoles);
 
 router.route("/getGroups").post(ProductPostsController.getGroups);
@@ -56,6 +57,7 @@ router.route("/saveWorkingHours/:id").post(roleCheck(Role.users), SettingPostCon
 
 router.route("/addUser").post(roleCheck(Role.users), UserPostsController.addUser);
 router.route("/updateUser/:id").post(roleCheck(Role.users), UserPostsController.updateUser);
+router.route("/updateUserOptions/:id").post(UserPostsController.updateUserOptions);
 router.route("/resetUserPassword/:id").post(roleCheck(Role.users), resetPassword);
 router.route("/changeUserPassword/:id").post(roleCheck(Role.users), UserPostsController.changeUserPassword);
 router.route("/removeFullUser/:id").post(roleCheck(Role.users), UserPostsController.removeFullUser);

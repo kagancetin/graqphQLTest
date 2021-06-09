@@ -15,6 +15,7 @@ const UserType = new GraphQLObjectType({
         return UserRole.findById(parent.userRole);
       },
     },
+    options: { type: new GraphQLList(GraphQLString) },
     createdAt: { type: GraphQLString },
     updatedAt: { type: GraphQLString },
     deleted: { type: GraphQLBoolean },

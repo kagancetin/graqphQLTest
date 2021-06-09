@@ -1,75 +1,73 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-  <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1>Fixed Layout</h1>
-      </div>
-      <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="/admin">Anasayfa</a></li>
-          <li class="breadcrumb-item active">Ayarlar</li>
-        </ol>
-      </div>
-    </div>
-  </div><!-- /.container-fluid -->
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Fixed Layout</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/admin">Anasayfa</a></li>
+                    <li class="breadcrumb-item active">Ayarlar</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
 </section>
 
 <!-- Main content -->
 <section class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-12 col-sm-6">
-        {{> admin/settings/mailSettings}}
-        {{> admin/settings/districtSettings}}
-      </div>
-      <div class="col-12 col-sm-6">
-        {{> admin/settings/userSettings}}
-        {{> admin/settings/repasswordSettings}}
-        {{> admin/settings/workingHours}}
-      </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-sm-6">
+                {{> admin/settings/districtSettings}}
+                {{> admin/settings/mailSettings}}
+            </div>
+            <div class="col-12 col-sm-6">
+                {{> admin/settings/workingHours}}
+            </div>
+        </div>
     </div>
-  </div>
 </section>
 {{#section "link"}}
-  <link rel="stylesheet" href="/admin/plugins/select2/css/select2.min.css">
-  <link rel="stylesheet" href="/admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link rel="stylesheet" href="/admin/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="/admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 {{/section}}
 {{#section "script"}}
-  <script src="/admin/plugins/select2/js/select2.full.min.js"></script>
-  <script>
-    let editDistricts = (data) => {
-      let index = parseInt($('#district').find(':selected').attr('data-index'))
-      data = JSON.parse(data)
-      document.getElementById("service").value = data[index].service
-      document.getElementById("limit").value = data[index].limit
-    }
-    function formatState(state) {
-      if (!state.id) {
-        return state.text;
-      }
-      var $state = ""
-      if (state.element.classList.contains("service")) {
-        $state = $(
-          '<span>' + state.text + '</span><span class="float-right">' + state.element.dataset.price + ' <i class="fas fa-circle text-success"></i></span>'
-        );
-      }
-      else {
-        $state = $(
-          '<span>' + state.text + '</span><span class="float-right">' + state.element.dataset.price + ' <i class="fas fa-circle text-danger"></i></span>'
-        );
-      }
-      return $state;
-    };
-    window.addEventListener("load", (event) => {
-      $('.select2').select2({
-        minimumResultsForSearch: -1,
-        templateResult: formatState,
-        width: "100%"
-      })
-    });
+    <script src="/admin/plugins/select2/js/select2.full.min.js"></script>
+    <script>
+        let editDistricts = (data) => {
+            let index = parseInt($('#district').find(':selected').attr('data-index'))
+            data = JSON.parse(data)
+            document.getElementById("service").value = data[index].service
+            document.getElementById("limit").value = data[index].limit
+        }
 
-  </script>
+        function formatState(state) {
+            if (!state.id) {
+                return state.text;
+            }
+            var $state = ""
+            if (state.element.classList.contains("service")) {
+                $state = $(
+                        '<span>' + state.text + '</span><span class="float-right">' + state.element.dataset.price + ' <i class="fas fa-circle text-success"></i></span>'
+                );
+            } else {
+                $state = $(
+                        '<span>' + state.text + '</span><span class="float-right">' + state.element.dataset.price + ' <i class="fas fa-circle text-danger"></i></span>'
+                );
+            }
+            return $state;
+        };
+        window.addEventListener("load", (event) => {
+            $('.select2').select2({
+                minimumResultsForSearch: -1,
+                templateResult: formatState,
+                width: "100%"
+            })
+        });
+
+    </script>
 
 
 {{/section}}
