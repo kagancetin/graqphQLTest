@@ -13,6 +13,7 @@ const { resetPassword } = require("../../helpers/passport/resetPassword");
 const SettingPostController = require("../../containers/admin/settingPosts");
 const UserPostsController = require("../../containers/admin/userPosts");
 const CustomerPostsController = require("../../containers/admin/customerPosts");
+const OrderPostsController = require("../../containers/admin/orderPosts");
 router.use(authAdminCheck);
 
 router.route("/").get(AdminController.getDashboardPage);
@@ -70,6 +71,8 @@ router.route("/removeRole/:id").post(roleCheck(Role.users), UserPostsController.
 router.route("/resetCustomerPassword/:id").post(roleCheck(Role.customers), resetPassword);
 router.route("/banAndUnbanCustomer/:id").post(roleCheck(Role.customers), CustomerPostsController.banAndUnbanCustomer);
 router.route("/removeFullCustomer/:id").post(roleCheck(Role.customers), CustomerPostsController.removeFullCustomer);
+
+router.route("/openCloseRestaurant/:id").post(roleCheck(Role.products), OrderPostsController.openCloseRestaurant);
 
 router.use(
   "/graphql",

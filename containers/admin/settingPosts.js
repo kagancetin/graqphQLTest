@@ -1,6 +1,7 @@
 const { graphql } = require("graphql");
 const schema = require("../../graphql/schema");
 const { WorkingHours } = require("../../models");
+const { openCloseRestaurantSchedule } = require("../../helpers/schedule");
 
 module.exports = {
   updateMail: async (req, res, next) => {
@@ -47,6 +48,7 @@ module.exports = {
         req.flash("error", "Bir hata oluştu lütfen bildiriniz.");
       } else {
         req.flash("success", "Çalışma saatleri başarıyla güncellendi.");
+        openCloseRestaurantSchedule(req.params.id);
       }
       res.redirect("/admin/settings");
     });

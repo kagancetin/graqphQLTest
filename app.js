@@ -1,25 +1,33 @@
 const express = require("express");
+const http = require('http');
+const app = express();
+const server = http.createServer(app);
 const exphbs = require("express-handlebars");
 const path = require("path");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const flash = require("connect-flash");
 const session = require("express-session");
-const MongoStore = require('connect-mongo')
+const MongoStore = require("connect-mongo");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const { connectDB } = require("./db");
-const dotenv = require('dotenv').config()
+const dotenv = require("dotenv").config();
 require("./helpers/passport/local");
-const clientPromise = connectDB()
-require("./helpers/logger")(clientPromise)
+const clientPromise = connectDB();
+require("./helpers/logger")(clientPromise);
 
+const { openCloseRestaurantSchedule } = require("./helpers/schedule");
 
 //*** HANDLEBARS HELPERS ***/
 const handlebarsHelpers = require("./helpers/handlebarsHelpers");
 const helpers = require("handlebars-helpers")();
 const allHelpers = { ...helpers, ...handlebarsHelpers };
 //*** HANDLEBARS HELPERS ***/
+
+//*** MODELS ****//
+const {Restaurant, WorkingHours} = require("./models");
+//*** MODELS ****//
 
 //*** GLOBAL VERIABLES ***/
 //*** GLOBAL VERIABLES ***/
@@ -28,9 +36,6 @@ const allHelpers = { ...helpers, ...handlebarsHelpers };
 let admin = require("./router/admin/main");
 let client = require("./router/client/index");
 let login = require("./router/login");
-
-const app = express();
-
 // Basic Security - Helmet
 app.use(
   helmet({
@@ -73,7 +78,7 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
-    store: MongoStore.create({clientPromise})
+    store: MongoStore.create({ clientPromise }),
   }),
 );
 // Session
@@ -109,7 +114,6 @@ app.use("/login", login);
 app.use("/admin", admin);
 app.use("/", client);
 
-/*
 //Error handler function
 app.use((err, req, res, next) => {
   const error = app.get("env") === "development" ? err : {};
@@ -125,8 +129,8 @@ app.use((err, req, res, next) => {
   //Respond to ourselves
   console.error(err);
 });
-*/
 
-app.listen(3000, () => {
+server.listen(3000, () => {
+  openCloseRestaurantSchedule();
   console.log(`App running on PORT 3000`);
 });

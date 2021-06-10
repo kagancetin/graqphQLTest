@@ -1,9 +1,9 @@
-const {graphql} = require("graphql");
+const { graphql } = require("graphql");
 const schema = require("../../graphql/schema");
 
 module.exports = {
   addCustomer: async (req, res, next) => {
-    console.log(req.body)
+    console.log(req.body);
     let query = `
     mutation{
       registerCustomer(
@@ -20,15 +20,15 @@ module.exports = {
         banned
       }
     }
-    `
-    const results = await graphql(schema, query)
-    console.log(results)
+    `;
+    const results = await graphql(schema, query);
+    console.log(results);
     if (!results.errors) {
-      req.flash("success", "Kayıt olundu")
-      res.redirect("/")
+      req.flash("success", "Kayıt olundu");
+      res.redirect("/");
     } else {
-      req.flash("error", results.errors[0].message)
-      res.redirect("/")
+      req.flash("error", results.errors[0].message);
+      res.redirect("/");
     }
-  }
-}
+  },
+};

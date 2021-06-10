@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { graphql } = require("graphql");
-const { User, UserRole, District, WorkingHours } = require("../models");
+const { User, UserRole, District, WorkingHours, Restaurant } = require("../models");
+const { openCloseRestaurantSchedule } = require("../helpers/schedule");
 const schema = require("../graphql/schema");
 const mongoURI = "mongodb://localhost:27017/mesedurum";
 const districts = [
@@ -27,16 +28,23 @@ const connectDB = async () => {
   if ((await User.countDocuments()) == 0) {
     const userRole = await defaultUserRole();
     const user = await defaultUser(userRole._id);
-    if (user.errors) console.log("default kullanıcı oluşturma hatası");
+    if (user.errors) console.log("default kullanıcı oluşturma veritabanı hatası");
   }
   if ((await WorkingHours.countDocuments()) == 0) {
     const workingHours = await defaultWorkingHours();
-    if (workingHours.errors) console.log("default çalışma saatleri oluşturma hatası");
+    if (workingHours.errors) console.log("default çalışma saatleri veritabanı oluşturma hatası");
     else console.log("çalışma saatleri oluşturuldu");
+  }
+  if ((await Restaurant.countDocuments()) == 0) {
+    const restaurant = await defaultRestaurant();
+    if (restaurant.errors) console.log("default restoran veritabanı oluşturma hatası");
+    else console.log("restoran oluşturuldu");
   }
   if ((await District.countDocuments()) == 0) addDistricts();
   return mongoose.connection.getClient();
 };
+
+////**********  FUNCTIONS  **********/////
 const defaultUserRole = async () => {
   const userRole = new UserRole({ typeName: "superAdmin", authorities: [1, 2, 3, 4] });
   return await userRole.save();
@@ -47,7 +55,19 @@ const addDistricts = async () => {
 };
 const defaultWorkingHours = async () => {
   const workingHours = new WorkingHours({});
-  return workingHours.save();
+  return workingHours.save((err,doc)=>{
+    if(err){
+      console.log(err)
+    }
+    else{
+      openCloseRestaurantSchedule(doc._id);
+    }
+  });
+  
+};
+const defaultRestaurant = async () => {
+  const restaurant = new Restaurant({});
+  return restaurant.save();
 };
 const defaultUser = async (id) => {
   let query = `
