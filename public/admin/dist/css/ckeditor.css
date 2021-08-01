@@ -1,0 +1,91 @@
+/**
+ * @license Copyright (c) 2014-2021, CKSource - Frederico Knabben. All rights reserved.
+ * This file is licensed under the terms of the MIT License (see LICENSE.md).
+ */
+
+:root {
+  --ck-sample-base-spacing: 2em;
+  --ck-sample-color-white: #fff;
+  --ck-sample-color-green: #279863;
+  --ck-sample-color-blue: #1a9aef;
+  --ck-sample-container-width: 1285px;
+  --ck-sample-sidebar-width: 350px;
+  --ck-sample-editor-min-height: 150px;
+  --ck-sample-editor-z-index: 10;
+}
+
+/* --------- EDITOR STYLES  ---------------------------------------------------------------------------------------- */
+
+.editor__editable,
+/* Classic build. */
+main .ck-editor[role='application'] .ck.ck-content,
+/* Decoupled document build. */
+.ck.editor__editable[role='textbox'],
+.ck.ck-editor__editable[role='textbox'],
+/* Inline & Balloon build. */
+.ck.editor[role='textbox'] {
+  width: 100%;
+  background: #fff;
+  font-size: 1em;
+  line-height: 1.6em;
+  min-height: var(--ck-sample-editor-min-height);
+  padding: 0.5em 0.5em;
+}
+
+.ck.ck-editor__editable {
+  background: #fff;
+  border: 1px solid hsl(0, 0%, 70%);
+  width: 100%;
+}
+
+.ck.ck-editor {
+  /* To enable toolbar wrapping. */
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Because of sidebar `position: relative`, Edge is overriding the outline of a focused editor. */
+.ck.ck-editor__editable {
+  position: relative;
+  z-index: var(--ck-sample-editor-z-index);
+}
+
+/* --------- COLLABORATION FEATURES (USERS) ------------------------------------------------------------------------ */
+.row-presence {
+  width: 100%;
+  border: 1px solid hsl(0, 0%, 77%);
+  border-bottom: 0;
+  background: hsl(0, 0%, 98%);
+  padding: var(--ck-spacing-small);
+
+  /* Make `border-bottom` as `box-shadow` to not overlap with the editor border. */
+  box-shadow: 0 1px 0 0 hsl(0, 0%, 77%);
+
+  /* Make `z-index` bigger than `.editor` to properly display tooltips. */
+  z-index: 20;
+}
+
+.ck.ck-presence-list {
+  flex: 1;
+  padding: 1.25rem 0.75rem;
+}
+
+.presence .ck.ck-presence-list__counter {
+  order: 2;
+  margin-left: var(--ck-spacing-large);
+}
+
+/* --------- PAGINATION FEATURE ------------------------------------------------------------------------------------ */
+
+/* Pagination view line must be stacked at least at the same level as the editor,
+   otherwise it will be hidden underneath. */
+.ck.ck-pagination-view-line {
+  z-index: var(--ck-sample-editor-z-index);
+}
+
+/* --------- RWD --------------------------------------------------------------------------------------------------- */
+@media screen and (max-width: 800px) {
+  :root {
+    --ck-sample-base-spacing: 1em;
+  }
+}

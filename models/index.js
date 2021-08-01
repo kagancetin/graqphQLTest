@@ -11,4 +11,5 @@ module.exports = {
   District: require("./District"),
   WorkingHours: require("./WorkingHours"),
   Restaurant: require("./Restaurant"),
+  MailTemplates: require("./MailTemplates")
 };

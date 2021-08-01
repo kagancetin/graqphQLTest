@@ -3,7 +3,8 @@ const schema = require("../../graphql/schema")
 const generator = require("generate-password")
 const mailer = require("../../helpers/mailer")
 const {User} = require("../../models")
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs")
+const winston = require("winston")
 
 const generatePassword = () => {
   return generator.generate({
@@ -34,13 +35,16 @@ module.exports = {
     `
     const results = await graphql(schema, query)
     if (!results.errors) {
-      await mailer.sendUserPassword("mesaj", req.body.email, password, (err, info) => {
-        if (err)
-          req.flash("error", "mail gönderme hatası")
-        else
+      await mailer.sendMail(req.body.email, "Yeni Kullanıcı için Şifre Şablonu", {$$sifre$$: password})
+        .then(() => {
           req.flash("success", "Şifre Gönderildi.")
-        res.redirect("/admin/users")
-      })
+          res.redirect("/admin/users")
+        })
+        .catch(error => {
+          winston.error(JSON.stringify(error))
+          req.flash("error", "mail gönderme hatası")
+          res.redirect("/admin/users")
+        })
     } else {
       req.flash("error", results.errors[0].message)
       res.redirect("/admin/users")

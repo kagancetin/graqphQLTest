@@ -55,6 +55,7 @@ router.route("/mailUpdate").post(roleCheck(Role.users), SettingPostController.up
 router.route("/mailUpdate").post(roleCheck(Role.users), SettingPostController.updateMail);
 router.route("/updateDistrict").post(roleCheck(Role.users), SettingPostController.updateDistrict);
 router.route("/saveWorkingHours/:id").post(roleCheck(Role.users), SettingPostController.saveWorkingHours);
+router.route("/saveMailTemplate/:id").post(roleCheck(Role.users), SettingPostController.saveMailTemplate);
 
 router.route("/addUser").post(roleCheck(Role.users), UserPostsController.addUser);
 router.route("/updateUser/:id").post(roleCheck(Role.users), UserPostsController.updateUser);

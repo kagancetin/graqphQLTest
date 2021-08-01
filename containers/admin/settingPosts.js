@@ -1,6 +1,6 @@
 const { graphql } = require("graphql");
 const schema = require("../../graphql/schema");
-const { WorkingHours } = require("../../models");
+const { WorkingHours, MailTemplates } = require("../../models");
 const { openCloseRestaurantSchedule } = require("../../helpers/schedule");
 
 module.exports = {
@@ -53,4 +53,14 @@ module.exports = {
       res.redirect("/admin/settings");
     });
   },
+  saveMailTemplate: async (req, res, next) => {
+    MailTemplates.findByIdAndUpdate(req.params.id, req.body, (err, doc) => {
+      if (err) {
+        req.flash("error", "Bir hata oluştu lütfen bildiriniz.");
+      } else {
+        req.flash("success", "E-posta şablonları başarıyla güncellendi.");
+      }
+      res.redirect("/admin/settings");
+    });
+  }
 };

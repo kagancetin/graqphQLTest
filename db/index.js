@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { graphql } = require("graphql");
-const { User, UserRole, District, WorkingHours, Restaurant } = require("../models");
+const { User, UserRole, District, WorkingHours, Restaurant, MailTemplates } = require("../models");
 const { openCloseRestaurantSchedule } = require("../helpers/schedule");
 const schema = require("../graphql/schema");
 const mongoURI = "mongodb://localhost:27017/mesedurum";

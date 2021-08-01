@@ -2,6 +2,7 @@ const {v4: uuidv4} = require('uuid')
 const {Token} = require("../../models")
 const mailer = require("../../helpers/mailer")
 const {Customer, User} = require("../../models")
+const winston = require("winston")
 
 const createToken = async (userId) => {
   const filter = {userId: userId}
@@ -15,7 +16,10 @@ const createToken = async (userId) => {
 const checkToken = async (token) => {
   return Token.findOne({token})
 }
-
+const receiver =  async (id) => {
+  const user = await User.findById(id, {email: 1});
+  return user.email
+}
 const isUserExist = async (email) => {
   const filterCustomer = {email, banned: false}
   const filterUser = {email, deleted: false}
@@ -28,23 +32,33 @@ const isUserExist = async (email) => {
 module.exports = {
   resetPassword: async (req, res) => {
     let id
+    let email
     if (req.route.path === '/forgetPassword') {
       const customer = await isUserExist(req.body.email)
       if (!customer) {
         req.flash("error", "Kullanıcı bulunamadı.");
         res.redirect("/")
-      } else
+      } else{
         id = customer._id
-    } else
+        email = req.body.email
+      }
+
+    } else{
       id = req.params.id
+      email = await receiver(id)
+    }
+
     const token = await createToken(id)
-    await mailer.sendResetPasswordMail(token, (err, info) => {
-      if (err)
-        req.flash("error", "mail gönderme hatası")
-      else
+    await mailer.sendMail(email, "Şifre Resetleme Şablonu", {$$token$$: token.token})
+      .then(() => {
         req.flash("success", "Şifre Değiştirme İsteği Gönderildi.")
-      res.redirect(req.query.redirect)
-    })
+        res.redirect(req.query.redirect)
+      })
+      .catch(error => {
+        winston.error(JSON.stringify(error))
+        req.flash("error", "mail gönderme hatası")
+        res.redirect(req.query.redirect)
+      })
   },
   rePasswordPage: async (req, res) => {
     const token = await checkToken(req.params.token)
