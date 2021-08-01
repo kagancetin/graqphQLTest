@@ -54,3 +54,18 @@ function validateChangePassword(event, e) {
     }
 }
 
+function validateFields(fields, event, index) {
+  const paragraph = eval(`ckEditor[${index}].getData()`)
+  const regex = /\$\$[^$]+\$\$/g
+  const found = paragraph.match(regex);
+  if (found){
+    if (isEqual(fields, found))
+      return true
+  }
+  toastr.error(fields.toString(), "Aşağıdakilerin Hepsini İçerdiğine Emin Olun!");
+  event.preventDefault()
+}
+
+function isEqual(a, b){
+  return !!(a.length === b.length && a.every((v, i) => v === b[i]));
+}

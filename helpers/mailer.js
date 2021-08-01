@@ -1,64 +1,35 @@
 const nodemailer = require("nodemailer");
-const { MailSettings } = require("../models");
+const {MailSettings, MailTemplates} = require("../models");
 
+const setMessage = (message, fields) => {
+  for (const [key, value] of Object.entries(fields)){
+    message = message.replace(key, value)
+  }
+  return message
+}
 module.exports = {
-  sendResetPasswordMail: async (message, callback) => {
-    let settings = await MailSettings.findOne();
-    let url = "localhost:3000/login/resetPassword/" + message;
+  sendMail: async (receiver, template, fields) => {
+    let settings = await MailSettings.findOne()
+    let message = await MailTemplates.findOne({name: template})
+    message.content = setMessage(message.content, fields)
 
     let transporter = nodemailer.createTransport({
       host: settings.host,
       port: settings.port,
-      secure: false,
       auth: {
         user: settings.email,
-        pass: settings.password,
-      },
+        pass: settings.password
+      }
     });
-    let info = await transporter.sendMail(
-      {
-        from: '"Meşe Dürüm 👻" <meşedürüm@kurumsal.com>',
-        to: "info@enginyuksel.kim",
-        subject: "Meşe Dürüm Şifre Yenileme İsteği",
-        html: ` 
-        <a href="${url}">Şifrenizi Yenilemek için 2 saat içerisinde bu URL\'i kullanabilirsiniz!</a></br><h3>Afiyet Olsun!</h3>
-        `,
-      },
-      (err, info) => {
-        if (err) callback(err, null);
-        else callback(null, info);
-      },
-    );
-  },
-  sendUserPassword: async (message, receiver, password, callback) => {
-    let settings = await MailSettings.findOne();
-    let url = "localhost:3000/";
 
-    let transporter = nodemailer.createTransport({
-      host: settings.host,
-      port: settings.port,
-      secure: false,
-      auth: {
-        user: settings.email,
-        pass: settings.password,
-      },
-    });
-    let info = await transporter.sendMail(
+    return await transporter.sendMail(
       {
-        from: '"Meşe Dürüm 👻" <meşedürüm@kurumsal.com>',
+        from: '"Meşe Dürüm 👻" <deneme@enginyuksel.kim>',
         to: receiver,
-        subject: "Meşe Dürüm Yeni Kullanıcı Şifresi",
-        html: `
-        Aşağıdaki şifreyi kullanarak
-        <a href="${url}">Adresinden giriş yapabilirsiniz!</a></br><h3>Afiyet Olsun!</h3>
-        Şifreniz:
-        ${password}    
-        `,
-      },
-      (err, info) => {
-        if (err) callback(err, null);
-        else callback(null, info);
-      },
+        subject: message.subject,
+        html: message.content
+      }
     );
-  },
+
+  }
 };

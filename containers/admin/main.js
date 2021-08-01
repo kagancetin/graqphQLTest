@@ -1,49 +1,50 @@
-const { graphql } = require("graphql");
+const {graphql} = require("graphql");
 const schema = require("../../graphql/schema");
-const { WorkingHours,Restaurant } = require("../../models");
+const {WorkingHours, Restaurant, MailTemplates} = require("../../models");
 
 const excludeAuthUser = (userId, userList) => userList.filter((user) => user._id != userId);
 
 module.exports = {
   getDashboardPage: async (req, res, next) => {
-    res.render("pages/admin/dashboard", { layout: "admin.handlebars" });
+    res.render("pages/admin/dashboard", {layout: "admin.handlebars"});
   },
   getUsersPage: async (req, res, next) => {
     let query = `
-    query{
-      users {
-        _id
-        email
-        displayName
-        createdAt
-        updatedAt
-        deleted
+      query {
+        users {
+          _id
+          email
+          displayName
+          createdAt
+          updatedAt
+          deleted
+          userRole {
+            _id
+            typeName
+            authorities
+          }
+        }
         userRole {
           _id
           typeName
           authorities
         }
       }
-      userRole {
-        _id
-        typeName
-        authorities
-      }
-    }
-    `;
+      
+          `
     graphql(schema, query).then((result) => {
       if (result.errors) {
         res.render("pages/admin/users", {
           layout: "admin.handlebars",
           flashMessages: {
-            error: "Bir hata oluştu lütfen hatayı bildiriniz!",
-          },
+            error: "Bir hata oluştu lütfen hatayı bildiriniz!"
+          }
         });
       } else {
         res.render("pages/admin/users", {
           layout: "admin.handlebars",
           users: excludeAuthUser(req.user._id, result.data.users),
-          userRole: result.data.userRole,
+          userRole: result.data.userRole
         });
       }
     });
@@ -61,16 +62,16 @@ module.exports = {
     graphql(schema, query).then((result) => {
       if (result.errors) {
         res.send({
-          err: "Bir hata oluştu. Sayfayı yenileyin yine hata alırsanız, lütfen hatayı bildiriniz!",
+          err: "Bir hata oluştu. Sayfayı yenileyin yine hata alırsanız, lütfen hatayı bildiriniz!"
         });
       } else {
-        res.send({ err: null, data: result.data.userRole });
+        res.send({err: null, data: result.data.userRole});
       }
     });
   },
   getOrdersPage: async (req, res, next) => {
     let restaurant = await Restaurant.findOne();
-    res.render("pages/admin/orders", { 
+    res.render("pages/admin/orders", {
       layout: "admin.handlebars",
       restaurant: restaurant.toJSON()
     });
@@ -94,13 +95,13 @@ module.exports = {
         res.render("pages/admin/customers", {
           layout: "admin.handlebars",
           flashMessages: {
-            error: "Bir hata oluştu lütfen hatayı bildiriniz!",
-          },
+            error: "Bir hata oluştu lütfen hatayı bildiriniz!"
+          }
         });
       } else {
         res.render("pages/admin/customers", {
           layout: "admin.handlebars",
-          customers: result.data.customers,
+          customers: result.data.customers
         });
       }
     });
@@ -136,13 +137,13 @@ module.exports = {
         res.render("pages/admin/products", {
           layout: "admin.handlebars",
           flashMessages: {
-            error: "Bir hata oluştu lütfen hatayı bildiriniz!",
-          },
+            error: "Bir hata oluştu lütfen hatayı bildiriniz!"
+          }
         });
       } else {
         res.render("pages/admin/products", {
           layout: "admin.handlebars",
-          groups: result.data.getGroups,
+          groups: result.data.getGroups
         });
       }
     });
@@ -173,13 +174,13 @@ module.exports = {
         res.render("pages/admin/products", {
           layout: "admin.handlebars",
           flashMessages: {
-            error: "Bir hata oluştu lütfen tekrar deneyin olmaz ise hatayı bildiriniz!",
-          },
+            error: "Bir hata oluştu lütfen tekrar deneyin olmaz ise hatayı bildiriniz!"
+          }
         });
       } else {
         res.render("pages/admin/productEdit", {
           layout: "admin.handlebars",
-          product: result.data.getProduct,
+          product: result.data.getProduct
         });
       }
     });
@@ -214,22 +215,23 @@ module.exports = {
         res.render("pages/admin/products", {
           layout: "admin.handlebars",
           flashMessages: {
-            error: "Bir hata oluştu lütfen tekrar deneyin olmaz ise hatayı bildiriniz!",
-          },
+            error: "Bir hata oluştu lütfen tekrar deneyin olmaz ise hatayı bildiriniz!"
+          }
         });
       } else {
         res.render("pages/admin/productsRemovedItems", {
           layout: "admin.handlebars",
-          data: result.data,
+          data: result.data
         });
       }
     });
   },
   getCustomerDetailPage: async (req, res, next) => {
-    res.render("pages/admin/customerDetail", { layout: "admin.handlebars" });
+    res.render("pages/admin/customerDetail", {layout: "admin.handlebars"});
   },
   getSettingsPage: async (req, res, next) => {
     let workingHours = await WorkingHours.findOne();
+    let mailTemplates = await MailTemplates.find({}).lean()
     let query = `
     query{
       mail{
@@ -258,7 +260,7 @@ module.exports = {
       if (result.errors) {
         req.flash("error", "Bir hata oluştu lütfen hatayı bildiriniz!");
         res.render("pages/admin/settings", {
-          layout: "admin.handlebars",
+          layout: "admin.handlebars"
         });
       } else {
         res.render("pages/admin/settings", {
@@ -267,6 +269,7 @@ module.exports = {
           user: result.data.user,
           districts: result.data.districts,
           workingHours: workingHours.toJSON(),
+          mailTemplates: mailTemplates
         });
       }
     });
@@ -289,7 +292,7 @@ module.exports = {
       if (result.errors) {
         req.flash("error", "Bir hata oluştu lütfen hatayı bildiriniz!");
         res.render("pages/admin/profile", {
-          layout: "admin.handlebars",
+          layout: "admin.handlebars"
         });
       } else {
         res.render("pages/admin/profile", {
