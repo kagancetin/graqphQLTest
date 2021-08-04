@@ -2,6 +2,8 @@ const express = require("express");
 const http = require('http');
 const app = express();
 const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
 const exphbs = require("express-handlebars");
 const path = require("path");
 const morgan = require("morgan");
@@ -24,6 +26,11 @@ const handlebarsHelpers = require("./helpers/handlebarsHelpers");
 const helpers = require("handlebars-helpers")();
 const allHelpers = { ...helpers, ...handlebarsHelpers };
 //*** HANDLEBARS HELPERS ***/
+
+//SOCKET
+require("./helpers/socket")(io);
+//SOCKET
+
 
 //*** MODELS ****//
 const {Restaurant, WorkingHours} = require("./models");
@@ -97,8 +104,9 @@ app.use(async (req, res, next) => {
     success: req.flash("success"),
     warning: req.flash("warning"),
   };
-
+  
   if (req.user) {
+    res.locals.userId = req.user._id;
     if (req.user.admin) {
       res.locals.admin = req.user;
     } else {

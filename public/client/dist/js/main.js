@@ -44,7 +44,7 @@ let addProductToBasketModal = async function (product) {
     if (p.optionType == 2) p.out = true;
     return p;
   });
-  console.log(data);
+  data.jsonProduct = JSON.stringify(data);
   var source = document.getElementById("addProductToBasketModal-template").innerHTML;
   var template = await Handlebars.compile(source);
   var html = await template(data);

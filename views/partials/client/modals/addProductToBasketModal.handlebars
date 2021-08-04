@@ -1,5 +1,6 @@
 <!-- Modal -->
-<div class="modal fade" id="addProductToBasketModal" tabindex="-1" aria-labelledby="addProductToBasketModal" aria-hidden="true">
+<div class="modal fade" id="addProductToBasketModal" tabindex="-1" aria-labelledby="addProductToBasketModal"
+  aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
@@ -7,71 +8,71 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body p-4">
-        <div class="row pb-4">
-          <div class="col-12 col-md-4">
-            <div
-              class="product-image d-none d-md-block"
-              style="width: 100%;height:150px; 
+        \{{costumer}}
+        <form onsubmit='addOrderToBasket(event, `\{{jsonProduct}}`)'>
+          <div class="row pb-4">
+            <div class="col-12 col-md-4">
+              <div class="product-image d-none d-md-block" style="width: 100%;height:150px; 
               background-image: url('/client/img/durum2.jpg');
               background-repeat: no-repeat;
-              background-position: center;"
-            >
-            </div>
-            <div class="py-3">
-              <label>Ürün Sayısı</label>
-              <div class="input-group mb-3">
-                <button
-                  class="btn btn-outline-secondary"
-                  type="button"
-                  onclick="if(this.parentElement.querySelector('input').value>1)this.parentElement.querySelector('input').value--"
-                >-</button>
-                <input type="number" class="form-control" value="1" min="1" />
-                <button class="btn btn-outline-secondary" type="button" onclick="this.parentElement.querySelector('input').value++">+</button>
+              background-position: center;">
               </div>
-            </div>
-          </div>
-          <div class="col-12 col-md-8">
-            <h6>\{{productName}}</h6>
-            <p><small>\{{productDescription}}</small></p>
-            <h2 class="text-myred">\{{price}} TL</h2>
-            \{{#if options}}
-            <div>
-              \{{#each options}}
-              <hr />
-              <div class="p-3">
-                <div>
-                  <h6>\{{optionDisplayName}}</h6>
-                </div>
-                <div>
-                  \{{#each optionDetail}}
-                  \{{#if ../choose}}
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="\{{../optionName}}" id="\{{optionDetailContent}}\{{@../index}}" />
-                    <label class="form-check-label" for="\{{optionDetailContent}}\{{@../index}}">
-                      \{{optionDetailContent}}
-                      \{{#if optionPriceDifference}}
-                      <small class="text-danger">\{{optionPriceDifference}} TL fark ile</small>
-                      \{{/if}}
-                    </label>
-                  </div>
-                  \{{/if}}
-                  \{{#if ../out}}
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="\{{../optionName}}" id="\{{optionDetailContent}}\{{@../index}}" />
-                    <label class="form-check-label" for="\{{optionDetailContent}}\{{@../index}}">
-                      \{{optionDetailContent}}
-                    </label>
-                  </div>
-                  \{{/if}}
-                  \{{/each}}
+              <div class="py-3">
+                <label>Ürün Sayısı</label>
+                <div class="input-group mb-3">
+                  <button class="btn btn-outline-secondary" type="button"
+                    onclick="if(this.parentElement.querySelector('input').value>1)this.parentElement.querySelector('input').value--">-</button>
+                  <input id="countProduct" type="number" class="form-control" value="1" min="1" />
+                  <button class="btn btn-outline-secondary" type="button"
+                    onclick="this.parentElement.querySelector('input').value++">+</button>
                 </div>
               </div>
-              \{{/each}}
-              \{{/if}}
             </div>
-            <button class="w-100 btn btn-lg btn-yellow" type="button">Ürünü Sepete Ekle</button>
+            <div class="col-12 col-md-8">
+              <h6>\{{productName}}</h6>
+              <p><small>\{{productDescription}}</small></p>
+              <h2 class="text-myred">\{{price}} TL</h2>
+              \{{#if options}}
+              <div>
+                \{{#each options}}
+                <hr />
+                <div class="p-3 optionsDiv">
+                  <div>
+                    <h6>\{{optionDisplayName}}</h6>
+                  </div>
+                  <div>
+                    \{{#each optionDetail}}
+                    \{{#if ../choose}}
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" value="\{{optionDetailContent}}" name="\{{../optionName}}"
+                        id="\{{optionDetailContent}}\{{@../index}}" />
+                      <label class="form-check-label" for="\{{optionDetailContent}}\{{@../index}}">
+                        \{{optionDetailContent}}
+                        \{{#if optionPriceDifference}}
+                        <small class="text-danger">\{{optionPriceDifference}} TL fark ile</small>
+                        \{{/if}}
+                      </label>
+                    </div>
+                    \{{/if}}
+                    \{{#if ../out}}
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="\{{../optionName}}"
+                        id="\{{optionDetailContent}}\{{@../index}}" />
+                      <label class="form-check-label" for="\{{optionDetailContent}}\{{@../index}}">
+                        \{{optionDetailContent}}
+                      </label>
+                    </div>
+                    \{{/if}}
+                    \{{/each}}
+                  </div>
+                </div>
+                \{{/each}}
+                \{{/if}}
+              </div>
+              <button class="w-100 btn btn-lg btn-yellow" type="submit">Ürünü Sepete Ekle</button>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>

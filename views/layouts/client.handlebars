@@ -45,6 +45,14 @@
     <script src="/client/dist/js/main.js"></script>
     <!-- VALIDATE FORM -->
     <script src="/client/dist/js/validateForm.js"></script>
+
+    <script src="/client/plugins/socket.io/socket.io.min.js"></script>
+    <script>
+    var socket = io();
+    socket.emit("userId", "{{userId}}");
+    </script>
+     <script src="/client/dist/js/order.js"></script>
+      <script src="/client/dist/js/socketMessages.js"></script>
     {{{_sections.script}}}
     {{> client/flash }}
     <script>
