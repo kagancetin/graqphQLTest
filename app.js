@@ -2,7 +2,7 @@ const express = require("express");
 const http = require('http');
 const app = express();
 const server = http.createServer(app);
-const { Server } = require("socket.io");
+const {Server} = require("socket.io");
 const io = new Server(server);
 const exphbs = require("express-handlebars");
 const path = require("path");
@@ -13,18 +13,18 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
-const { connectDB } = require("./db");
+const {connectDB} = require("./db");
 const dotenv = require("dotenv").config();
 require("./helpers/passport/local");
 const clientPromise = connectDB();
 require("./helpers/logger")(clientPromise);
 
-const { openCloseRestaurantSchedule } = require("./helpers/schedule");
+const {openCloseRestaurantSchedule} = require("./helpers/schedule");
 
 //*** HANDLEBARS HELPERS ***/
 const handlebarsHelpers = require("./helpers/handlebarsHelpers");
 const helpers = require("handlebars-helpers")();
-const allHelpers = { ...helpers, ...handlebarsHelpers };
+const allHelpers = {...helpers, ...handlebarsHelpers};
 //*** HANDLEBARS HELPERS ***/
 
 //SOCKET
@@ -51,7 +51,7 @@ app.use(
 );
 // Basic Security - Helmet
 // Bodyparser
-app.use(express.json({ limit: "50mb" })).use(
+app.use(express.json({limit: "50mb"})).use(
   express.urlencoded({
     extended: true,
   }),
@@ -85,7 +85,7 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
-    store: MongoStore.create({ clientPromise }),
+    store: MongoStore.create({clientPromise}),
   }),
 );
 // Session
@@ -104,7 +104,7 @@ app.use(async (req, res, next) => {
     success: req.flash("success"),
     warning: req.flash("warning"),
   };
-  
+
   if (req.user) {
     res.locals.userId = req.user._id;
     if (req.user.admin) {
